@@ -1,0 +1,14 @@
+node_modules/
+dist/
+build/
+.env
+.env.local
+.env.*.local
+*.log
+pnpm-debug.log*
+
+front/node_modules/
+front/dist/
+
+back/node_modules/
+back/dist/

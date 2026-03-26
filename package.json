@@ -1,0 +1,13 @@
+{
+  "name": "projet-mern",
+  "private": true,
+  "packageManager": "pnpm@10.7.0",
+  "scripts": {
+    "install:all": "pnpm install",
+    "dev": "pnpm -r --parallel --filter ./front --filter ./back dev",
+    "start:dev": "pnpm --filter projet-ipssi-mern start:dev",
+    "dev:front": "pnpm --filter front dev",
+    "dev:back": "pnpm --filter projet-ipssi-mern start:dev",
+    "build": "pnpm -r build"
+  }
+}
