@@ -1,19 +1,20 @@
-import { Reservation } from '../types';
+import { Reservation, User } from '../types';
 
 type AdminPageProps = {
   isAdmin: boolean;
+  users: User[];
   reservations: Reservation[];
   onLogout: () => void;
 };
 
-export function AdminPage({ isAdmin, reservations, onLogout }: AdminPageProps) {
+export function AdminPage({ isAdmin, users, reservations, onLogout }: AdminPageProps) {
   if (!isAdmin) {
     return (
       <section className="content">
         <div className="card">
           <p className="card-title">Acces reserve a l admin</p>
           <p className="description small">
-            Connecte-toi avec un email contenant `admin` pour tester cette vue.
+            Connecte-toi avec un compte ADMIN pour voir cette vue.
           </p>
         </div>
       </section>
@@ -24,28 +25,21 @@ export function AdminPage({ isAdmin, reservations, onLogout }: AdminPageProps) {
     <section className="content">
       <div className="card hero-card">
         <p className="eyebrow">Espace admin</p>
-        <h2>Gestion du catalogue et des adherents</h2>
+        <h2>Vue back-office connectee au backend</h2>
         <p className="description">
-          CRUD equipment, la liste des utilisateurs et la vue de toutes les reservations.
+          Utilisateurs charges depuis GET /users et reservations chargees depuis GET /reservations.
         </p>
       </div>
 
       <div className="grid">
         <article className="card">
-          <p className="card-title">Actions materiel</p>
-          <ul className="simple-list">
-            <li>GET /equipment</li>
-            <li>POST /equipment</li>
-            <li>PATCH /equipment/:id</li>
-            <li>DELETE /equipment/:id</li>
-          </ul>
-        </article>
-
-        <article className="card">
           <p className="card-title">Utilisateurs</p>
           <ul className="simple-list">
-            <li>GET /users</li>
-            <li>ADMIN et MEMBER separes</li>
+            {users.map((user) => (
+              <li key={user.id}>
+                {user.name} - {user.email} - {user.role}
+              </li>
+            ))}
           </ul>
         </article>
 
@@ -54,7 +48,7 @@ export function AdminPage({ isAdmin, reservations, onLogout }: AdminPageProps) {
           <ul className="simple-list">
             {reservations.map((reservation) => (
               <li key={reservation.id}>
-                {reservation.equipment} - {reservation.status}
+                {reservation.equipmentName} - {reservation.userEmail ?? 'Utilisateur inconnu'} - {reservation.status}
               </li>
             ))}
           </ul>

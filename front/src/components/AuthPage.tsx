@@ -1,4 +1,4 @@
-import { API_MODE, API_URL } from '../api';
+import { FormEvent } from 'react';
 import { AuthMode, Credentials } from '../types';
 import { AuthForm } from './AuthForm';
 
@@ -10,7 +10,7 @@ type AuthPageProps = {
   error: string;
   onModeChange: (mode: AuthMode) => void;
   onFieldChange: (field: keyof Credentials, value: string) => void;
-  onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
+  onSubmit: (event: FormEvent<HTMLFormElement>) => void;
 };
 
 export function AuthPage({

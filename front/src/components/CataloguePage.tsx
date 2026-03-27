@@ -1,13 +1,22 @@
-import { User } from '../api';
-import { Equipment } from '../types';
+import { Equipment, User } from '../types';
 
 type CataloguePageProps = {
   user: User | null;
   equipmentList: Equipment[];
+  isMember: boolean;
+  activeReservationId: string;
   onGoToAuth: () => void;
+  onReserve: (equipmentId: string) => void;
 };
 
-export function CataloguePage({ user, equipmentList, onGoToAuth }: CataloguePageProps) {
+export function CataloguePage({
+  user,
+  equipmentList,
+  isMember,
+  activeReservationId,
+  onGoToAuth,
+  onReserve,
+}: CataloguePageProps) {
   if (!user) {
     return (
       <section className="content">
@@ -29,22 +38,36 @@ export function CataloguePage({ user, equipmentList, onGoToAuth }: CataloguePage
       <div className="card hero-card">
         <p className="eyebrow">Catalogue SportLink</p>
         <h2>Bienvenue {user.email}</h2>
-        <p className="description">
-          GET /equipment
-        </p>
+        <p className="description">Catalogue branche sur GET /equipment.</p>
       </div>
 
       <div className="grid">
         {equipmentList.map((equipment) => (
           <article className="card" key={equipment.id}>
-            <p className="card-title">{equipment.name}</p>
+            <div className="card-row">
+              <p className="card-title">{equipment.name}</p>
+              <span className={equipment.available ? 'status ok' : 'status off'}>
+                {equipment.available ? 'Disponible' : 'Indisponible'}
+              </span>
+            </div>
+
             <ul className="simple-list">
               <li>Sport : {equipment.sport}</li>
               <li>Categorie : {equipment.category}</li>
               <li>Quantite : {equipment.quantity}</li>
-              <li>Disponible : {equipment.available ? 'Oui' : 'Non'}</li>
             </ul>
             <p className="description small">{equipment.description}</p>
+
+            {isMember ? (
+              <button
+                type="button"
+                className="primary-button"
+                disabled={!equipment.available || equipment.quantity <= 0 || activeReservationId === equipment.id}
+                onClick={() => onReserve(equipment.id)}
+              >
+                {activeReservationId === equipment.id ? 'Reservation...' : 'Reserver'}
+              </button>
+            ) : null}
           </article>
         ))}
       </div>

@@ -1,6 +1,6 @@
 export type AuthMode = 'login' | 'register';
 
-export type Page = 
+export type Page =
   | 'accueil'
   | 'auth'
   | 'catalogue'
@@ -9,23 +9,36 @@ export type Page =
   | 'recommandations';
 
 export type Credentials = {
+  name: string;
   email: string;
   password: string;
 };
 
+export type UserRole = 'ADMIN' | 'MEMBER';
+
+export type User = {
+  id: string;
+  name: string;
+  email: string;
+  role: UserRole;
+};
+
 export type Equipment = {
-  id: number;
+  id: string;
   name: string;
   sport: string;
   category: string;
   quantity: number;
   available: boolean;
   description: string;
+  imageUrl?: string;
 };
 
 export type Reservation = {
-  id: number;
-  equipment: string;
+  id: string;
+  equipmentId: string;
+  equipmentName: string;
+  userEmail?: string;
   startDate: string;
   endDate: string;
   status: 'PENDING' | 'ACTIVE' | 'RETURNED';
