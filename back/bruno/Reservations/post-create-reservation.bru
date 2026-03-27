@@ -1,0 +1,30 @@
+meta {
+  name: POST Create Reservation (MEMBER)
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/reservations
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "equipmentId": "REMPLACER_PAR_UN_ID_EQUIPMENT",
+    "startDate": "2026-04-01",
+    "endDate": "2026-04-07"
+  }
+}
+
+docs {
+  Crée une réservation pour le membre connecté.
+  Décrémente automatiquement le stock de l'équipement.
+  Si quantity tombe à 0, `available` passe à false.
+  Réservé aux MEMBER.
+}

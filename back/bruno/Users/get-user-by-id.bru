@@ -1,0 +1,25 @@
+meta {
+  name: GET User by ID (ADMIN)
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/users/:id
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{adminToken}}
+}
+
+params:path {
+  id: REMPLACER_PAR_UN_ID_USER
+}
+
+docs {
+  Retourne un utilisateur par son ID MongoDB.
+  Le champ `password` est exclu de la réponse.
+  Réservé aux ADMIN.
+}

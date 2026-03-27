@@ -1,0 +1,26 @@
+meta {
+  name: Register (MEMBER)
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/auth/register
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "name": "Alice Dupont",
+    "email": "alice@sportlink.fr",
+    "password": "password123",
+    "role": "MEMBER"
+  }
+}
+
+docs {
+  Inscrit un nouvel utilisateur.
+  Le champ `role` est optionnel (défaut : MEMBER).
+  Retourne un access_token JWT.
+}

@@ -1,0 +1,31 @@
+meta {
+  name: Register (ADMIN)
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/auth/register
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "name": "Admin SportLink",
+    "email": "admin@sportlink.fr",
+    "password": "admin123",
+    "role": "ADMIN"
+  }
+}
+
+script:post-response {
+  if (res.status === 201 || res.status === 200) {
+    bru.setEnvVar("adminToken", res.body.access_token);
+  }
+}
+
+docs {
+  Inscrit un administrateur.
+  Le token est automatiquement sauvegardé dans la variable `adminToken`.
+}
