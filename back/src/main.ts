@@ -1,14 +1,21 @@
-import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
+import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  const port = Number(process.env.PORT) || 3000;
+  const corsOrigin = process.env.CORS_ORIGIN;
 
-  // CORS pour permettre les requêtes depuis le front React
-  app.enableCors();
+  app.enableCors(
+    corsOrigin
+      ? {
+          origin: corsOrigin.split(',').map((origin) => origin.trim()),
+          credentials: true,
+        }
+      : true,
+  );
 
-  // Validation globale des DTOs
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
@@ -17,9 +24,8 @@ async function bootstrap() {
     }),
   );
 
-  // port 3000 pour eviter le conflit local avec LiteLLM.
-  const port = process.env.PORT ?? 3000;
-  await app.listen(port);
-  console.log(`Application is running on: http://localhost:${port}`);
+  await app.listen(port, '0.0.0.0');
+  console.log(`Application is running on port ${port}`);
 }
+
 bootstrap();
