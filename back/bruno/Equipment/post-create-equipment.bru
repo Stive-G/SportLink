@@ -1,0 +1,32 @@
+meta {
+  name: POST Create Equipment (ADMIN)
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/equipment
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{adminToken}}
+}
+
+body:json {
+  {
+    "name": "Ballon de football taille 5",
+    "sport": "football",
+    "category": "ballon",
+    "quantity": 10,
+    "description": "Ballon officiel FIFA, taille 5, cuir synthétique",
+    "imageUrl": "https://example.com/ballon-foot.jpg",
+    "available": true
+  }
+}
+
+docs {
+  Crée un nouveau matériel. Réservé aux ADMIN.
+  Nécessite le token adminToken dans l'environnement.
+}

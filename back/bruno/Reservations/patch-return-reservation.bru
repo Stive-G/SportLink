@@ -1,0 +1,27 @@
+meta {
+  name: PATCH Return Reservation (MEMBER)
+  type: http
+  seq: 3
+}
+
+patch {
+  url: {{baseUrl}}/reservations/:id/return
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+params:path {
+  id: REMPLACER_PAR_UN_ID_RESERVATION
+}
+
+docs {
+  Retourne un équipement réservé.
+  - Passe le statut de la réservation à RETURNED.
+  - Incrémente le stock de l'équipement.
+  - Remet `available` à true.
+  Seul le membre propriétaire de la réservation peut effectuer ce retour (ForbiddenException sinon).
+}

@@ -1,0 +1,17 @@
+meta {
+  name: GET All Equipment
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/equipment
+  body: none
+  auth: none
+}
+
+docs {
+  Récupère tout le catalogue de matériel.
+  Accessible sans authentification.
+  Filtres disponibles via query params : ?sport=football&available=true&category=ballon
+}

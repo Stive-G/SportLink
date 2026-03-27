@@ -1,15 +1,18 @@
 import { IsEmail, IsOptional, IsString, MinLength, IsIn } from 'class-validator';
 
-export class Register {
+export class UpdateUserDto {
+  @IsOptional()
   @IsString()
-  name: string;
+  name?: string;
 
+  @IsOptional()
   @IsEmail()
-  email: string;
+  email?: string;
 
+  @IsOptional()
   @IsString()
   @MinLength(6)
-  password: string;
+  password?: string;
 
   @IsOptional()
   @IsIn(['ADMIN', 'MEMBER'])

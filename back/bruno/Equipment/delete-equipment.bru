@@ -1,0 +1,24 @@
+meta {
+  name: DELETE Equipment (ADMIN)
+  type: http
+  seq: 5
+}
+
+delete {
+  url: {{baseUrl}}/equipment/:id
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{adminToken}}
+}
+
+params:path {
+  id: REMPLACER_PAR_UN_ID
+}
+
+docs {
+  Supprime un équipement par son ID.
+  Réservé aux ADMIN.
+}

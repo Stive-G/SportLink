@@ -1,0 +1,29 @@
+meta {
+  name: Login (MEMBER)
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/auth/login
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "email": "alice@sportlink.fr",
+    "password": "password123"
+  }
+}
+
+script:post-response {
+  if (res.status === 200 || res.status === 201) {
+    bru.setEnvVar("token", res.body.access_token);
+  }
+}
+
+docs {
+  Connexion membre.
+  Le token JWT est automatiquement sauvegardé dans la variable `token`.
+}

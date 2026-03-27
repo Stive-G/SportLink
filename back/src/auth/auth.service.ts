@@ -8,7 +8,7 @@ import { Model } from 'mongoose';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcryptjs';
 import { User, UserDocument } from '../schemas/user.schema';
-import { RegisterDto } from './dto/register.dto';
+import { Register } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
 
 @Injectable()
@@ -18,7 +18,7 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async register(dto: RegisterDto) {
+  async register(dto: Register) {
     // 1. Vérifier que l'email n'existe pas déjà
     const exists = await this.userModel.findOne({ email: dto.email });
     if (exists) {
@@ -28,10 +28,12 @@ export class AuthService {
     // 2. Hasher le mot de passe (JAMAIS stocker en clair)
     const hashedPassword = await bcrypt.hash(dto.password, 10);
 
-    // 3. Créer l'utilisateur en base
+    // 3. Créer l'utilisateur en base avec le role de membre
     const user = await this.userModel.create({
+      name: dto.name,
       email: dto.email,
       password: hashedPassword,
+      role: 'MEMBER',
     });
 
     // 4. Générer et retourner le token JWT

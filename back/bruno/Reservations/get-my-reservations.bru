@@ -1,0 +1,21 @@
+meta {
+  name: GET My Reservations (MEMBER)
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/reservations/me
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+docs {
+  Retourne l'historique des réservations du membre connecté.
+  Les détails de l'équipement sont populés (populate equipmentId).
+  Réservé aux MEMBER.
+}
