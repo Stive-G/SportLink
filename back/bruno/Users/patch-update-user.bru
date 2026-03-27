@@ -1,0 +1,32 @@
+meta {
+  name: PATCH Update User (ADMIN)
+  type: http
+  seq: 4
+}
+
+patch {
+  url: {{baseUrl}}/users/:id
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{adminToken}}
+}
+
+params:path {
+  id: REMPLACER_PAR_UN_ID_USER
+}
+
+body:json {
+  {
+    "name": "Bob Martin (modifié)",
+    "role": "ADMIN"
+  }
+}
+
+docs {
+  Met à jour partiellement un utilisateur.
+  Si `password` est fourni, il est re-hashé automatiquement.
+  Réservé aux ADMIN.
+}

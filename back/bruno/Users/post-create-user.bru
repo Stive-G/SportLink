@@ -1,0 +1,30 @@
+meta {
+  name: POST Create User (ADMIN)
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/users
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{adminToken}}
+}
+
+body:json {
+  {
+    "name": "Bob Martin",
+    "email": "bob@sportlink.fr",
+    "password": "password123",
+    "role": "MEMBER"
+  }
+}
+
+docs {
+  Crée un utilisateur directement (sans passer par /auth/register).
+  Le mot de passe est hashé automatiquement.
+  Réservé aux ADMIN.
+}

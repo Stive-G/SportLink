@@ -1,0 +1,21 @@
+meta {
+  name: GET All Reservations (ADMIN)
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{baseUrl}}/reservations
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{adminToken}}
+}
+
+docs {
+  Retourne toutes les réservations en cours (tous membres confondus).
+  Les détails utilisateur (sans mot de passe) et équipement sont populés.
+  Réservé aux ADMIN.
+}

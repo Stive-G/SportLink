@@ -1,0 +1,29 @@
+meta {
+  name: Login (ADMIN)
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{baseUrl}}/auth/login
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "email": "admin@sportlink.fr",
+    "password": "admin123"
+  }
+}
+
+script:post-response {
+  if (res.status === 200 || res.status === 201) {
+    bru.setEnvVar("adminToken", res.body.access_token);
+  }
+}
+
+docs {
+  Connexion admin.
+  Le token JWT est automatiquement sauvegardé dans la variable `adminToken`.
+}

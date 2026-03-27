@@ -1,0 +1,122 @@
+.card {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  border: 1px solid #e5e7eb;
+}
+
+.hero-card {
+  padding: 2rem;
+}
+
+.eyebrow {
+  margin: 0;
+  color: #2563eb;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.card-title {
+  margin: 0 0 1rem;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.description {
+  color: #4b5563;
+}
+
+.description.small {
+  margin-top: 0;
+}
+
+.result-block {
+  white-space: pre-wrap;
+}
+
+.card-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.status {
+  border-radius: 999px;
+  padding: 0.25rem 0.7rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  background: #e5e7eb;
+  color: #111827;
+}
+
+.status.ok {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.status.off {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.simple-list {
+  margin: 0;
+  padding-left: 1.25rem;
+}
+
+.simple-list li + li {
+  margin-top: 0.5rem;
+}
+
+.ordered {
+  list-style: decimal;
+}
+
+.primary-button,
+.secondary-button,
+.submit-button {
+  border: none;
+  border-radius: 8px;
+  padding: 0.8rem 1rem;
+  cursor: pointer;
+  margin-top: 1rem;
+}
+
+.primary-button,
+.submit-button {
+  background: #2563eb;
+  color: white;
+}
+
+.primary-button:disabled,
+.submit-button:disabled {
+  background: #cbd5e1;
+  color: #64748b;
+  cursor: not-allowed;
+}
+
+.secondary-button {
+  background: #e5e7eb;
+  color: #111827;
+}
+
+.nav-button {
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: white;
+  padding: 0.7rem 1rem;
+  cursor: pointer;
+}
+
+.nav-button.active {
+  background: #2563eb;
+  color: white;
+  border-color: #2563eb;
+}
+
+.nav-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

@@ -1,0 +1,24 @@
+meta {
+  name: GET Equipment (filtré)
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/equipment?sport=football&available=true
+  body: none
+  auth: none
+}
+
+params:query {
+  sport: football
+  available: true
+}
+
+docs {
+  Exemple de filtrage du catalogue.
+  Paramètres supportés :
+  - sport   : ex. football, tennis, basketball
+  - available : true | false
+  - category  : ex. ballon, chaussures, raquette
+}
