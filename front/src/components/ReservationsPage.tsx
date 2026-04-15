@@ -20,9 +20,9 @@ export function ReservationsPage({
   return (
     <section className="content">
       <div className="card hero-card">
-        <p className="eyebrow">Mes reservations</p>
+        <p className="eyebrow">Mes réservations</p>
         <h2>Historique de location</h2>
-        <p className="description">Donnees chargees depuis GET /reservations/me.</p>
+        <p className="description">Données chargées depuis GET /reservations/me.</p>
       </div>
 
       <div className="grid">
@@ -30,7 +30,7 @@ export function ReservationsPage({
           <article className="card" key={reservation.id}>
             <p className="card-title">{reservation.equipmentName}</p>
             <ul className="simple-list">
-              <li>Debut : {new Date(reservation.startDate).toLocaleDateString('fr-FR')}</li>
+              <li>Début : {new Date(reservation.startDate).toLocaleDateString('fr-FR')}</li>
               <li>Fin : {new Date(reservation.endDate).toLocaleDateString('fr-FR')}</li>
               <li>Statut : {reservation.status}</li>
             </ul>
@@ -40,7 +40,7 @@ export function ReservationsPage({
               disabled={reservation.status === 'RETURNED' || activeReservationId === reservation.id}
               onClick={() => onReturn(reservation.id)}
             >
-              {activeReservationId === reservation.id ? 'Retour...' : 'Retourner le materiel'}
+              {activeReservationId === reservation.id ? 'Retour...' : 'Retourner le matériel'}
             </button>
           </article>
         ))}

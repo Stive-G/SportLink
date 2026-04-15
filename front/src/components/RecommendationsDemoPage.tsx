@@ -2,51 +2,38 @@ import { FormEvent } from 'react';
 import { RecommendationResult } from '../types';
 import { RecommendationResultCard } from './RecommendationResultCard';
 
-type RecommendationsPageProps = {
-  isMember: boolean;
+type RecommendationsDemoPageProps = {
   loading: boolean;
   prompt: string;
   result: RecommendationResult | null;
   onPromptChange: (value: string) => void;
   onSubmit: (event: FormEvent<HTMLFormElement>) => void;
+  onNavigate: (path: string) => void;
 };
 
-export function RecommendationsPage({
-  isMember,
+export function RecommendationsDemoPage({
   loading,
   prompt,
   result,
   onPromptChange,
   onSubmit,
-}: RecommendationsPageProps) {
-  if (!isMember) {
-    return (
-      <section className="content">
-        <div className="card">
-          <p className="card-title">Espace membre requis</p>
-          <p className="description small">
-            Connecte-toi avec un compte MEMBER pour utiliser l&apos;assistant IA.
-          </p>
-        </div>
-      </section>
-    );
-  }
-
+  onNavigate,
+}: RecommendationsDemoPageProps) {
   return (
     <section className="content">
       <div className="card hero-card">
-        <p className="eyebrow">Assistant IA</p>
-        <h2>Recommandation de matériel</h2>
+        <p className="eyebrow">Démo publique IA</p>
+        <h2>Décris ton activité, SportLink propose le matériel</h2>
         <p className="description">
-          L’assistant analyse ta demande, lit le catalogue SportLink et renvoie une
-          recommandation structurée avec les raisons de chaque choix.
+          Cette démo montre comment SportLink transforme une demande en langage naturel
+          en recommandation de matériel basée sur le catalogue sportif.
         </p>
       </div>
 
       <div className="grid recommendations-grid">
         <form className="card auth-form" onSubmit={onSubmit}>
           <label className="field">
-            <span>Demande utilisateur</span>
+            <span>Activité à préparer</span>
             <textarea
               value={prompt}
               onChange={(event) => onPromptChange(event.target.value)}
@@ -56,11 +43,23 @@ export function RecommendationsPage({
           </label>
 
           <button type="submit" className="submit-button" disabled={loading}>
-            {loading ? 'Analyse...' : 'Demander une recommandation'}
+            {loading ? 'Analyse...' : 'Obtenir une recommandation'}
           </button>
         </form>
 
         <RecommendationResultCard result={result} />
+      </div>
+
+      <div className="card">
+        <p className="card-title">Pourquoi cette démo est utile ?</p>
+        <p className="description small">
+          La recommandation IA n’est pas un gadget : elle aide un visiteur à passer
+          d’une idée d’activité à une liste d’équipements concrets, réservables ensuite
+          avec un compte membre.
+        </p>
+        <button type="button" className="secondary-button" onClick={() => onNavigate('/blog/ia-recommandation-sportive')}>
+          Lire le guide IA
+        </button>
       </div>
     </section>
   );

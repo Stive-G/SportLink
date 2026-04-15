@@ -6,20 +6,29 @@ import {
   getAllReservations,
   getEquipment,
   getMyReservations,
+  getPublicRecommendations,
   getRecommendations,
   getUsers,
   login,
   register,
   returnReservation,
 } from './api';
+import { AdSlot } from './components/AdSlot';
 import { AdminPage } from './components/AdminPage';
+import { ArticlePage } from './components/ArticlePage';
 import { AuthPage } from './components/AuthPage';
+import { BlogPage } from './components/BlogPage';
 import { CataloguePage } from './components/CataloguePage';
+import { ContactPage, AboutPage, PrivacyPage, TermsPage } from './components/StaticPages';
+import { EquipmentDetailPage } from './components/EquipmentDetailPage';
 import { Header } from './components/Header';
 import { HomePage } from './components/HomePage';
+import { RecommendationsDemoPage } from './components/RecommendationsDemoPage';
 import { RecommendationsPage } from './components/RecommendationsPage';
 import { ReservationsPage } from './components/ReservationsPage';
-import { Credentials, Equipment, Page, Reservation, User } from './types';
+import { SportPage } from './components/SportPage';
+import { buildLocalRecommendation, fallbackEquipment } from './data/public-content';
+import { Credentials, Equipment, RecommendationResult, Reservation, User } from './types';
 
 const initialCredentials: Credentials = {
   name: '',
@@ -29,20 +38,42 @@ const initialCredentials: Credentials = {
 
 const storageKey = 'sportlink-session';
 
+function getCurrentPath() {
+  return window.location.pathname === '' ? '/' : window.location.pathname;
+}
+
+function getPageTitle(pathname: string) {
+  if (pathname === '/') return 'SportLink - Réservation de matériel sportif';
+  if (pathname.startsWith('/equipment')) return 'Catalogue de matériel sportif - SportLink';
+  if (pathname.startsWith('/sports')) return 'Guides par sport - SportLink';
+  if (pathname.startsWith('/blog') || pathname.startsWith('/guides')) return 'Guides SportLink';
+  if (pathname === '/recommendations-demo') return 'Démo IA SportLink';
+  if (pathname === '/about') return 'À propos - SportLink';
+  if (pathname === '/contact') return 'Contact - SportLink';
+  if (pathname === '/privacy') return 'Confidentialité - SportLink';
+  if (pathname === '/terms') return 'Conditions d’utilisation - SportLink';
+  return 'SportLink';
+}
+
 function App() {
-  const [page, setPage] = useState<Page>('accueil');
+  const [pathname, setPathname] = useState(getCurrentPath);
   const [mode, setMode] = useState<'login' | 'register'>('login');
   const [credentials, setCredentials] = useState<Credentials>(initialCredentials);
   const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useState('');
-  const [equipmentList, setEquipmentList] = useState<Equipment[]>([]);
+  const [equipmentList, setEquipmentList] = useState<Equipment[]>(fallbackEquipment);
   const [myReservations, setMyReservations] = useState<Reservation[]>([]);
   const [allReservations, setAllReservations] = useState<Reservation[]>([]);
   const [users, setUsers] = useState<User[]>([]);
   const [recommendationPrompt, setRecommendationPrompt] = useState(
     'Je veux organiser un match de foot en salle avec 8 amis samedi soir.',
   );
-  const [recommendationResult, setRecommendationResult] = useState('');
+  const [recommendationResult, setRecommendationResult] = useState<RecommendationResult | null>(null);
+  const [publicRecommendationPrompt, setPublicRecommendationPrompt] = useState(
+    'Je veux faire du foot en salle avec 8 amis.',
+  );
+  const [publicRecommendationResult, setPublicRecommendationResult] =
+    useState<RecommendationResult | null>(null);
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -60,11 +91,23 @@ function App() {
       const session = JSON.parse(saved) as Session;
       setToken(session.access_token);
       setUser(session.user);
-      setPage(session.user.role === 'ADMIN' ? 'admin' : 'catalogue');
     } catch {
       window.localStorage.removeItem(storageKey);
     }
   }, []);
+
+  useEffect(() => {
+    function handlePopState() {
+      setPathname(getCurrentPath());
+    }
+
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
+
+  useEffect(() => {
+    document.title = getPageTitle(pathname);
+  }, [pathname]);
 
   useEffect(() => {
     if (!token || !user) {
@@ -74,16 +117,19 @@ function App() {
     void loadProtectedData(token, user);
   }, [token, user]);
 
+  function navigate(path: string) {
+    window.history.pushState(null, '', path);
+    setPathname(path);
+    setError('');
+    setMessage('');
+  }
+
   async function loadEquipmentData() {
     try {
       const data = await getEquipment();
-      setEquipmentList(data);
-    } catch (loadError) {
-      setError(
-        loadError instanceof Error
-          ? loadError.message
-          : 'Impossible de charger le catalogue.',
-      );
+      setEquipmentList(data.length > 0 ? data : fallbackEquipment);
+    } catch {
+      setEquipmentList(fallbackEquipment);
     }
   }
 
@@ -109,7 +155,7 @@ function App() {
       setError(
         loadError instanceof Error
           ? loadError.message
-          : 'Impossible de charger les donnees protegees.',
+          : 'Impossible de charger les données protégées.',
       );
     }
   }
@@ -124,8 +170,8 @@ function App() {
   function applySession(session: Session) {
     setToken(session.access_token);
     setUser(session.user);
-    setPage(session.user.role === 'ADMIN' ? 'admin' : 'catalogue');
     window.localStorage.setItem(storageKey, JSON.stringify(session));
+    navigate(session.user.role === 'ADMIN' ? '/admin' : '/equipment');
   }
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -139,7 +185,7 @@ function App() {
       const session = await action(credentials);
       applySession(session);
       setCredentials(initialCredentials);
-      setMessage(mode === 'register' ? 'Compte cree avec succes.' : 'Connexion reussie.');
+      setMessage(mode === 'register' ? 'Compte créé avec succès.' : 'Connexion réussie.');
     } catch (submissionError) {
       setToken('');
       setUser(null);
@@ -155,7 +201,7 @@ function App() {
 
   async function handleReserve(equipmentId: string) {
     if (!token || user?.role !== 'MEMBER') {
-      setPage('auth');
+      navigate('/login');
       return;
     }
 
@@ -166,13 +212,13 @@ function App() {
     try {
       await createReservation(token, equipmentId);
       await Promise.all([loadEquipmentData(), loadProtectedData(token, user)]);
-      setPage('reservations');
-      setMessage('Reservation creee avec succes.');
+      navigate('/reservations');
+      setMessage('Réservation créée avec succès.');
     } catch (reservationError) {
       setError(
         reservationError instanceof Error
           ? reservationError.message
-          : 'Impossible de creer la reservation.',
+          : 'Impossible de créer la réservation.',
       );
     } finally {
       setActionId('');
@@ -191,12 +237,12 @@ function App() {
     try {
       await returnReservation(token, reservationId);
       await Promise.all([loadEquipmentData(), loadProtectedData(token, user)]);
-      setMessage('Materiel retourne avec succes.');
+      setMessage('Matériel retourné avec succès.');
     } catch (reservationError) {
       setError(
         reservationError instanceof Error
           ? reservationError.message
-          : 'Impossible de retourner le materiel.',
+          : 'Impossible de retourner le matériel.',
       );
     } finally {
       setActionId('');
@@ -206,7 +252,7 @@ function App() {
   async function handleRecommendationSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (!token || user?.role !== 'MEMBER') {
-      setPage('auth');
+      navigate('/login');
       return;
     }
 
@@ -217,13 +263,32 @@ function App() {
     try {
       const response = await getRecommendations(token, recommendationPrompt);
       setRecommendationResult(response);
-      setMessage('Recommandation IA recuperee.');
+      setMessage('Recommandation IA récupérée.');
     } catch (recommendationError) {
       setError(
         recommendationError instanceof Error
           ? recommendationError.message
-          : 'Impossible de recuperer la recommandation.',
+          : 'Impossible de récupérer la recommandation.',
       );
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function handlePublicRecommendationSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setLoading(true);
+    setError('');
+    setMessage('');
+
+    try {
+      const response = await getPublicRecommendations(publicRecommendationPrompt);
+      setPublicRecommendationResult(response);
+    } catch {
+      setPublicRecommendationResult(
+        buildLocalRecommendation(publicRecommendationPrompt, equipmentList),
+      );
+      setMessage('Mode démo local : recommandation générée à partir du catalogue public.');
     } finally {
       setLoading(false);
     }
@@ -234,40 +299,91 @@ function App() {
     setToken('');
     setMessage('');
     setError('');
-    setPage('accueil');
     setMyReservations([]);
     setAllReservations([]);
     setUsers([]);
-    setRecommendationResult('');
+    setRecommendationResult(null);
     window.localStorage.removeItem(storageKey);
+    navigate('/');
   }
 
   const isAdmin = user?.role === 'ADMIN';
   const isLoggedIn = Boolean(user);
   const isMember = user?.role === 'MEMBER';
+  const segments = pathname.split('/').filter(Boolean);
 
   return (
     <main className="app">
       <Header
-        page={page}
+        pathname={pathname}
         isAdmin={isAdmin}
         isLoggedIn={isLoggedIn}
-        onNavigate={setPage}
+        onNavigate={navigate}
       />
 
       {message ? <p className="feedback success">{message}</p> : null}
       {error ? <p className="feedback error">{error}</p> : null}
 
-      {page === 'accueil' ? (
+      {pathname === '/' ? (
         <HomePage
           apiUrl={API_URL}
           equipmentCount={equipmentList.length}
           availableCount={equipmentList.filter((item) => item.available).length}
           userRole={user?.role ?? 'Invite'}
+          onNavigate={navigate}
         />
       ) : null}
 
-      {page === 'auth' ? (
+      {pathname === '/equipment' ? (
+        <CataloguePage
+          user={user}
+          equipmentList={equipmentList}
+          isMember={isMember}
+          activeReservationId={actionId}
+          onNavigate={navigate}
+          onReserve={handleReserve}
+        />
+      ) : null}
+
+      {segments[0] === 'equipment' && segments[1] ? (
+        <EquipmentDetailPage
+          equipmentId={segments[1]}
+          equipmentList={equipmentList}
+          user={user}
+          isMember={isMember}
+          activeReservationId={actionId}
+          onNavigate={navigate}
+          onReserve={handleReserve}
+        />
+      ) : null}
+
+      {segments[0] === 'sports' && segments[1] ? (
+        <SportPage sportSlug={segments[1]} equipmentList={equipmentList} onNavigate={navigate} />
+      ) : null}
+
+      {pathname === '/blog' || pathname === '/guides' ? <BlogPage onNavigate={navigate} /> : null}
+
+      {segments[0] === 'blog' && segments[1] ? (
+        <ArticlePage slug={segments[1]} onNavigate={navigate} />
+      ) : null}
+
+      {pathname === '/recommendations-demo' ? (
+        <RecommendationsDemoPage
+          loading={loading}
+          prompt={publicRecommendationPrompt}
+          result={publicRecommendationResult}
+          onPromptChange={setPublicRecommendationPrompt}
+          onSubmit={handlePublicRecommendationSubmit}
+          onNavigate={navigate}
+        />
+      ) : null}
+
+      {pathname === '/about' ? <AboutPage onNavigate={navigate} /> : null}
+      {pathname === '/contact' ? <ContactPage /> : null}
+      {pathname === '/privacy' ? <PrivacyPage /> : null}
+      {pathname === '/terms' ? <TermsPage /> : null}
+
+      {pathname === '/login' ? (
         <AuthPage
           mode={mode}
           credentials={credentials}
@@ -280,18 +396,7 @@ function App() {
         />
       ) : null}
 
-      {page === 'catalogue' ? (
-        <CataloguePage
-          user={user}
-          equipmentList={equipmentList}
-          isMember={isMember}
-          activeReservationId={actionId}
-          onGoToAuth={() => setPage('auth')}
-          onReserve={handleReserve}
-        />
-      ) : null}
-
-      {page === 'reservations' ? (
+      {pathname === '/reservations' ? (
         <ReservationsPage
           reservations={myReservations}
           isLoggedIn={isLoggedIn}
@@ -300,7 +405,7 @@ function App() {
         />
       ) : null}
 
-      {page === 'recommandations' ? (
+      {pathname === '/recommendations' ? (
         <RecommendationsPage
           isMember={isMember}
           loading={loading}
@@ -311,7 +416,7 @@ function App() {
         />
       ) : null}
 
-      {page === 'admin' ? (
+      {pathname === '/admin' ? (
         <AdminPage
           isAdmin={isAdmin}
           users={users}
@@ -320,13 +425,24 @@ function App() {
         />
       ) : null}
 
-      {isLoggedIn && page !== 'admin' ? (
-        <div className="content">
-          <button type="button" className="secondary-button" onClick={handleLogout}>
-            Se deconnecter
+      <AdSlot page={pathname} />
+
+      <footer className="footer">
+        <button type="button" className="text-button" onClick={() => navigate('/contact')}>
+          Contact
+        </button>
+        <button type="button" className="text-button" onClick={() => navigate('/privacy')}>
+          Confidentialité
+        </button>
+        <button type="button" className="text-button" onClick={() => navigate('/terms')}>
+          Conditions
+        </button>
+        {isLoggedIn ? (
+          <button type="button" className="text-button" onClick={handleLogout}>
+            Se déconnecter
           </button>
-        </div>
-      ) : null}
+        ) : null}
+      </footer>
     </main>
   );
 }
