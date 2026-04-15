@@ -31,6 +31,10 @@
   margin-top: 0;
 }
 
+.technical-note {
+  text-align: center;
+}
+
 .result-block {
   white-space: pre-wrap;
 }
@@ -76,12 +80,18 @@
 
 .primary-button,
 .secondary-button,
-.submit-button {
+.submit-button,
+.text-button {
   border: none;
   border-radius: 8px;
-  padding: 0.8rem 1rem;
   cursor: pointer;
   margin-top: 1rem;
+}
+
+.primary-button,
+.secondary-button,
+.submit-button {
+  padding: 0.8rem 1rem;
 }
 
 .primary-button,
@@ -102,6 +112,24 @@
   color: #111827;
 }
 
+.text-button {
+  background: transparent;
+  color: #2563eb;
+  padding: 0;
+  font-weight: 700;
+}
+
+.fit-button {
+  width: fit-content;
+}
+
+.button-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+}
+
 .nav-button {
   border: 1px solid #d1d5db;
   border-radius: 8px;
@@ -119,4 +147,50 @@
 .nav-button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+.filter-panel {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.article-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.article-page {
+  max-width: 820px;
+  margin: 0 auto;
+}
+
+.editorial-section p {
+  font-size: 1.05rem;
+}
+
+.small-title {
+  margin-top: 1.25rem;
+  font-size: 1rem;
+}
+
+.recommendation-item {
+  border-left: 4px solid #2563eb;
+  padding-left: 1rem;
+}
+
+.recommendation-item span {
+  display: block;
+  color: #64748b;
+  font-size: 0.9rem;
+  margin-top: 0.2rem;
+}
+
+.ad-zone {
+  margin-top: 2rem;
+  padding: 1rem;
+  background: #f8fafc;
+  border: 1px dashed #cbd5e1;
+  border-radius: 12px;
 }

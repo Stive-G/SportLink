@@ -46,7 +46,7 @@ export function AuthForm({ mode, values, loading, onChange, onSubmit }: AuthForm
           type="password"
           value={values.password}
           onChange={(event) => onChange('password', event.target.value)}
-          placeholder={isRegister ? '6 caracteres minimum' : 'Votre mot de passe'}
+          placeholder={isRegister ? '6 caractères minimum' : 'Votre mot de passe'}
           autoComplete={isRegister ? 'new-password' : 'current-password'}
           minLength={6}
           required
@@ -54,7 +54,7 @@ export function AuthForm({ mode, values, loading, onChange, onSubmit }: AuthForm
       </label>
 
       <button className="submit-button" type="submit" disabled={loading}>
-        {loading ? 'Chargement...' : isRegister ? 'Creer un compte' : 'Se connecter'}
+        {loading ? 'Chargement...' : isRegister ? 'Créer un compte' : 'Se connecter'}
       </button>
     </form>
   );

@@ -12,7 +12,7 @@ export function AdminPage({ isAdmin, users, reservations, onLogout }: AdminPageP
     return (
       <section className="content">
         <div className="card">
-          <p className="card-title">Acces reserve a l admin</p>
+          <p className="card-title">Accès réservé à l’admin</p>
           <p className="description small">
             Connecte-toi avec un compte ADMIN pour voir cette vue.
           </p>
@@ -25,9 +25,9 @@ export function AdminPage({ isAdmin, users, reservations, onLogout }: AdminPageP
     <section className="content">
       <div className="card hero-card">
         <p className="eyebrow">Espace admin</p>
-        <h2>Vue back-office connectee au backend</h2>
+        <h2>Vue back-office connectée au backend</h2>
         <p className="description">
-          Utilisateurs charges depuis GET /users et reservations chargees depuis GET /reservations.
+          Utilisateurs chargés depuis GET /users et réservations chargées depuis GET /reservations.
         </p>
       </div>
 
@@ -44,7 +44,7 @@ export function AdminPage({ isAdmin, users, reservations, onLogout }: AdminPageP
         </article>
 
         <article className="card">
-          <p className="card-title">Reservations en cours</p>
+          <p className="card-title">Réservations en cours</p>
           <ul className="simple-list">
             {reservations.map((reservation) => (
               <li key={reservation.id}>
@@ -56,7 +56,7 @@ export function AdminPage({ isAdmin, users, reservations, onLogout }: AdminPageP
       </div>
 
       <button type="button" className="secondary-button" onClick={onLogout}>
-        Se deconnecter
+        Se déconnecter
       </button>
     </section>
   );
