@@ -9,6 +9,11 @@ import { RolesGuard } from '../auth/roles.guard';
 export class AiController {
   constructor(private readonly aiService: AiService) {}
 
+  @Post('recommendations/demo')
+  recommendDemo(@Body() dto: RecommendationDto) {
+    return this.aiService.recommend(dto.prompt);
+  }
+
   @Post('recommendations')
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('MEMBER')
