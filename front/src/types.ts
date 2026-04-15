@@ -31,6 +31,9 @@ export type Equipment = {
   quantity: number;
   available: boolean;
   description: string;
+  usageAdvice?: string;
+  practicalTips?: string[];
+  contexts?: string[];
   imageUrl?: string;
 };
 
@@ -42,4 +45,42 @@ export type Reservation = {
   startDate: string;
   endDate: string;
   status: 'PENDING' | 'ACTIVE' | 'RETURNED';
+};
+
+export type RecommendationEquipment = {
+  id?: string;
+  name: string;
+  sport?: string;
+  category?: string;
+  reason: string;
+};
+
+export type RecommendationResult = {
+  activity: string;
+  recommendedEquipment: RecommendationEquipment[];
+  explanation: string;
+  optionalTips: string[];
+  source?: 'llm' | 'fallback';
+};
+
+export type BlogArticle = {
+  slug: string;
+  title: string;
+  summary: string;
+  category: string;
+  readingTime: string;
+  relatedSport?: string;
+  sections: {
+    heading: string;
+    body: string;
+  }[];
+};
+
+export type SportGuide = {
+  slug: string;
+  sport: string;
+  title: string;
+  intro: string;
+  recommendedCategories: string[];
+  practicalAdvice: string[];
 };

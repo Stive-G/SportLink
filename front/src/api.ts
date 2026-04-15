@@ -1,5 +1,12 @@
 import axios from 'axios';
-import { Credentials, Equipment, Reservation, User, UserRole } from './types';
+import {
+  Credentials,
+  Equipment,
+  RecommendationResult,
+  Reservation,
+  User,
+  UserRole,
+} from './types';
 
 export const API_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:3000';
 
@@ -30,6 +37,9 @@ type EquipmentApiItem = {
   quantity: number;
   available: boolean;
   description: string;
+  usageAdvice?: string;
+  practicalTips?: string[];
+  contexts?: string[];
   imageUrl?: string;
 };
 
@@ -108,6 +118,9 @@ function mapEquipment(item: EquipmentApiItem): Equipment {
     quantity: item.quantity,
     available: item.available,
     description: item.description,
+    usageAdvice: item.usageAdvice,
+    practicalTips: item.practicalTips,
+    contexts: item.contexts,
     imageUrl: item.imageUrl,
   };
 }
@@ -115,7 +128,7 @@ function mapEquipment(item: EquipmentApiItem): Equipment {
 function mapReservation(item: ReservationApiItem): Reservation {
   const equipment =
     typeof item.equipmentId === 'string'
-      ? { _id: item.equipmentId, name: 'Materiel inconnu' }
+      ? { _id: item.equipmentId, name: 'Matériel inconnu' }
       : item.equipmentId;
 
   const user =
@@ -181,7 +194,7 @@ export async function getMyReservations(token: string) {
     );
     return response.data.map(mapReservation);
   } catch (error) {
-    throw new Error(normalizeError(error, 'Reservations indisponibles.'));
+    throw new Error(normalizeError(error, 'Réservations indisponibles.'));
   }
 }
 
@@ -201,7 +214,7 @@ export async function createReservation(token: string, equipmentId: string) {
       authConfig(token),
     );
   } catch (error) {
-    throw new Error(normalizeError(error, 'Creation de reservation impossible.'));
+    throw new Error(normalizeError(error, 'Création de réservation impossible.'));
   }
 }
 
@@ -213,13 +226,13 @@ export async function returnReservation(token: string, reservationId: string) {
       authConfig(token),
     );
   } catch (error) {
-    throw new Error(normalizeError(error, 'Retour du materiel impossible.'));
+    throw new Error(normalizeError(error, 'Retour du matériel impossible.'));
   }
 }
 
 export async function getRecommendations(token: string, prompt: string) {
   try {
-    const response = await apiClient.post<string>(
+    const response = await apiClient.post<RecommendationResult>(
       '/recommendations',
       { prompt },
       authConfig(token),
@@ -228,6 +241,19 @@ export async function getRecommendations(token: string, prompt: string) {
     return response.data;
   } catch (error) {
     throw new Error(normalizeError(error, 'Recommandation indisponible.'));
+  }
+}
+
+export async function getPublicRecommendations(prompt: string) {
+  try {
+    const response = await apiClient.post<RecommendationResult>(
+      '/recommendations/demo',
+      { prompt },
+    );
+
+    return response.data;
+  } catch (error) {
+    throw new Error(normalizeError(error, 'Démo de recommandation indisponible.'));
   }
 }
 
@@ -253,6 +279,6 @@ export async function getAllReservations(token: string) {
     );
     return response.data.map(mapReservation);
   } catch (error) {
-    throw new Error(normalizeError(error, 'Vue admin des reservations indisponible.'));
+    throw new Error(normalizeError(error, 'Vue admin des réservations indisponible.'));
   }
 }

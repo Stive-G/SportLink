@@ -28,10 +28,12 @@
   gap: 0.4rem;
 }
 
-.field input {
+.field input,
+.field select {
   padding: 0.8rem;
   border: 1px solid #d1d5db;
   border-radius: 8px;
+  background: white;
 }
 
 .field textarea {

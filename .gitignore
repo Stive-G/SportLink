@@ -5,6 +5,7 @@ build/
 .env.local
 .env.*.local
 *.log
+*.tsbuildinfo
 pnpm-debug.log*
 
 front/node_modules/

@@ -1,62 +1,72 @@
-import { Page } from '../types';
-
 type HeaderProps = {
-  page: Page;
+  pathname: string;
   isAdmin: boolean;
   isLoggedIn: boolean;
-  onNavigate: (page: Page) => void;
+  onNavigate: (path: string) => void;
 };
 
-export function Header({ page, isAdmin, isLoggedIn, onNavigate }: HeaderProps) {
+const publicLinks = [
+  { path: '/', label: 'Accueil' },
+  { path: '/equipment', label: 'Catalogue' },
+  { path: '/blog', label: 'Guides' },
+  { path: '/recommendations-demo', label: 'Démo IA' },
+  { path: '/about', label: 'À propos' },
+];
+
+function isActive(current: string, target: string) {
+  if (target === '/') {
+    return current === '/';
+  }
+
+  return current === target || current.startsWith(`${target}/`);
+}
+
+export function Header({ pathname, isAdmin, isLoggedIn, onNavigate }: HeaderProps) {
   return (
     <header className="header">
       <div>
         <h1 className="site-title">SportLink</h1>
+        <p className="site-subtitle">Catalogue, réservations et recommandations sportives</p>
       </div>
 
       <nav className="nav">
+        {publicLinks.map((link) => (
+          <button
+            type="button"
+            className={isActive(pathname, link.path) ? 'nav-button active' : 'nav-button'}
+            onClick={() => onNavigate(link.path)}
+            key={link.path}
+          >
+            {link.label}
+          </button>
+        ))}
         <button
           type="button"
-          className={page === 'accueil' ? 'nav-button active' : 'nav-button'}
-          onClick={() => onNavigate('accueil')}
+          className={pathname === '/login' ? 'nav-button active' : 'nav-button'}
+          onClick={() => onNavigate('/login')}
         >
-          Accueil
+          {isLoggedIn ? 'Compte' : 'Connexion'}
         </button>
         <button
           type="button"
-          className={page === 'auth' ? 'nav-button active' : 'nav-button'}
-          onClick={() => onNavigate('auth')}
-        >
-          Connexion
-        </button>
-        <button
-          type="button"
-          className={page === 'catalogue' ? 'nav-button active' : 'nav-button'}
-          onClick={() => onNavigate('catalogue')}
+          className={pathname === '/reservations' ? 'nav-button active' : 'nav-button'}
+          onClick={() => onNavigate('/reservations')}
           disabled={!isLoggedIn}
         >
-          Catalogue
+          Mes réservations
         </button>
         <button
           type="button"
-          className={page === 'reservations' ? 'nav-button active' : 'nav-button'}
-          onClick={() => onNavigate('reservations')}
+          className={pathname === '/recommendations' ? 'nav-button active' : 'nav-button'}
+          onClick={() => onNavigate('/recommendations')}
           disabled={!isLoggedIn}
         >
-          Mes reservations
+          IA membre
         </button>
         <button
           type="button"
-          className={page === 'recommandations' ? 'nav-button active' : 'nav-button'}
-          onClick={() => onNavigate('recommandations')}
-          disabled={!isLoggedIn}
-        >
-          IA
-        </button>
-        <button
-          type="button"
-          className={page === 'admin' ? 'nav-button active' : 'nav-button'}
-          onClick={() => onNavigate('admin')}
+          className={pathname === '/admin' ? 'nav-button active' : 'nav-button'}
+          onClick={() => onNavigate('/admin')}
           disabled={!isAdmin}
         >
           Admin
