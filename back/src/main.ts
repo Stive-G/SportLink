@@ -17,7 +17,7 @@ async function bootstrap() {
     }),
   );
 
-  // port 3000 pour eviter le conflit local avec LiteLLM.
+  // Port 3000 par défaut pour éviter le conflit local avec LiteLLM.
   const port = process.env.PORT ?? 3000;
   await app.listen(port);
   console.log(`Application is running on: http://localhost:${port}`);

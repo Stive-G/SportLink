@@ -54,7 +54,7 @@ export class EquipmentService {
   async update(id: string, dto: UpdateEquipment) {
     const payload = { ...dto } as UpdateEquipment;
 
-    // recalcule la disponibilite après modification.
+    // Recalcule la disponibilité après modification.
     if (payload.quantity !== undefined && payload.available === undefined) {
       payload.available = payload.quantity > 0;
     }
