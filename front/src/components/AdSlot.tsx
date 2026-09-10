@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { blogArticles, sportGuides } from '../data/public-content';
 
 type AdSlotProps = {
   page: string;
@@ -14,25 +15,29 @@ const enabled = import.meta.env.VITE_ADSENSE_ENABLED === 'true';
 const client = import.meta.env.VITE_ADSENSE_CLIENT;
 const slot = import.meta.env.VITE_ADSENSE_SLOT;
 
-const allowedPaths = [
-  '/',
-  '/equipment',
-  '/sports',
-  '/blog',
-  '/guides',
-  '/about',
-  '/privacy',
-  '/terms',
-  '/recommendations-demo',
-];
-
 export function isAdSenseEligiblePath(pathname: string) {
-  return allowedPaths.some((path) => pathname === path || pathname.startsWith(`${path}/`));
+  if (pathname === '/' || pathname === '/blog' || pathname === '/guides') {
+    return true;
+  }
+
+  if (pathname.startsWith('/blog/')) {
+    const slug = pathname.split('/').filter(Boolean)[1];
+    return blogArticles.some((article) => article.slug === slug);
+  }
+
+  if (pathname.startsWith('/sports/')) {
+    const slug = pathname.split('/').filter(Boolean)[1];
+    return sportGuides.some((guide) => guide.slug === slug);
+  }
+
+  return false;
 }
 
 export function AdSlot({ page }: AdSlotProps) {
+  const isEligible = isAdSenseEligiblePath(page);
+
   useEffect(() => {
-    if (!enabled || !client || !slot || !isAdSenseEligiblePath(page)) {
+    if (!enabled || !client || !slot || !isEligible) {
       return;
     }
 
@@ -40,17 +45,19 @@ export function AdSlot({ page }: AdSlotProps) {
       window.adsbygoogle = window.adsbygoogle || [];
       window.adsbygoogle.push({});
     } catch {
-      // AdSense peut échouer en local ou avec un bloqueur de publicité sans casser le site.
+      // Un bloqueur de publicité ou un environnement local ne doit pas casser l'application.
     }
-  }, [page]);
+  }, [page, isEligible]);
 
-  if (!enabled || !client || !slot || !isAdSenseEligiblePath(page)) {
+  if (!enabled || !client || !slot || !isEligible) {
     return null;
   }
 
   return (
-    <aside className="ad-zone" aria-label="Publicite">
+    <aside className="ad-zone" aria-label="Publicité">
+      <span className="ad-label">Publicité</span>
       <ins
+        key={page}
         className="adsbygoogle"
         style={{ display: 'block' }}
         data-ad-client={client}
