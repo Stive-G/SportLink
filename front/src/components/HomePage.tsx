@@ -31,35 +31,40 @@ function EquipmentScene({ equipmentCount, availableCount }: Pick<HomePageProps, 
   return (
     <div className="gear-scene" aria-hidden="true">
       <div className="gear-scene-head">
-        <span>SL / STOCK</span>
-        <span className="scene-live">en service</span>
+        <span>LOCAL MATÉRIEL / A-02</span>
+        <span className="scene-live">stock ouvert</span>
       </div>
 
-      <div className="gear-rack">
-        <div className="gear-ticket ticket-football">
-          <span className="gear-code">FT-001</span>
-          <strong>Ballons</strong>
-          <small>football / futsal</small>
-          <b>08</b>
+      <div className="locker-stage">
+        <div className="locker-backdrop">
+          <span className="court-line court-line-a" />
+          <span className="court-line court-line-b" />
+          <span className="court-circle" />
         </div>
-        <div className="gear-ticket ticket-team">
-          <span className="gear-code">EQ-014</span>
-          <strong>Chasubles</strong>
-          <small>organisation équipe</small>
-          <b>24</b>
+
+        <span className="locker-upright locker-upright-left" />
+        <span className="locker-upright locker-upright-right" />
+        <span className="locker-shelf locker-shelf-top" />
+        <span className="locker-shelf locker-shelf-bottom" />
+
+        <div className="scene-football" title="Ballon de football">
+          <span />
         </div>
-        <div className="gear-ticket ticket-racket">
-          <span className="gear-code">BD-006</span>
-          <strong>Raquettes</strong>
-          <small>badminton</small>
-          <b>12</b>
+        <div className="scene-basketball" title="Ballon de basket" />
+        <div className="scene-cone" title="Cône de délimitation" />
+        <div className="scene-racket" title="Raquette de badminton">
+          <span className="racket-head" />
+          <span className="racket-handle" />
+        </div>
+        <div className="scene-bibs" title="Chasubles">
+          <span>TEAM</span>
         </div>
       </div>
 
       <div className="booking-slip">
-        <span>INVENTAIRE</span>
+        <span>DISPONIBILITÉ</span>
         <strong>{availableCount}/{equipmentCount || 0}</strong>
-        <small>références disponibles</small>
+        <small>références prêtes</small>
       </div>
     </div>
   );
@@ -72,19 +77,19 @@ export function HomePage({ equipmentCount, availableCount, userRole, onNavigate 
     <section className="home-page">
       <section className="home-hero">
         <div className="home-hero-copy">
-          <p className="section-kicker">Réservation & stock sportif</p>
-          <h1>Le matériel, les disponibilités et les réservations au même endroit.</h1>
+          <p className="section-kicker">Stock · réservation · retour</p>
+          <h1>Le local matériel, sans le cahier posé sur l’étagère.</h1>
           <p className="lead-copy">
-            SportLink aide un club, une association ou un groupe à savoir ce qui est disponible,
-            à préparer le bon équipement et à suivre son retour après l’activité.
+            SportLink regroupe le stock sportif, les disponibilités et les réservations dans un
+            même espace. Tu vois ce qui est là, ce qui peut partir et ce qui doit revenir.
           </p>
 
           <div className="button-row">
             <HomeLink path="/equipment" className="primary-button link-button" onNavigate={onNavigate}>
-              Consulter le matériel
+              Voir le matériel
             </HomeLink>
             <HomeLink path="/blog" className="secondary-button link-button" onNavigate={onNavigate}>
-              Lire les guides
+              Préparer une séance
             </HomeLink>
           </div>
 
@@ -111,34 +116,34 @@ export function HomePage({ equipmentCount, availableCount, userRole, onNavigate 
         <div className="section-title-block">
           <span className="section-index">01</span>
           <div>
-            <p className="section-kicker">Fonctionnement</p>
-            <h2 id="workflow-title">Du local matériel au terrain</h2>
+            <p className="section-kicker">Le parcours</p>
+            <h2 id="workflow-title">Du rayon au terrain, puis retour au stock</h2>
           </div>
         </div>
 
         <div className="workflow-grid">
           <article>
-            <span>01 — STOCK</span>
+            <span>STOCK</span>
             <h3>Repérer ce qui est disponible</h3>
             <p>
-              Le catalogue présente les quantités et l’état de disponibilité pour éviter les
-              demandes faites au hasard ou les doubles réservations.
+              Quantité, sport, catégorie et état de disponibilité sont visibles avant de lancer
+              une réservation.
             </p>
           </article>
           <article>
-            <span>02 — CHOIX</span>
-            <h3>Préparer l’activité</h3>
+            <span>CHOIX</span>
+            <h3>Prendre ce qui sert vraiment</h3>
             <p>
-              Les fiches et guides expliquent le rôle du matériel selon le sport, le nombre de
-              participants et le contexte de la séance.
+              Les fiches et les guides aident à dimensionner le matériel selon la séance et le
+              nombre de participants.
             </p>
           </article>
           <article>
-            <span>03 — RETOUR</span>
-            <h3>Remettre le stock à jour</h3>
+            <span>RETOUR</span>
+            <h3>Rendre le stock fiable</h3>
             <p>
-              Une fois le matériel rendu, la réservation est clôturée pour que l’équipement
-              redevienne visible et exploitable par le groupe suivant.
+              Quand le matériel revient, la réservation est clôturée pour que la disponibilité
+              redevienne correcte pour le groupe suivant.
             </p>
           </article>
         </div>
@@ -148,8 +153,8 @@ export function HomePage({ equipmentCount, availableCount, userRole, onNavigate 
         <div className="section-title-block">
           <span className="section-index">02</span>
           <div>
-            <p className="section-kicker">Préparer par sport</p>
-            <h2 id="sports-title">Partir du terrain, pas d’une liste générique</h2>
+            <p className="section-kicker">Par activité</p>
+            <h2 id="sports-title">Le besoin change selon le terrain</h2>
           </div>
         </div>
 
@@ -171,15 +176,15 @@ export function HomePage({ equipmentCount, availableCount, userRole, onNavigate 
           <span className="section-index">03</span>
           <div>
             <p className="section-kicker">Avant de réserver</p>
-            <h2 id="prep-title">Quatre vérifications qui évitent la plupart des oublis</h2>
+            <h2 id="prep-title">Quatre points à vérifier</h2>
           </div>
         </div>
 
         <ol className="checklist-grid">
           <li><b>Activité</b><span>Match, entraînement ou tournoi ne demandent pas le même matériel.</span></li>
-          <li><b>Participants</b><span>La quantité utile dépend du nombre de personnes actives en même temps.</span></li>
-          <li><b>Lieu</b><span>Salle, extérieur et espace partagé changent les besoins et les contraintes.</span></li>
-          <li><b>Retour</b><span>Prévoir le rangement et le retour évite de bloquer le stock inutilement.</span></li>
+          <li><b>Participants</b><span>La quantité dépend surtout du nombre de personnes actives en même temps.</span></li>
+          <li><b>Lieu</b><span>Salle, extérieur et espace partagé imposent des contraintes différentes.</span></li>
+          <li><b>Retour</b><span>Le rangement et le retour font partie de la réservation.</span></li>
         </ol>
       </section>
 
@@ -188,7 +193,7 @@ export function HomePage({ equipmentCount, availableCount, userRole, onNavigate 
           <span className="section-index">04</span>
           <div>
             <p className="section-kicker">Guides SportLink</p>
-            <h2 id="guides-title">Lire avant de prendre le matériel</h2>
+            <h2 id="guides-title">Quelques repères avant de prendre le matériel</h2>
           </div>
         </div>
 
@@ -203,26 +208,26 @@ export function HomePage({ equipmentCount, availableCount, userRole, onNavigate 
             Pourquoi réserver du matériel sportif en ligne
           </HomeLink>
           <HomeLink path="/blog/ia-recommandation-sportive" className="guide-row" onNavigate={onNavigate}>
-            Comment utiliser une recommandation IA sans oublier le stock réel
+            Utiliser une recommandation IA sans oublier le stock réel
           </HomeLink>
         </div>
 
         <HomeLink path="/blog" className="text-link" onNavigate={onNavigate}>
-          Parcourir tous les guides
+          Tous les guides
         </HomeLink>
       </section>
 
       <aside className="recommendation-band">
         <div>
           <p className="section-kicker">Aide au choix</p>
-          <h2>Tu décris la séance. SportLink rapproche la demande du catalogue.</h2>
+          <h2>Décris la séance, puis compare la proposition au stock.</h2>
           <p>
-            La recommandation sert de point de départ. La disponibilité réelle et les règles du
-            lieu restent toujours prioritaires avant de confirmer une réservation.
+            L’outil peut proposer une première sélection. La disponibilité réelle et les règles
+            du lieu restent prioritaires avant de réserver.
           </p>
         </div>
         <HomeLink path="/recommendations-demo" className="signal-button" onNavigate={onNavigate}>
-          Tester l’aide au choix
+          Essayer
         </HomeLink>
       </aside>
     </section>
