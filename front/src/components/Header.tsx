@@ -9,9 +9,9 @@ type HeaderProps = {
 
 const publicLinks = [
   { path: '/', label: 'Accueil' },
-  { path: '/equipment', label: 'Catalogue' },
+  { path: '/equipment', label: 'Matériel' },
   { path: '/blog', label: 'Guides' },
-  { path: '/recommendations-demo', label: 'Démo IA' },
+  { path: '/recommendations-demo', label: 'Aide au choix' },
   { path: '/about', label: 'À propos' },
 ];
 
@@ -32,7 +32,8 @@ export function Header({ pathname, isAdmin, isLoggedIn, onNavigate }: HeaderProp
   return (
     <header className="header">
       <a className="brand-link" href="/" onClick={(event) => handleNavigation(event, '/')}>
-        SportLink
+        <strong>SPORTLINK</strong>
+        <span>matériel sportif</span>
       </a>
 
       <nav className="nav" aria-label="Navigation principale">
@@ -62,7 +63,7 @@ export function Header({ pathname, isAdmin, isLoggedIn, onNavigate }: HeaderProp
               className={pathname === '/reservations' ? 'nav-link active' : 'nav-link'}
               onClick={(event) => handleNavigation(event, '/reservations')}
             >
-              Mes réservations
+              Réservations
             </a>
             <a
               href="/recommendations"
