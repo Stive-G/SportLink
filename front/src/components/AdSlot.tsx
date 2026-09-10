@@ -16,7 +16,7 @@ const client = import.meta.env.VITE_ADSENSE_CLIENT;
 const slot = import.meta.env.VITE_ADSENSE_SLOT;
 
 export function isAdSenseEligiblePath(pathname: string) {
-  if (pathname === '/' || pathname === '/blog' || pathname === '/guides') {
+  if (pathname === '/' || pathname === '/blog') {
     return true;
   }
 
