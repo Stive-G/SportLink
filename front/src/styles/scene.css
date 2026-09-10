@@ -1,0 +1,382 @@
+.gear-scene {
+  min-height: 440px;
+  perspective: 1100px;
+}
+
+.gear-scene::before {
+  inset: auto 24px 22px 24px;
+  height: 1px;
+  border: 0;
+  background: rgba(216, 239, 85, 0.32);
+  transform: none;
+}
+
+.gear-scene::after {
+  right: -82px;
+  bottom: -82px;
+  width: 220px;
+  height: 220px;
+  border-color: rgba(216, 239, 85, 0.22);
+}
+
+.locker-stage {
+  position: absolute;
+  inset: 72px 34px 42px 34px;
+  transform: rotateY(-7deg) rotateX(3deg);
+  transform-style: preserve-3d;
+}
+
+.locker-backdrop {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: #103f33;
+  transform: translateZ(-26px);
+}
+
+.court-line,
+.court-circle {
+  position: absolute;
+  display: block;
+  border-color: rgba(216, 239, 85, 0.28);
+}
+
+.court-line-a {
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  border-left: 1px solid rgba(216, 239, 85, 0.28);
+}
+
+.court-line-b {
+  right: 0;
+  bottom: 34%;
+  left: 0;
+  border-bottom: 1px solid rgba(216, 239, 85, 0.28);
+}
+
+.court-circle {
+  top: 50%;
+  left: 50%;
+  width: 180px;
+  height: 180px;
+  border: 1px solid rgba(216, 239, 85, 0.24);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.locker-upright,
+.locker-shelf {
+  position: absolute;
+  display: block;
+  background: #173b31;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+}
+
+.locker-upright {
+  top: -4px;
+  bottom: -4px;
+  width: 12px;
+  transform: translateZ(18px);
+}
+
+.locker-upright-left {
+  left: 4px;
+}
+
+.locker-upright-right {
+  right: 4px;
+}
+
+.locker-shelf {
+  right: 6px;
+  left: 6px;
+  height: 13px;
+  transform: translateZ(24px) rotateX(66deg);
+  transform-origin: center;
+  box-shadow: 0 11px 0 #09271f;
+}
+
+.locker-shelf-top {
+  top: 39%;
+}
+
+.locker-shelf-bottom {
+  top: 72%;
+}
+
+.scene-football,
+.scene-basketball,
+.scene-cone,
+.scene-racket,
+.scene-bibs {
+  position: absolute;
+  z-index: 3;
+  filter: drop-shadow(9px 12px 7px rgba(3, 16, 12, 0.42));
+}
+
+.scene-football,
+.scene-basketball {
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  transform: translateZ(48px);
+}
+
+.scene-football {
+  top: 8%;
+  left: 14%;
+  border: 1px solid #d3d0c5;
+  background: #f2eee1;
+}
+
+.scene-football::before,
+.scene-football::after,
+.scene-football span::before,
+.scene-football span::after {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  background: #173a30;
+  clip-path: polygon(50% 0%, 96% 35%, 79% 92%, 21% 92%, 4% 35%);
+  content: '';
+}
+
+.scene-football::before {
+  top: 29px;
+  left: 29px;
+}
+
+.scene-football::after {
+  top: 8px;
+  left: 19px;
+  transform: scale(0.72) rotate(12deg);
+}
+
+.scene-football span::before {
+  right: 7px;
+  bottom: 15px;
+  transform: scale(0.68) rotate(-18deg);
+}
+
+.scene-football span::after {
+  bottom: 8px;
+  left: 10px;
+  transform: scale(0.64) rotate(22deg);
+}
+
+.scene-basketball {
+  top: 10%;
+  right: 17%;
+  border: 1px solid #8e431f;
+  background: #c96931;
+}
+
+.scene-basketball::before,
+.scene-basketball::after {
+  position: absolute;
+  content: '';
+}
+
+.scene-basketball::before {
+  top: 36px;
+  right: 4px;
+  left: 4px;
+  border-top: 2px solid #50301f;
+}
+
+.scene-basketball::after {
+  top: 4px;
+  bottom: 4px;
+  left: 36px;
+  width: 28px;
+  border-left: 2px solid #50301f;
+  border-radius: 50%;
+  transform: translateX(-14px);
+}
+
+.scene-cone {
+  top: 48%;
+  left: 18%;
+  width: 0;
+  height: 0;
+  border-right: 30px solid transparent;
+  border-bottom: 78px solid var(--signal);
+  border-left: 30px solid transparent;
+  transform: translateZ(42px) rotateZ(-3deg);
+}
+
+.scene-cone::after {
+  position: absolute;
+  top: 70px;
+  left: -39px;
+  width: 78px;
+  height: 13px;
+  background: var(--signal-dark);
+  content: '';
+}
+
+.scene-racket {
+  top: 42%;
+  right: 17%;
+  width: 92px;
+  height: 135px;
+  transform: translateZ(54px) rotateZ(11deg);
+}
+
+.racket-head {
+  position: absolute;
+  top: 0;
+  left: 18px;
+  width: 64px;
+  height: 82px;
+  border: 5px solid #e8e4d7;
+  border-radius: 50%;
+  background:
+    repeating-linear-gradient(90deg, transparent 0 8px, rgba(232, 228, 215, 0.28) 8px 9px),
+    repeating-linear-gradient(0deg, transparent 0 8px, rgba(232, 228, 215, 0.28) 8px 9px);
+}
+
+.racket-handle {
+  position: absolute;
+  top: 76px;
+  left: 47px;
+  width: 10px;
+  height: 58px;
+  background: #dfdccf;
+  transform: rotate(4deg);
+  transform-origin: top;
+}
+
+.racket-handle::after {
+  position: absolute;
+  right: -3px;
+  bottom: -2px;
+  left: -3px;
+  height: 25px;
+  background: #141916;
+  content: '';
+}
+
+.scene-bibs {
+  right: 22%;
+  bottom: 4%;
+  display: grid;
+  place-items: center;
+  width: 112px;
+  height: 66px;
+  border: 1px solid #88a22d;
+  background: var(--signal);
+  color: var(--court-dark);
+  transform: translateZ(38px) rotateZ(-2deg);
+}
+
+.scene-bibs::before {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 34px;
+  height: 16px;
+  border-radius: 0 0 18px 18px;
+  background: var(--court-dark);
+  content: '';
+  transform: translateX(-50%);
+}
+
+.scene-bibs span {
+  margin-top: 10px;
+  font-family: var(--mono-font);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .scene-football,
+  .scene-basketball,
+  .scene-cone,
+  .scene-racket,
+  .scene-bibs {
+    transition: transform 220ms ease;
+  }
+
+  .gear-scene:hover .scene-football {
+    transform: translateZ(62px) translateY(-4px) rotate(-4deg);
+  }
+
+  .gear-scene:hover .scene-basketball {
+    transform: translateZ(60px) translateY(-3px) rotate(5deg);
+  }
+
+  .gear-scene:hover .scene-cone {
+    transform: translateZ(52px) translateY(-3px) rotateZ(-1deg);
+  }
+
+  .gear-scene:hover .scene-racket {
+    transform: translateZ(67px) translateY(-4px) rotateZ(8deg);
+  }
+
+  .gear-scene:hover .scene-bibs {
+    transform: translateZ(50px) translateY(-3px) rotateZ(-1deg);
+  }
+}
+
+@media (max-width: 640px) {
+  .gear-scene {
+    min-height: 350px;
+  }
+
+  .locker-stage {
+    inset: 68px 18px 40px 18px;
+    transform: none;
+  }
+
+  .scene-football,
+  .scene-basketball {
+    width: 62px;
+    height: 62px;
+  }
+
+  .scene-football::before {
+    top: 23px;
+    left: 23px;
+  }
+
+  .scene-football::after {
+    top: 5px;
+    left: 14px;
+  }
+
+  .scene-basketball::before {
+    top: 29px;
+  }
+
+  .scene-basketball::after {
+    left: 29px;
+  }
+
+  .scene-cone {
+    left: 12%;
+    border-right-width: 23px;
+    border-bottom-width: 62px;
+    border-left-width: 23px;
+  }
+
+  .scene-cone::after {
+    top: 56px;
+    left: -30px;
+    width: 60px;
+  }
+
+  .scene-racket {
+    right: 8%;
+    transform: scale(0.86) translateZ(40px) rotateZ(10deg);
+    transform-origin: top right;
+  }
+
+  .scene-bibs {
+    right: 12%;
+    width: 96px;
+  }
+}
