@@ -32,11 +32,7 @@ export function Header({ pathname, isAdmin, isLoggedIn, onNavigate }: HeaderProp
   return (
     <header className="header">
       <a className="brand-link" href="/" onClick={(event) => handleNavigation(event, '/')}>
-        <span className="brand-mark" aria-hidden="true">SL</span>
-        <span>
-          <span className="site-title">SportLink</span>
-          <span className="site-subtitle">Matériel sportif, réservation et guides pratiques</span>
-        </span>
+        SportLink
       </a>
 
       <nav className="nav" aria-label="Navigation principale">
