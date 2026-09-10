@@ -1,6 +1,5 @@
 import { FormEvent, useEffect, useState } from 'react';
 import {
-  API_URL,
   Session,
   createReservation,
   getAllReservations,
@@ -27,7 +26,12 @@ import { RecommendationsDemoPage } from './components/RecommendationsDemoPage';
 import { RecommendationsPage } from './components/RecommendationsPage';
 import { ReservationsPage } from './components/ReservationsPage';
 import { SportPage } from './components/SportPage';
-import { buildLocalRecommendation, fallbackEquipment } from './data/public-content';
+import {
+  blogArticles,
+  buildLocalRecommendation,
+  fallbackEquipment,
+  sportGuides,
+} from './data/public-content';
 import { Credentials, Equipment, RecommendationResult, Reservation, User } from './types';
 
 const initialCredentials: Credentials = {
@@ -37,22 +41,145 @@ const initialCredentials: Credentials = {
 };
 
 const storageKey = 'sportlink-session';
+const siteUrl = 'https://sportlink-app.site';
+
+const staticPaths = new Set([
+  '/',
+  '/equipment',
+  '/blog',
+  '/guides',
+  '/recommendations-demo',
+  '/about',
+  '/contact',
+  '/privacy',
+  '/terms',
+  '/login',
+  '/reservations',
+  '/recommendations',
+  '/admin',
+]);
 
 function getCurrentPath() {
-  return window.location.pathname === '' ? '/' : window.location.pathname;
+  return window.location.pathname === '' ? '/' : window.location.pathname.replace(/\/$/, '') || '/';
+}
+
+function getSegments(pathname: string) {
+  return pathname.split('/').filter(Boolean);
+}
+
+function isRecognizedPath(pathname: string) {
+  if (staticPaths.has(pathname)) {
+    return true;
+  }
+
+  const segments = getSegments(pathname);
+  return (
+    segments.length === 2 &&
+    (segments[0] === 'equipment' || segments[0] === 'sports' || segments[0] === 'blog')
+  );
+}
+
+function isIndexablePath(pathname: string) {
+  if (!isRecognizedPath(pathname)) {
+    return false;
+  }
+
+  if (['/login', '/reservations', '/recommendations', '/admin'].includes(pathname)) {
+    return false;
+  }
+
+  const segments = getSegments(pathname);
+  if (segments[0] === 'blog' && segments[1]) {
+    return blogArticles.some((article) => article.slug === segments[1]);
+  }
+
+  if (segments[0] === 'sports' && segments[1]) {
+    return sportGuides.some((guide) => guide.slug === segments[1]);
+  }
+
+  return true;
 }
 
 function getPageTitle(pathname: string) {
-  if (pathname === '/') return 'SportLink - Réservation de matériel sportif';
+  const segments = getSegments(pathname);
+
+  if (segments[0] === 'blog' && segments[1]) {
+    const article = blogArticles.find((item) => item.slug === segments[1]);
+    if (article) return `${article.title} - SportLink`;
+  }
+
+  if (segments[0] === 'sports' && segments[1]) {
+    const guide = sportGuides.find((item) => item.slug === segments[1]);
+    if (guide) return `${guide.title} - SportLink`;
+  }
+
+  if (pathname === '/') return 'SportLink - Réservation et guides de matériel sportif';
   if (pathname.startsWith('/equipment')) return 'Catalogue de matériel sportif - SportLink';
-  if (pathname.startsWith('/sports')) return 'Guides par sport - SportLink';
-  if (pathname.startsWith('/blog') || pathname.startsWith('/guides')) return 'Guides SportLink';
-  if (pathname === '/recommendations-demo') return 'Démo IA SportLink';
-  if (pathname === '/about') return 'À propos - SportLink';
+  if (pathname === '/blog' || pathname === '/guides') return 'Guides de matériel sportif - SportLink';
+  if (pathname === '/recommendations-demo') return 'Recommandation de matériel sportif - SportLink';
+  if (pathname === '/about') return 'À propos de SportLink';
   if (pathname === '/contact') return 'Contact - SportLink';
-  if (pathname === '/privacy') return 'Confidentialité - SportLink';
+  if (pathname === '/privacy') return 'Politique de confidentialité - SportLink';
   if (pathname === '/terms') return 'Conditions d’utilisation - SportLink';
-  return 'SportLink';
+  if (pathname === '/login') return 'Connexion - SportLink';
+  if (pathname === '/reservations') return 'Mes réservations - SportLink';
+  if (pathname === '/recommendations') return 'Recommandations membre - SportLink';
+  if (pathname === '/admin') return 'Administration - SportLink';
+  return 'Page introuvable - SportLink';
+}
+
+function getPageDescription(pathname: string) {
+  const segments = getSegments(pathname);
+
+  if (segments[0] === 'blog' && segments[1]) {
+    const article = blogArticles.find((item) => item.slug === segments[1]);
+    if (article) return article.summary;
+  }
+
+  if (segments[0] === 'sports' && segments[1]) {
+    const guide = sportGuides.find((item) => item.slug === segments[1]);
+    if (guide) return guide.intro;
+  }
+
+  if (pathname === '/') {
+    return 'SportLink aide à choisir, réserver et gérer du matériel sportif grâce à un catalogue public, des fiches détaillées et des guides pratiques.';
+  }
+  if (pathname.startsWith('/equipment')) {
+    return 'Consulte le catalogue SportLink, la disponibilité du matériel sportif et les conseils d’usage avant de réserver.';
+  }
+  if (pathname === '/blog' || pathname === '/guides') {
+    return 'Guides pratiques SportLink pour choisir le bon matériel, préparer une séance et organiser une réservation sportive.';
+  }
+  if (pathname === '/about') {
+    return 'Découvre la mission de SportLink et la façon dont le service relie catalogue, disponibilité, réservation et conseils sportifs.';
+  }
+  if (pathname === '/privacy') {
+    return 'Politique de confidentialité de SportLink : comptes, réservations, recommandations, publicité et cookies.';
+  }
+  if (pathname === '/terms') {
+    return 'Conditions d’utilisation de SportLink pour la consultation, la réservation et le retour de matériel sportif.';
+  }
+  return 'SportLink, catalogue et réservation de matériel sportif.';
+}
+
+function updateMetaTag(name: string, content: string) {
+  let meta = document.querySelector<HTMLMetaElement>(`meta[name="${name}"]`);
+  if (!meta) {
+    meta = document.createElement('meta');
+    meta.name = name;
+    document.head.appendChild(meta);
+  }
+  meta.content = content;
+}
+
+function updateCanonical(pathname: string) {
+  let canonical = document.querySelector<HTMLLinkElement>('link[rel="canonical"]');
+  if (!canonical) {
+    canonical = document.createElement('link');
+    canonical.rel = 'canonical';
+    document.head.appendChild(canonical);
+  }
+  canonical.href = `${siteUrl}${pathname === '/' ? '/' : pathname}`;
 }
 
 function App() {
@@ -107,6 +234,9 @@ function App() {
 
   useEffect(() => {
     document.title = getPageTitle(pathname);
+    updateMetaTag('description', getPageDescription(pathname));
+    updateMetaTag('robots', isIndexablePath(pathname) ? 'index,follow' : 'noindex,nofollow');
+    updateCanonical(pathname);
   }, [pathname]);
 
   useEffect(() => {
@@ -122,6 +252,7 @@ function App() {
     setPathname(path);
     setError('');
     setMessage('');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   async function loadEquipmentData() {
@@ -310,10 +441,11 @@ function App() {
   const isAdmin = user?.role === 'ADMIN';
   const isLoggedIn = Boolean(user);
   const isMember = user?.role === 'MEMBER';
-  const segments = pathname.split('/').filter(Boolean);
+  const segments = getSegments(pathname);
+  const recognizedPath = isRecognizedPath(pathname);
 
   return (
-    <main className="app">
+    <div className="app">
       <Header
         pathname={pathname}
         isAdmin={isAdmin}
@@ -321,129 +453,152 @@ function App() {
         onNavigate={navigate}
       />
 
-      {message ? <p className="feedback success">{message}</p> : null}
-      {error ? <p className="feedback error">{error}</p> : null}
+      <main className="main-content">
+        {message ? <p className="feedback success">{message}</p> : null}
+        {error ? <p className="feedback error">{error}</p> : null}
 
-      {pathname === '/' ? (
-        <HomePage
-          apiUrl={API_URL}
-          equipmentCount={equipmentList.length}
-          availableCount={equipmentList.filter((item) => item.available).length}
-          userRole={user?.role ?? 'Invite'}
-          onNavigate={navigate}
-        />
-      ) : null}
+        {pathname === '/' ? (
+          <HomePage
+            equipmentCount={equipmentList.length}
+            availableCount={equipmentList.filter((item) => item.available).length}
+            userRole={user?.role ?? 'Invite'}
+            onNavigate={navigate}
+          />
+        ) : null}
 
-      {pathname === '/equipment' ? (
-        <CataloguePage
-          user={user}
-          equipmentList={equipmentList}
-          isMember={isMember}
-          activeReservationId={actionId}
-          onNavigate={navigate}
-          onReserve={handleReserve}
-        />
-      ) : null}
+        {pathname === '/equipment' ? (
+          <CataloguePage
+            user={user}
+            equipmentList={equipmentList}
+            isMember={isMember}
+            activeReservationId={actionId}
+            onNavigate={navigate}
+            onReserve={handleReserve}
+          />
+        ) : null}
 
-      {segments[0] === 'equipment' && segments[1] ? (
-        <EquipmentDetailPage
-          equipmentId={segments[1]}
-          equipmentList={equipmentList}
-          user={user}
-          isMember={isMember}
-          activeReservationId={actionId}
-          onNavigate={navigate}
-          onReserve={handleReserve}
-        />
-      ) : null}
+        {segments[0] === 'equipment' && segments[1] ? (
+          <EquipmentDetailPage
+            equipmentId={segments[1]}
+            equipmentList={equipmentList}
+            user={user}
+            isMember={isMember}
+            activeReservationId={actionId}
+            onNavigate={navigate}
+            onReserve={handleReserve}
+          />
+        ) : null}
 
-      {segments[0] === 'sports' && segments[1] ? (
-        <SportPage sportSlug={segments[1]} equipmentList={equipmentList} onNavigate={navigate} />
-      ) : null}
+        {segments[0] === 'sports' && segments[1] ? (
+          <SportPage sportSlug={segments[1]} equipmentList={equipmentList} onNavigate={navigate} />
+        ) : null}
 
-      {pathname === '/blog' || pathname === '/guides' ? <BlogPage onNavigate={navigate} /> : null}
+        {pathname === '/blog' || pathname === '/guides' ? <BlogPage onNavigate={navigate} /> : null}
 
-      {segments[0] === 'blog' && segments[1] ? (
-        <ArticlePage slug={segments[1]} onNavigate={navigate} />
-      ) : null}
+        {segments[0] === 'blog' && segments[1] ? (
+          <ArticlePage slug={segments[1]} onNavigate={navigate} />
+        ) : null}
 
-      {pathname === '/recommendations-demo' ? (
-        <RecommendationsDemoPage
-          loading={loading}
-          prompt={publicRecommendationPrompt}
-          result={publicRecommendationResult}
-          onPromptChange={setPublicRecommendationPrompt}
-          onSubmit={handlePublicRecommendationSubmit}
-          onNavigate={navigate}
-        />
-      ) : null}
+        {pathname === '/recommendations-demo' ? (
+          <RecommendationsDemoPage
+            loading={loading}
+            prompt={publicRecommendationPrompt}
+            result={publicRecommendationResult}
+            onPromptChange={setPublicRecommendationPrompt}
+            onSubmit={handlePublicRecommendationSubmit}
+            onNavigate={navigate}
+          />
+        ) : null}
 
-      {pathname === '/about' ? <AboutPage onNavigate={navigate} /> : null}
-      {pathname === '/contact' ? <ContactPage /> : null}
-      {pathname === '/privacy' ? <PrivacyPage /> : null}
-      {pathname === '/terms' ? <TermsPage /> : null}
+        {pathname === '/about' ? <AboutPage onNavigate={navigate} /> : null}
+        {pathname === '/contact' ? <ContactPage /> : null}
+        {pathname === '/privacy' ? <PrivacyPage /> : null}
+        {pathname === '/terms' ? <TermsPage /> : null}
 
-      {pathname === '/login' ? (
-        <AuthPage
-          mode={mode}
-          credentials={credentials}
-          loading={loading}
-          message={message}
-          error={error}
-          onModeChange={setMode}
-          onFieldChange={handleFieldChange}
-          onSubmit={handleSubmit}
-        />
-      ) : null}
+        {pathname === '/login' ? (
+          <AuthPage
+            mode={mode}
+            credentials={credentials}
+            loading={loading}
+            message={message}
+            error={error}
+            onModeChange={setMode}
+            onFieldChange={handleFieldChange}
+            onSubmit={handleSubmit}
+          />
+        ) : null}
 
-      {pathname === '/reservations' ? (
-        <ReservationsPage
-          reservations={myReservations}
-          isLoggedIn={isLoggedIn}
-          activeReservationId={actionId}
-          onReturn={handleReturnReservation}
-        />
-      ) : null}
+        {pathname === '/reservations' ? (
+          <ReservationsPage
+            reservations={myReservations}
+            isLoggedIn={isLoggedIn}
+            activeReservationId={actionId}
+            onReturn={handleReturnReservation}
+          />
+        ) : null}
 
-      {pathname === '/recommendations' ? (
-        <RecommendationsPage
-          isMember={isMember}
-          loading={loading}
-          prompt={recommendationPrompt}
-          result={recommendationResult}
-          onPromptChange={setRecommendationPrompt}
-          onSubmit={handleRecommendationSubmit}
-        />
-      ) : null}
+        {pathname === '/recommendations' ? (
+          <RecommendationsPage
+            isMember={isMember}
+            loading={loading}
+            prompt={recommendationPrompt}
+            result={recommendationResult}
+            onPromptChange={setRecommendationPrompt}
+            onSubmit={handleRecommendationSubmit}
+          />
+        ) : null}
 
-      {pathname === '/admin' ? (
-        <AdminPage
-          isAdmin={isAdmin}
-          users={users}
-          reservations={allReservations}
-          onLogout={handleLogout}
-        />
-      ) : null}
+        {pathname === '/admin' ? (
+          <AdminPage
+            isAdmin={isAdmin}
+            users={users}
+            reservations={allReservations}
+            onLogout={handleLogout}
+          />
+        ) : null}
 
-      <AdSlot page={pathname} />
+        {!recognizedPath ? (
+          <section className="content">
+            <div className="card empty-state">
+              <p className="eyebrow">Erreur 404</p>
+              <h2>Cette page n’existe pas</h2>
+              <p className="description">
+                Le lien demandé ne correspond à aucune page publiée sur SportLink. Utilise la
+                navigation principale ou retourne au catalogue pour poursuivre ta visite.
+              </p>
+              <button type="button" className="primary-button" onClick={() => navigate('/')}>
+                Retour à l’accueil
+              </button>
+            </div>
+          </section>
+        ) : null}
+
+        <AdSlot page={pathname} />
+      </main>
 
       <footer className="footer">
-        <button type="button" className="text-button" onClick={() => navigate('/contact')}>
-          Contact
-        </button>
-        <button type="button" className="text-button" onClick={() => navigate('/privacy')}>
-          Confidentialité
-        </button>
-        <button type="button" className="text-button" onClick={() => navigate('/terms')}>
-          Conditions
-        </button>
+        <div className="footer-brand">
+          <strong>SportLink</strong>
+          <p>
+            Catalogue, réservation et guides pratiques pour mieux préparer les activités sportives.
+          </p>
+        </div>
+        <div className="footer-links" aria-label="Liens du site">
+          <a href="/equipment" onClick={(event) => { event.preventDefault(); navigate('/equipment'); }}>Catalogue</a>
+          <a href="/blog" onClick={(event) => { event.preventDefault(); navigate('/blog'); }}>Guides</a>
+          <a href="/about" onClick={(event) => { event.preventDefault(); navigate('/about'); }}>À propos</a>
+          <a href="/contact" onClick={(event) => { event.preventDefault(); navigate('/contact'); }}>Contact</a>
+          <a href="/privacy" onClick={(event) => { event.preventDefault(); navigate('/privacy'); }}>Confidentialité</a>
+          <a href="/terms" onClick={(event) => { event.preventDefault(); navigate('/terms'); }}>Conditions</a>
+        </div>
         {isLoggedIn ? (
-          <button type="button" className="text-button" onClick={handleLogout}>
+          <button type="button" className="footer-logout" onClick={handleLogout}>
             Se déconnecter
           </button>
         ) : null}
+        <p className="footer-copy">© 2026 SportLink. Tous droits réservés.</p>
       </footer>
-    </main>
+    </div>
   );
 }
 
