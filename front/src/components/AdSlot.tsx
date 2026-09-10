@@ -20,14 +20,14 @@ export function isAdSenseEligiblePath(pathname: string) {
     return true;
   }
 
-  if (pathname.startsWith('/blog/')) {
-    const slug = pathname.split('/').filter(Boolean)[1];
-    return blogArticles.some((article) => article.slug === slug);
+  const segments = pathname.split('/').filter(Boolean);
+
+  if (segments.length === 2 && segments[0] === 'blog') {
+    return blogArticles.some((article) => article.slug === segments[1]);
   }
 
-  if (pathname.startsWith('/sports/')) {
-    const slug = pathname.split('/').filter(Boolean)[1];
-    return sportGuides.some((guide) => guide.slug === slug);
+  if (segments.length === 2 && segments[0] === 'sports') {
+    return sportGuides.some((guide) => guide.slug === segments[1]);
   }
 
   return false;
