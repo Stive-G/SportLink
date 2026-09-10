@@ -13,79 +13,57 @@ export function BlogPage({ onNavigate }: BlogPageProps) {
 
   return (
     <section className="content blog-page">
-      <header className="article-hero blog-hero">
-        <p className="eyebrow">Guides SportLink</p>
-        <h2>Conseils pour choisir, réserver et organiser son matériel sportif</h2>
-        <p className="hero-description">
-          La bibliothèque SportLink rassemble des guides pratiques consacrés à la préparation
-          d’une activité sportive. Chaque contenu part d’une situation concrète : choisir le bon
-          équipement, organiser un groupe, anticiper les quantités ou utiliser une recommandation
-          IA sans oublier la disponibilité réelle du stock.
+      <header className="page-intro guide-intro">
+        <p className="section-kicker">Bibliothèque SportLink</p>
+        <h1>Guides pour préparer une activité sportive</h1>
+        <p>
+          Des repères concrets sur le choix du matériel, les quantités, l’organisation d’une
+          séance et le suivi des réservations. Le but est simple : arriver sur le terrain avec ce
+          qu’il faut, pas avec tout le stock.
         </p>
-        <div className="article-meta">
-          <span>{blogArticles.length} guides publiés</span>
-          <span>Lecture libre</span>
-        </div>
       </header>
 
-      <div className="grid two-columns blog-intro-grid">
-        <article className="card prose-card">
-          <p className="card-title">Comment utiliser ces guides ?</p>
-          <p className="description small">
-            Commence par le type d’activité que tu veux préparer, puis vérifie le nombre de
-            participants, le lieu et la durée. Les guides donnent une méthode de réflexion ; le
-            catalogue confirme ensuite les équipements et quantités réellement disponibles.
-          </p>
-        </article>
-        <article className="card prose-card">
-          <p className="card-title">Ce que les guides ne remplacent pas</p>
-          <p className="description small">
-            Les contenus restent des conseils généraux. Les consignes d’un club, les règles du lieu
-            de pratique et les vérifications de sécurité doivent toujours être prises en compte au
-            moment d’utiliser le matériel.
-          </p>
-        </article>
+      <div className="guide-note">
+        <strong>{blogArticles.length} guides publiés</strong>
+        <span>Contenu public · lecture libre</span>
       </div>
 
-      <section className="section-block" aria-labelledby="guide-library-title">
-        <div className="section-heading-row">
-          <div>
-            <p className="eyebrow">Bibliothèque</p>
-            <h2 id="guide-library-title">Tous les guides</h2>
-          </div>
-        </div>
+      <div className="guide-index" aria-label="Tous les guides SportLink">
+        {blogArticles.map((article, index) => (
+          <article className="guide-index-row" key={article.slug}>
+            <span className="guide-number">{String(index + 1).padStart(2, '0')}</span>
+            <div className="guide-copy">
+              <p className="guide-meta">{article.category} / {article.readingTime}</p>
+              <h2>{article.title}</h2>
+              <p>{article.summary}</p>
+            </div>
+            <a
+              className="guide-open"
+              href={`/blog/${article.slug}`}
+              onClick={(event) => handleNavigation(event, `/blog/${article.slug}`)}
+              aria-label={`Lire : ${article.title}`}
+            >
+              Lire
+            </a>
+          </article>
+        ))}
+      </div>
 
-        <div className="grid guide-card-grid">
-          {blogArticles.map((article) => (
-            <article className="card article-card" key={article.slug}>
-              <div>
-                <p className="eyebrow">{article.category} · {article.readingTime}</p>
-                <h3>{article.title}</h3>
-                <p className="description small">{article.summary}</p>
-              </div>
-              <a
-                className="text-link"
-                href={`/blog/${article.slug}`}
-                onClick={(event) => handleNavigation(event, `/blog/${article.slug}`)}
-              >
-                Lire le guide complet
-              </a>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <aside className="guide-highlight">
+      <aside className="catalogue-callout">
         <div>
-          <p className="eyebrow">Après la lecture</p>
-          <h3>Passer des conseils au matériel réel</h3>
-          <p className="description small">
-            Le catalogue public permet de comparer les équipements et leur disponibilité avant de
-            se connecter pour effectuer une réservation.
+          <span className="section-kicker">Après la lecture</span>
+          <h2>Vérifier ce qui est vraiment disponible</h2>
+          <p>
+            Les guides expliquent quoi prévoir. Le catalogue indique ensuite le stock réel avant
+            la connexion et la réservation.
           </p>
         </div>
-        <a className="primary-button link-button" href="/equipment" onClick={(event) => handleNavigation(event, '/equipment')}>
-          Explorer le catalogue
+        <a
+          className="signal-button"
+          href="/equipment"
+          onClick={(event) => handleNavigation(event, '/equipment')}
+        >
+          Ouvrir le catalogue
         </a>
       </aside>
     </section>
