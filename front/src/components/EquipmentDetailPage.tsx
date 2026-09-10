@@ -25,13 +25,14 @@ export function EquipmentDetailPage({
   if (!equipment) {
     return (
       <section className="content">
-        <div className="card">
-          <p className="card-title">Matériel introuvable</p>
+        <div className="card empty-state">
+          <p className="section-kicker">Inventaire</p>
+          <h2>Matériel introuvable</h2>
           <p className="description small">
-            Le matériel demandé n’est pas disponible dans le catalogue public.
+            Cette référence n’est pas disponible dans le catalogue public.
           </p>
           <button type="button" className="primary-button" onClick={() => onNavigate('/equipment')}>
-            Retour au catalogue
+            Retour au matériel
           </button>
         </div>
       </section>
@@ -41,51 +42,72 @@ export function EquipmentDetailPage({
   const content = getEquipmentContent(equipment);
 
   return (
-    <section className="content">
-      <div className="card hero-card">
-        <p className="eyebrow">{content.sport} · {content.category}</p>
-        <h2>{content.name}</h2>
-        <p className="description">{content.description}</p>
-        <span className={content.available ? 'status ok' : 'status off'}>
-          {content.available ? `${content.quantity} disponible(s)` : 'Indisponible'}
-        </span>
-      </div>
+    <article className="content equipment-detail-page">
+      <header className="equipment-detail-head">
+        <div>
+          <p className="section-kicker">Fiche matériel / {content.sport}</p>
+          <h1>{content.name}</h1>
+          <p className="lead-copy">{content.description}</p>
+        </div>
+        <div className="detail-stock-block">
+          <span className={content.available ? 'status ok' : 'status off'}>
+            {content.available ? 'Disponible' : 'Indisponible'}
+          </span>
+          <strong>{content.quantity}</strong>
+          <small>unité{content.quantity > 1 ? 's' : ''} en stock</small>
+        </div>
+      </header>
 
-      <div className="grid two-columns">
-        <article className="card">
-          <p className="card-title">Quand l’utiliser ?</p>
-          <p className="description small">{content.usageAdvice}</p>
-          <p className="card-title small-title">Contextes adaptés</p>
-          <ul className="simple-list">
+      <dl className="detail-spec-strip">
+        <div><dt>Sport</dt><dd>{content.sport}</dd></div>
+        <div><dt>Catégorie</dt><dd>{content.category}</dd></div>
+        <div><dt>Référence</dt><dd>{content.id}</dd></div>
+      </dl>
+
+      <div className="detail-columns">
+        <section className="detail-copy-block">
+          <p className="section-kicker">Utilisation</p>
+          <h2>Quand l’utiliser ?</h2>
+          <p>{content.usageAdvice}</p>
+
+          <h3>Contextes adaptés</h3>
+          <ul className="simple-list spacious-list">
             {content.contexts?.map((context) => (
               <li key={context}>{context}</li>
             ))}
           </ul>
-        </article>
+        </section>
 
-        <article className="card">
-          <p className="card-title">Conseils pratiques</p>
-          <ul className="simple-list">
+        <section className="detail-copy-block reserve-block">
+          <p className="section-kicker">Préparation</p>
+          <h2>Avant de partir</h2>
+          <ul className="simple-list spacious-list">
             {content.practicalTips?.map((tip) => (
               <li key={tip}>{tip}</li>
             ))}
           </ul>
-          {isMember ? (
-            <button
-              type="button"
-              className="primary-button"
-              disabled={!content.available || content.quantity <= 0 || activeReservationId === content.id}
-              onClick={() => onReserve(content.id)}
-            >
-              {activeReservationId === content.id ? 'Réservation...' : 'Réserver ce matériel'}
+
+          <div className="reserve-action">
+            {isMember ? (
+              <button
+                type="button"
+                className="primary-button"
+                disabled={!content.available || content.quantity <= 0 || activeReservationId === content.id}
+                onClick={() => onReserve(content.id)}
+              >
+                {activeReservationId === content.id ? 'Réservation...' : 'Réserver ce matériel'}
+              </button>
+            ) : (
+              <button type="button" className="secondary-button" onClick={() => onNavigate('/login')}>
+                {user ? 'Réservation réservée aux membres' : 'Se connecter pour réserver'}
+              </button>
+            )}
+            <button type="button" className="text-button" onClick={() => onNavigate('/equipment')}>
+              Retour au catalogue
             </button>
-          ) : (
-            <button type="button" className="secondary-button" onClick={() => onNavigate('/login')}>
-              {user ? 'Réservation réservée aux membres' : 'Se connecter pour réserver'}
-            </button>
-          )}
-        </article>
+          </div>
+        </section>
       </div>
-    </section>
+    </article>
   );
 }
