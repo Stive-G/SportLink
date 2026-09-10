@@ -20,47 +20,60 @@ export function RecommendationsDemoPage({
   onNavigate,
 }: RecommendationsDemoPageProps) {
   return (
-    <section className="content">
-      <div className="card hero-card">
-        <p className="eyebrow">Démo publique IA</p>
-        <h2>Décris ton activité, SportLink propose le matériel</h2>
-        <p className="description">
-          Cette démo montre comment SportLink transforme une demande en langage naturel
-          en recommandation de matériel basée sur le catalogue sportif.
+    <section className="utility-page recommendation-page">
+      <header className="utility-head">
+        <p className="section-kicker">Aide au choix</p>
+        <h1>Décris la séance, puis vérifie le stock proposé</h1>
+        <p>
+          Donne le sport, le nombre de personnes et le contexte. SportLink rapproche la demande du
+          catalogue pour sortir une première sélection de matériel.
         </p>
-      </div>
+      </header>
 
-      <div className="grid recommendations-grid">
-        <form className="card auth-form" onSubmit={onSubmit}>
+      <div className="recommendation-workbench">
+        <form className="recommendation-form" onSubmit={onSubmit}>
+          <div className="workbench-label">
+            <span>FICHE / 01</span>
+            <strong>Besoin terrain</strong>
+          </div>
+
           <label className="field">
-            <span>Activité à préparer</span>
+            <span>Décris l’activité</span>
             <textarea
               value={prompt}
               onChange={(event) => onPromptChange(event.target.value)}
-              placeholder="Je veux faire du foot en salle avec 8 amis."
+              placeholder="Ex. : foot en salle, 8 personnes, match d’une heure."
               required
             />
           </label>
 
           <button type="submit" className="submit-button" disabled={loading}>
-            {loading ? 'Analyse...' : 'Obtenir une recommandation'}
+            {loading ? 'Recherche...' : 'Chercher dans le catalogue'}
           </button>
         </form>
 
-        <RecommendationResultCard result={result} />
+        <div className="recommendation-output">
+          <div className="workbench-label">
+            <span>FICHE / 02</span>
+            <strong>Sélection proposée</strong>
+          </div>
+          <RecommendationResultCard result={result} />
+        </div>
       </div>
 
-      <div className="card">
-        <p className="card-title">Pourquoi cette démo est utile ?</p>
-        <p className="description small">
-          La recommandation IA n’est pas un gadget : elle aide un visiteur à passer
-          d’une idée d’activité à une liste d’équipements concrets, réservables ensuite
-          avec un compte membre.
+      <aside className="method-note">
+        <div>
+          <p className="section-kicker">À garder en tête</p>
+          <h2>La suggestion ne remplace pas la disponibilité réelle.</h2>
+        </div>
+        <p>
+          Le lieu, le nombre de joueurs et l’état du stock peuvent changer le choix final. Le guide
+          dédié explique comment faire cette vérification avant de réserver.
         </p>
-        <button type="button" className="secondary-button" onClick={() => onNavigate('/blog/ia-recommandation-sportive')}>
-          Lire le guide IA
+        <button type="button" className="text-button" onClick={() => onNavigate('/blog/ia-recommandation-sportive')}>
+          Lire le guide
         </button>
-      </div>
+      </aside>
     </section>
   );
 }
