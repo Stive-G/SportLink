@@ -1,3 +1,5 @@
+import { MouseEvent } from 'react';
+
 type HeaderProps = {
   pathname: string;
   isAdmin: boolean;
@@ -22,55 +24,68 @@ function isActive(current: string, target: string) {
 }
 
 export function Header({ pathname, isAdmin, isLoggedIn, onNavigate }: HeaderProps) {
+  function handleNavigation(event: MouseEvent<HTMLAnchorElement>, path: string) {
+    event.preventDefault();
+    onNavigate(path);
+  }
+
   return (
     <header className="header">
-      <div>
-        <h1 className="site-title">SportLink</h1>
-        <p className="site-subtitle">Catalogue, réservations et recommandations sportives</p>
-      </div>
+      <a className="brand-link" href="/" onClick={(event) => handleNavigation(event, '/')}>
+        <span className="brand-mark" aria-hidden="true">SL</span>
+        <span>
+          <span className="site-title">SportLink</span>
+          <span className="site-subtitle">Matériel sportif, réservation et guides pratiques</span>
+        </span>
+      </a>
 
-      <nav className="nav">
+      <nav className="nav" aria-label="Navigation principale">
         {publicLinks.map((link) => (
-          <button
-            type="button"
-            className={isActive(pathname, link.path) ? 'nav-button active' : 'nav-button'}
-            onClick={() => onNavigate(link.path)}
+          <a
+            href={link.path}
+            className={isActive(pathname, link.path) ? 'nav-link active' : 'nav-link'}
+            onClick={(event) => handleNavigation(event, link.path)}
             key={link.path}
           >
             {link.label}
-          </button>
+          </a>
         ))}
-        <button
-          type="button"
-          className={pathname === '/login' ? 'nav-button active' : 'nav-button'}
-          onClick={() => onNavigate('/login')}
-        >
-          {isLoggedIn ? 'Compte' : 'Connexion'}
-        </button>
-        <button
-          type="button"
-          className={pathname === '/reservations' ? 'nav-button active' : 'nav-button'}
-          onClick={() => onNavigate('/reservations')}
-          disabled={!isLoggedIn}
-        >
-          Mes réservations
-        </button>
-        <button
-          type="button"
-          className={pathname === '/recommendations' ? 'nav-button active' : 'nav-button'}
-          onClick={() => onNavigate('/recommendations')}
-          disabled={!isLoggedIn}
-        >
-          IA membre
-        </button>
-        <button
-          type="button"
-          className={pathname === '/admin' ? 'nav-button active' : 'nav-button'}
-          onClick={() => onNavigate('/admin')}
-          disabled={!isAdmin}
-        >
-          Admin
-        </button>
+
+        {!isLoggedIn ? (
+          <a
+            href="/login"
+            className={pathname === '/login' ? 'nav-link account-link active' : 'nav-link account-link'}
+            onClick={(event) => handleNavigation(event, '/login')}
+          >
+            Connexion
+          </a>
+        ) : (
+          <>
+            <a
+              href="/reservations"
+              className={pathname === '/reservations' ? 'nav-link active' : 'nav-link'}
+              onClick={(event) => handleNavigation(event, '/reservations')}
+            >
+              Mes réservations
+            </a>
+            <a
+              href="/recommendations"
+              className={pathname === '/recommendations' ? 'nav-link active' : 'nav-link'}
+              onClick={(event) => handleNavigation(event, '/recommendations')}
+            >
+              IA membre
+            </a>
+            {isAdmin ? (
+              <a
+                href="/admin"
+                className={pathname === '/admin' ? 'nav-link active' : 'nav-link'}
+                onClick={(event) => handleNavigation(event, '/admin')}
+              >
+                Admin
+              </a>
+            ) : null}
+          </>
+        )}
       </nav>
     </header>
   );
