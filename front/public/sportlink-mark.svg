@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="title">
+  <title id="title">SportLink</title>
+  <circle cx="64" cy="64" r="58" fill="#075f46"/>
+  <path
+    d="M95 30C85 22 72 18 58 19C42 20 30 27 25 38C21 47 25 56 35 61C43 65 52 66 65 66"
+    fill="none"
+    stroke="#ffffff"
+    stroke-width="12"
+    stroke-linecap="round"
+  />
+  <path
+    d="M33 98C43 106 56 110 70 109C86 108 98 101 103 90C107 81 103 72 93 67C85 63 76 62 63 62"
+    fill="none"
+    stroke="#ffffff"
+    stroke-width="12"
+    stroke-linecap="round"
+  />
+  <path d="M19 64H109" fill="none" stroke="#ffffff" stroke-width="5.5" stroke-linecap="round"/>
+  <circle cx="64" cy="64" r="16" fill="#075f46" stroke="#ffffff" stroke-width="5.5"/>
+  <circle cx="64" cy="64" r="3.8" fill="#ffffff"/>
+</svg>
