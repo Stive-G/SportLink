@@ -165,11 +165,12 @@ export function PrivacyPage() {
           applicable et le choix de l’utilisateur le permettent, personnaliser la publicité.
         </p>
         <p className="description">
-          Pour les visiteurs de l’Espace économique européen, du Royaume-Uni et de Suisse, SportLink
-          utilise une plate-forme de gestion du consentement compatible avec les exigences Google
-          lorsque cela est nécessaire. L’utilisateur peut accepter ou refuser les finalités
-          proposées dans cette interface. Les annonces ne sont pas placées dans les pages privées
-          du compte, les formulaires d’authentification ou les écrans purement fonctionnels.
+          Pour les visiteurs de l’Espace économique européen, du Royaume-Uni et de Suisse, une
+          plate-forme de gestion du consentement certifiée par Google et compatible avec le TCF de
+          l’IAB doit être activée avant la diffusion d’annonces personnalisées. L’utilisateur peut
+          accepter ou refuser les finalités proposées. SportLink réserve ses emplacements
+          publicitaires aux pages publiques éditoriales, pas aux pages privées du compte ni aux
+          formulaires d’authentification.
         </p>
         <p className="description small">
           En savoir plus :{' '}
