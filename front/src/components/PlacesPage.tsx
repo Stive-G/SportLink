@@ -180,7 +180,7 @@ export function PlacesPage({ equipmentList, onNavigate }: PlacesPageProps) {
               {data.results.map((place) => {
                 const suggestions = suggestedEquipment(place, sport, equipmentList);
                 const mapUrl = place.latitude !== null && place.longitude !== null
-                  ? 'https://www.openstreetmap.org/?mlat=' + place.latitude + '&mlon=' + place.longitude + '#map=17/' + place.latitude + '/' + place.longitude
+                  ? 'https://www.google.com/maps/search/?api=1&query=' + place.latitude + ',' + place.longitude
                   : null;
 
                 return (
