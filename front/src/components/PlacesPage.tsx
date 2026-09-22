@@ -176,8 +176,11 @@ export function PlacesPage({ onNavigate }: PlacesPageProps) {
           ) : (
             <div className="places-list">
               {data.results.map((place) => {
-                const mapUrl = place.latitude !== null && place.longitude !== null
-                  ? 'https://www.google.com/maps/search/?api=1&query=' + place.latitude + ',' + place.longitude
+                const fullAddress = [place.address, place.postalCode, place.city]
+                  .filter(Boolean)
+                  .join(', ');
+                const mapUrl = place.address && fullAddress
+                  ? 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(fullAddress)
                   : null;
                 const websiteUrl = normalizeWebsiteUrl(place.website);
 
@@ -208,14 +211,22 @@ export function PlacesPage({ onNavigate }: PlacesPageProps) {
                         </div>
                       ) : null}
 
-                      <p className="place-address">
-                        {[place.address, place.postalCode, place.city].filter(Boolean).join(' · ')}
-                      </p>
+                      <div className="place-address-block">
+                        <span>Adresse</span>
+                        {place.address ? (
+                          <address>
+                            <strong>{place.address}</strong>
+                            <small>{[place.postalCode, place.city].filter(Boolean).join(' ')}</small>
+                          </address>
+                        ) : (
+                          <p>Adresse précise non renseignée dans Data ES.</p>
+                        )}
+                      </div>
 
                       <div className="place-links">
                         {mapUrl ? (
                           <a href={mapUrl} target="_blank" rel="noreferrer">
-                            Ouvrir dans Google Maps
+                            Ouvrir l’adresse dans Google Maps
                           </a>
                         ) : null}
                         {websiteUrl ? (
