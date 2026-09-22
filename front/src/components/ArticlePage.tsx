@@ -241,7 +241,7 @@ export function ArticlePage({ slug, onNavigate }: ArticlePageProps) {
           </p>
         </div>
         <div className="button-row">
-          <a className="primary-button link-button" href="/equipment" onClick={(event) => handleNavigation(event, '/equipment')}>
+          <a className="primary-button link-button" href="/assistant" onClick={(event) => handleNavigation(event, '/assistant')}>
             Voir le catalogue
           </a>
           <a
