@@ -37,14 +37,19 @@ export type Equipment = {
   imageUrl?: string;
 };
 
-export type Reservation = {
+export type ActivityPlan = {
   id: string;
-  equipmentId: string;
-  equipmentName: string;
+  title: string;
+  activity: string;
+  sport?: string;
+  placeName?: string;
+  peopleCount?: number;
+  durationMinutes?: number;
+  equipment: { name: string; reason?: string }[];
+  tips: string[];
+  notes?: string;
+  createdAt?: string;
   userEmail?: string;
-  startDate: string;
-  endDate: string;
-  status: 'PENDING' | 'ACTIVE' | 'RETURNED';
 };
 
 export type RecommendationEquipment = {
