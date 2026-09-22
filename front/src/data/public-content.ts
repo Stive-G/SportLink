@@ -6,8 +6,6 @@ export const fallbackEquipment: Equipment[] = [
     name: 'Ballon de futsal',
     sport: 'football',
     category: 'ballon',
-    quantity: 8,
-    available: true,
     description:
       'Ballon adapté au jeu en salle, avec un rebond plus contrôlé pour les matchs rapides sur terrain réduit.',
     usageAdvice:
@@ -23,8 +21,6 @@ export const fallbackEquipment: Equipment[] = [
     name: 'Lot de chasubles',
     sport: 'multisport',
     category: 'organisation',
-    quantity: 24,
-    available: true,
     description:
       'Chasubles légères pour distinguer rapidement les équipes pendant un match ou un exercice collectif.',
     usageAdvice:
@@ -40,8 +36,6 @@ export const fallbackEquipment: Equipment[] = [
     name: 'Cônes de délimitation',
     sport: 'multisport',
     category: 'entraînement',
-    quantity: 40,
-    available: true,
     description:
       'Cônes souples pour délimiter un terrain, organiser un atelier ou construire un parcours d’échauffement.',
     usageAdvice:
@@ -57,8 +51,6 @@ export const fallbackEquipment: Equipment[] = [
     name: 'Ballon de basket taille 7',
     sport: 'basket',
     category: 'ballon',
-    quantity: 6,
-    available: true,
     description:
       'Ballon de basket pour match amateur, entraînement au tir ou ateliers de dribble en gymnase.',
     usageAdvice:
@@ -74,8 +66,6 @@ export const fallbackEquipment: Equipment[] = [
     name: 'Filet de volley réglable',
     sport: 'volley',
     category: 'terrain',
-    quantity: 2,
-    available: true,
     description:
       'Filet réglable pour transformer un espace sportif en terrain de volley ou de badminton loisir.',
     usageAdvice:
@@ -91,8 +81,6 @@ export const fallbackEquipment: Equipment[] = [
     name: 'Raquettes de badminton',
     sport: 'badminton',
     category: 'raquette',
-    quantity: 12,
-    available: true,
     description:
       'Set de raquettes légères pour organiser des matchs simples, doubles ou ateliers débutants.',
     usageAdvice:
@@ -108,8 +96,6 @@ export const fallbackEquipment: Equipment[] = [
     name: 'Ballon de handball',
     sport: 'handball',
     category: 'ballon',
-    quantity: 5,
-    available: false,
     description:
       'Ballon avec bonne prise en main pour les entraînements de passes, tirs et matchs en salle.',
     usageAdvice:
@@ -270,7 +256,7 @@ export const blogArticles: BlogArticle[] = [
     slug: 'ia-recommandation-sportive',
     title: 'Comment une IA peut aider à préparer une activité sportive',
     summary:
-      'La recommandation IA transforme une phrase libre en liste de matériel utile basée sur le catalogue.',
+      'L’assistant transforme une phrase libre en matériel utile et en conseils de préparation adaptés au contexte.',
     category: 'IA',
     readingTime: '6 min',
     sections: [
