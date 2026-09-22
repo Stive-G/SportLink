@@ -4,9 +4,9 @@ export type Page =
   | 'accueil'
   | 'auth'
   | 'catalogue'
-  | 'reservations'
+  | 'plans'
   | 'admin'
-  | 'recommandations';
+  | 'assistant';
 
 export type Credentials = {
   name: string;
@@ -28,8 +28,6 @@ export type Equipment = {
   name: string;
   sport: string;
   category: string;
-  quantity: number;
-  available: boolean;
   description: string;
   usageAdvice?: string;
   practicalTips?: string[];
