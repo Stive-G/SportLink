@@ -5,6 +5,7 @@ import { AuthModule } from './auth/auth.module';
 import { AiModule } from './ai/ai.module';
 import { EquipmentModule } from './equipment/equipment.module';
 import { ReservationsModule } from './reservations/reservations.module';
+import { PlacesModule } from './places/places.module';
 import { UsersModule } from './users/users.module';
 
 @Module({
@@ -22,7 +23,8 @@ import { UsersModule } from './users/users.module';
     AiModule,
     UsersModule,
     EquipmentModule,    
-    ReservationsModule, 
+    ReservationsModule,
+    PlacesModule,
     
   ],
 })
