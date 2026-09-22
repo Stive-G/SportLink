@@ -1,13 +1,5 @@
 export type AuthMode = 'login' | 'register';
 
-export type Page =
-  | 'accueil'
-  | 'auth'
-  | 'catalogue'
-  | 'plans'
-  | 'admin'
-  | 'assistant';
-
 export type Credentials = {
   name: string;
   email: string;
@@ -23,18 +15,6 @@ export type User = {
   role: UserRole;
 };
 
-export type Equipment = {
-  id: string;
-  name: string;
-  sport: string;
-  category: string;
-  description: string;
-  usageAdvice?: string;
-  practicalTips?: string[];
-  contexts?: string[];
-  imageUrl?: string;
-};
-
 export type ActivityPlan = {
   id: string;
   title: string;
@@ -43,24 +23,21 @@ export type ActivityPlan = {
   placeName?: string;
   peopleCount?: number;
   durationMinutes?: number;
-  equipment: { name: string; reason?: string }[];
+  materials: { name: string; reason?: string }[];
   tips: string[];
   notes?: string;
   createdAt?: string;
   userEmail?: string;
 };
 
-export type RecommendationEquipment = {
-  id?: string;
+export type RecommendationItem = {
   name: string;
-  sport?: string;
-  category?: string;
   reason: string;
 };
 
 export type RecommendationResult = {
   activity: string;
-  recommendedEquipment: RecommendationEquipment[];
+  recommendedItems: RecommendationItem[];
   explanation: string;
   optionalTips: string[];
   source?: 'llm' | 'fallback';
@@ -84,10 +61,8 @@ export type SportGuide = {
   sport: string;
   title: string;
   intro: string;
-  recommendedCategories: string[];
   practicalAdvice: string[];
 };
-
 
 export type SportsPlace = {
   id: string;
