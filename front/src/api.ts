@@ -6,6 +6,7 @@ import {
   Reservation,
   User,
   UserRole,
+  SportsPlacesResponse,
 } from './types';
 
 export const API_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:3000';
@@ -280,5 +281,17 @@ export async function getAllReservations(token: string) {
     return response.data.map(mapReservation);
   } catch (error) {
     throw new Error(normalizeError(error, 'Vue admin des réservations indisponible.'));
+  }
+}
+
+
+export async function getSportsPlaces(location: string, sport = 'all') {
+  try {
+    const response = await apiClient.get<SportsPlacesResponse>('/places', {
+      params: { location, sport },
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error(normalizeError(error, 'Recherche de lieux sportifs indisponible.'));
   }
 }

@@ -1,0 +1,26 @@
+name: Back build
+
+on:
+  pull_request:
+    paths:
+      - 'back/**'
+      - '.github/workflows/back-build.yml'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: back
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.7.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+          cache-dependency-path: back/pnpm-lock.yaml
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm build

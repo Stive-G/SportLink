@@ -22,6 +22,7 @@ import { ContactPage, AboutPage, PrivacyPage, TermsPage } from './components/Sta
 import { EquipmentDetailPage } from './components/EquipmentDetailPage';
 import { Header } from './components/Header';
 import { HomePage } from './components/HomePage';
+import { PlacesPage } from './components/PlacesPage';
 import { RecommendationsDemoPage } from './components/RecommendationsDemoPage';
 import { RecommendationsPage } from './components/RecommendationsPage';
 import { ReservationsPage } from './components/ReservationsPage';
@@ -46,6 +47,7 @@ const siteUrl = 'https://sportlink-app.site';
 const staticPaths = new Set([
   '/',
   '/equipment',
+  '/places',
   '/blog',
   '/guides',
   '/recommendations-demo',
@@ -115,6 +117,7 @@ function getPageTitle(pathname: string) {
 
   if (pathname === '/') return 'SportLink - Réservation et guides de matériel sportif';
   if (pathname.startsWith('/equipment')) return 'Catalogue de matériel sportif - SportLink';
+  if (pathname === '/places') return 'Trouver un lieu de pratique sportive - SportLink';
   if (pathname === '/blog' || pathname === '/guides') return 'Guides de matériel sportif - SportLink';
   if (pathname === '/recommendations-demo') return 'Recommandation de matériel sportif - SportLink';
   if (pathname === '/about') return 'À propos de SportLink';
@@ -146,6 +149,9 @@ function getPageDescription(pathname: string) {
   }
   if (pathname.startsWith('/equipment')) {
     return 'Consulte le catalogue SportLink, la disponibilité du matériel sportif et les conseils d’usage avant de réserver.';
+  }
+  if (pathname === '/places') {
+    return 'Recherche en direct des équipements sportifs Data ES par ville, code postal et sport, sans stockage des résultats dans SportLink.';
   }
   if (pathname === '/blog' || pathname === '/guides') {
     return 'Guides pratiques SportLink pour choisir le bon matériel, préparer une séance et organiser une réservation sportive.';
@@ -466,6 +472,10 @@ function App() {
           />
         ) : null}
 
+        {pathname === '/places' ? (
+          <PlacesPage equipmentList={equipmentList} onNavigate={navigate} />
+        ) : null}
+
         {pathname === '/equipment' ? (
           <CataloguePage
             user={user}
@@ -585,6 +595,7 @@ function App() {
         </div>
         <div className="footer-links" aria-label="Liens du site">
           <a href="/equipment" onClick={(event) => { event.preventDefault(); navigate('/equipment'); }}>Catalogue</a>
+          <a href="/places" onClick={(event) => { event.preventDefault(); navigate('/places'); }}>Où pratiquer</a>
           <a href="/blog" onClick={(event) => { event.preventDefault(); navigate('/blog'); }}>Guides</a>
           <a href="/about" onClick={(event) => { event.preventDefault(); navigate('/about'); }}>À propos</a>
           <a href="/contact" onClick={(event) => { event.preventDefault(); navigate('/contact'); }}>Contact</a>

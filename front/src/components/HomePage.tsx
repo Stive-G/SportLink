@@ -91,6 +91,9 @@ export function HomePage({ equipmentCount, availableCount, userRole, onNavigate 
             <HomeLink path="/blog" className="secondary-button link-button" onNavigate={onNavigate}>
               Préparer une séance
             </HomeLink>
+            <HomeLink path="/places" className="text-link" onNavigate={onNavigate}>
+              Trouver un lieu
+            </HomeLink>
           </div>
 
           <dl className="hero-strip" aria-label="Aperçu de SportLink">
