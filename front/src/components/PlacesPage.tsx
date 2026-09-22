@@ -29,6 +29,20 @@ function booleanLabel(value: boolean | null) {
   return value ? 'Oui' : 'Non';
 }
 
+function normalizeWebsiteUrl(value: string | null) {
+  const clean = value?.trim();
+  if (!clean) return null;
+
+  const candidate = /^https?:\/\//i.test(clean) ? clean : `https://${clean}`;
+
+  try {
+    const url = new URL(candidate);
+    return url.protocol === 'http:' || url.protocol === 'https:' ? url.toString() : null;
+  } catch {
+    return null;
+  }
+}
+
 export function PlacesPage({ onNavigate }: PlacesPageProps) {
   const initial = useMemo(readQuery, []);
   const [location, setLocation] = useState(initial.location);
@@ -165,6 +179,7 @@ export function PlacesPage({ onNavigate }: PlacesPageProps) {
                 const mapUrl = place.latitude !== null && place.longitude !== null
                   ? 'https://www.google.com/maps/search/?api=1&query=' + place.latitude + ',' + place.longitude
                   : null;
+                const websiteUrl = normalizeWebsiteUrl(place.website);
 
                 return (
                   <article className="place-card" key={place.id}>
@@ -203,8 +218,8 @@ export function PlacesPage({ onNavigate }: PlacesPageProps) {
                             Ouvrir dans Google Maps
                           </a>
                         ) : null}
-                        {place.website ? (
-                          <a href={place.website} target="_blank" rel="noreferrer">
+                        {websiteUrl ? (
+                          <a href={websiteUrl} target="_blank" rel="noreferrer">
                             Site du lieu
                           </a>
                         ) : null}
