@@ -109,7 +109,7 @@ export function PlacesPage({ equipmentList, onNavigate }: PlacesPageProps) {
           <h1>Trouver un lieu où pratiquer</h1>
           <p className="lead-copy">
             Cherche les équipements sportifs recensés en France, puis rapproche le lieu choisi du
-            matériel disponible dans SportLink. Les résultats viennent de Data ES et ne sont pas
+            matériel conseillé dans la bibliothèque SportLink. Les résultats viennent de Data ES et ne sont pas
             enregistrés dans la base SportLink.
           </p>
         </div>
