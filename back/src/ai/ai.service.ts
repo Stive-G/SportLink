@@ -127,7 +127,8 @@ ${JSON.stringify(simplifiedCatalog, null, 2)}
           parsed.optionalTips?.length > 0
             ? parsed.optionalTips
             : [
-                'Adapter le matériel au nombre de participants.',\n                'Vérifier les règles et les équipements déjà présents sur le lieu.',
+                'Adapter le matériel au nombre de participants.',
+                'Vérifier les règles et les équipements déjà présents sur le lieu.',
               ],
         source: 'llm',
       };
@@ -165,7 +166,9 @@ ${JSON.stringify(simplifiedCatalog, null, 2)}
       explanation:
         'Préparation générée à partir de la bibliothèque SportLink, sans appel IA externe disponible.',
       optionalTips: [
-        'Adapter le matériel au nombre de participants.',\n        'Prévoir du matériel d’organisation si plusieurs équipes participent.',\n        'Vérifier les règles du lieu avant de commencer.',
+        'Adapter le matériel au nombre de participants.',
+        'Prévoir du matériel d’organisation si plusieurs équipes participent.',
+        'Vérifier les règles du lieu avant de commencer.',
       ],
       source: 'fallback',
     };
