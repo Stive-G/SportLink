@@ -1,16 +1,15 @@
 import { FormEvent, useEffect, useState } from 'react';
 import {
   Session,
-  createReservation,
-  getAllReservations,
+  createPlan,
+  deletePlan,
+  getAllPlans,
   getEquipment,
-  getMyReservations,
+  getMyPlans,
   getPublicRecommendations,
-  getRecommendations,
   getUsers,
   login,
   register,
-  returnReservation,
 } from './api';
 import { AdSlot } from './components/AdSlot';
 import { AdminPage } from './components/AdminPage';
@@ -24,8 +23,7 @@ import { Header } from './components/Header';
 import { HomePage } from './components/HomePage';
 import { PlacesPage } from './components/PlacesPage';
 import { RecommendationsDemoPage } from './components/RecommendationsDemoPage';
-import { RecommendationsPage } from './components/RecommendationsPage';
-import { ReservationsPage } from './components/ReservationsPage';
+import { PlansPage } from './components/PlansPage';
 import { SportPage } from './components/SportPage';
 import {
   blogArticles,
@@ -33,7 +31,7 @@ import {
   fallbackEquipment,
   sportGuides,
 } from './data/public-content';
-import { Credentials, Equipment, RecommendationResult, Reservation, User } from './types';
+import { ActivityPlan, Credentials, Equipment, RecommendationResult, User } from './types';
 
 const initialCredentials: Credentials = {
   name: '',
@@ -50,14 +48,13 @@ const staticPaths = new Set([
   '/places',
   '/blog',
   '/guides',
-  '/recommendations-demo',
+  '/assistant',
   '/about',
   '/contact',
   '/privacy',
   '/terms',
   '/login',
-  '/reservations',
-  '/recommendations',
+  '/plans',
   '/admin',
 ]);
 
@@ -86,7 +83,7 @@ function isIndexablePath(pathname: string) {
     return false;
   }
 
-  if (['/login', '/reservations', '/recommendations', '/admin'].includes(pathname)) {
+  if (['/login', '/plans', '/admin'].includes(pathname)) {
     return false;
   }
 
@@ -115,18 +112,17 @@ function getPageTitle(pathname: string) {
     if (guide) return `${guide.title} - SportLink`;
   }
 
-  if (pathname === '/') return 'SportLink - Réservation et guides de matériel sportif';
+  if (pathname === '/') return 'SportLink - Préparer une activité sportive';
   if (pathname.startsWith('/equipment')) return 'Catalogue de matériel sportif - SportLink';
   if (pathname === '/places') return 'Trouver un lieu de pratique sportive - SportLink';
   if (pathname === '/blog' || pathname === '/guides') return 'Guides de matériel sportif - SportLink';
-  if (pathname === '/recommendations-demo') return 'Recommandation de matériel sportif - SportLink';
+  if (pathname === '/assistant') return 'Assistant de préparation sportive - SportLink';
   if (pathname === '/about') return 'À propos de SportLink';
   if (pathname === '/contact') return 'Contact - SportLink';
   if (pathname === '/privacy') return 'Politique de confidentialité - SportLink';
   if (pathname === '/terms') return 'Conditions d’utilisation - SportLink';
   if (pathname === '/login') return 'Connexion - SportLink';
-  if (pathname === '/reservations') return 'Mes réservations - SportLink';
-  if (pathname === '/recommendations') return 'Recommandations membre - SportLink';
+  if (pathname === '/plans') return 'Mes plans sportifs - SportLink';
   if (pathname === '/admin') return 'Administration - SportLink';
   return 'Page introuvable - SportLink';
 }
@@ -145,27 +141,27 @@ function getPageDescription(pathname: string) {
   }
 
   if (pathname === '/') {
-    return 'SportLink aide à choisir, réserver et gérer du matériel sportif grâce à un catalogue public, des fiches détaillées et des guides pratiques.';
+    return 'SportLink aide à trouver un lieu, choisir le matériel utile et préparer une séance sportive avec des guides et un assistant.';
   }
   if (pathname.startsWith('/equipment')) {
-    return 'Consulte le catalogue SportLink, la disponibilité du matériel sportif et les conseils d’usage avant de réserver.';
+    return 'Consulte la bibliothèque SportLink pour comprendre l’usage du matériel et préparer une séance adaptée.';
   }
   if (pathname === '/places') {
     return 'Recherche en direct des équipements sportifs Data ES par ville, code postal et sport, sans stockage des résultats dans SportLink.';
   }
   if (pathname === '/blog' || pathname === '/guides') {
-    return 'Guides pratiques SportLink pour choisir le bon matériel, préparer une séance et organiser une réservation sportive.';
+    return 'Guides pratiques SportLink pour choisir le bon matériel et organiser une séance sportive.';
   }
   if (pathname === '/about') {
-    return 'Découvre la mission de SportLink et la façon dont le service relie catalogue, disponibilité, réservation et conseils sportifs.';
+    return 'Découvre la mission de SportLink : relier lieux de pratique, matériel, guides et préparation de séance.';
   }
   if (pathname === '/privacy') {
-    return 'Politique de confidentialité de SportLink : comptes, réservations, recommandations, publicité et cookies.';
+    return 'Politique de confidentialité de SportLink : comptes, plans, assistant, publicité et cookies.';
   }
   if (pathname === '/terms') {
-    return 'Conditions d’utilisation de SportLink pour la consultation, la réservation et le retour de matériel sportif.';
+    return 'Conditions d’utilisation de SportLink pour les guides, les plans et l’assistant sportif.';
   }
-  return 'SportLink, catalogue et réservation de matériel sportif.';
+  return 'SportLink, préparation et organisation d’activités sportives.';
 }
 
 function updateMetaTag(name: string, content: string) {
@@ -195,13 +191,9 @@ function App() {
   const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useState('');
   const [equipmentList, setEquipmentList] = useState<Equipment[]>(fallbackEquipment);
-  const [myReservations, setMyReservations] = useState<Reservation[]>([]);
-  const [allReservations, setAllReservations] = useState<Reservation[]>([]);
+  const [myPlans, setMyPlans] = useState<ActivityPlan[]>([]);
+  const [allPlans, setAllPlans] = useState<ActivityPlan[]>([]);
   const [users, setUsers] = useState<User[]>([]);
-  const [recommendationPrompt, setRecommendationPrompt] = useState(
-    'Je veux organiser un match de foot en salle avec 8 amis samedi soir.',
-  );
-  const [recommendationResult, setRecommendationResult] = useState<RecommendationResult | null>(null);
   const [publicRecommendationPrompt, setPublicRecommendationPrompt] = useState(
     'Je veux faire du foot en salle avec 8 amis.',
   );
@@ -273,20 +265,20 @@ function App() {
   async function loadProtectedData(currentToken: string, currentUser: User) {
     try {
       if (currentUser.role === 'ADMIN') {
-        const [adminUsers, adminReservations] = await Promise.all([
+        const [adminUsers, adminPlans] = await Promise.all([
           getUsers(currentToken),
-          getAllReservations(currentToken),
+          getAllPlans(currentToken),
         ]);
 
         setUsers(adminUsers);
-        setAllReservations(adminReservations);
-        setMyReservations([]);
+        setAllPlans(adminPlans);
+        setMyPlans([]);
         return;
       }
 
-      const reservations = await getMyReservations(currentToken);
-      setMyReservations(reservations);
-      setAllReservations([]);
+      const plans = await getMyPlans(currentToken);
+      setMyPlans(plans);
+      setAllPlans([]);
       setUsers([]);
     } catch (loadError) {
       setError(
@@ -336,82 +328,6 @@ function App() {
     }
   }
 
-  async function handleReserve(equipmentId: string) {
-    if (!token || user?.role !== 'MEMBER') {
-      navigate('/login');
-      return;
-    }
-
-    setActionId(equipmentId);
-    setError('');
-    setMessage('');
-
-    try {
-      await createReservation(token, equipmentId);
-      await Promise.all([loadEquipmentData(), loadProtectedData(token, user)]);
-      navigate('/reservations');
-      setMessage('Réservation créée avec succès.');
-    } catch (reservationError) {
-      setError(
-        reservationError instanceof Error
-          ? reservationError.message
-          : 'Impossible de créer la réservation.',
-      );
-    } finally {
-      setActionId('');
-    }
-  }
-
-  async function handleReturnReservation(reservationId: string) {
-    if (!token || user?.role !== 'MEMBER') {
-      return;
-    }
-
-    setActionId(reservationId);
-    setError('');
-    setMessage('');
-
-    try {
-      await returnReservation(token, reservationId);
-      await Promise.all([loadEquipmentData(), loadProtectedData(token, user)]);
-      setMessage('Matériel retourné avec succès.');
-    } catch (reservationError) {
-      setError(
-        reservationError instanceof Error
-          ? reservationError.message
-          : 'Impossible de retourner le matériel.',
-      );
-    } finally {
-      setActionId('');
-    }
-  }
-
-  async function handleRecommendationSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    if (!token || user?.role !== 'MEMBER') {
-      navigate('/login');
-      return;
-    }
-
-    setLoading(true);
-    setError('');
-    setMessage('');
-
-    try {
-      const response = await getRecommendations(token, recommendationPrompt);
-      setRecommendationResult(response);
-      setMessage('Recommandation IA récupérée.');
-    } catch (recommendationError) {
-      setError(
-        recommendationError instanceof Error
-          ? recommendationError.message
-          : 'Impossible de récupérer la recommandation.',
-      );
-    } finally {
-      setLoading(false);
-    }
-  }
-
   async function handlePublicRecommendationSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setLoading(true);
@@ -431,15 +347,62 @@ function App() {
     }
   }
 
+  async function handleSavePlan() {
+    if (!token || user?.role !== 'MEMBER' || !publicRecommendationResult) {
+      navigate('/login');
+      return;
+    }
+
+    setLoading(true);
+    setError('');
+    setMessage('');
+
+    try {
+      const first = publicRecommendationResult.recommendedEquipment[0];
+      await createPlan(token, {
+        title: first?.sport ? 'Séance ' + first.sport : 'Plan SportLink',
+        activity: publicRecommendationResult.activity,
+        sport: first?.sport,
+        equipment: publicRecommendationResult.recommendedEquipment.map((item) => ({
+          name: item.name,
+          reason: item.reason,
+        })),
+        tips: publicRecommendationResult.optionalTips,
+      });
+      await loadProtectedData(token, user);
+      setMessage('Plan sauvegardé dans ton compte.');
+      navigate('/plans');
+    } catch (saveError) {
+      setError(saveError instanceof Error ? saveError.message : 'Impossible de sauvegarder le plan.');
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function handleDeletePlan(planId: string) {
+    if (!token || user?.role !== 'MEMBER') return;
+    setActionId(planId);
+    setError('');
+    try {
+      await deletePlan(token, planId);
+      await loadProtectedData(token, user);
+      setMessage('Plan supprimé.');
+    } catch (deleteError) {
+      setError(deleteError instanceof Error ? deleteError.message : 'Impossible de supprimer le plan.');
+    } finally {
+      setActionId('');
+    }
+  }
+
   function handleLogout() {
     setUser(null);
     setToken('');
     setMessage('');
     setError('');
-    setMyReservations([]);
-    setAllReservations([]);
+    setMyPlans([]);
+    setAllPlans([]);
     setUsers([]);
-    setRecommendationResult(null);
+    setPublicRecommendationResult(null);
     window.localStorage.removeItem(storageKey);
     navigate('/');
   }
@@ -477,25 +440,14 @@ function App() {
         ) : null}
 
         {pathname === '/equipment' ? (
-          <CataloguePage
-            user={user}
-            equipmentList={equipmentList}
-            isMember={isMember}
-            activeReservationId={actionId}
-            onNavigate={navigate}
-            onReserve={handleReserve}
-          />
+          <CataloguePage equipmentList={equipmentList} onNavigate={navigate} />
         ) : null}
 
         {segments[0] === 'equipment' && segments[1] ? (
           <EquipmentDetailPage
             equipmentId={segments[1]}
             equipmentList={equipmentList}
-            user={user}
-            isMember={isMember}
-            activeReservationId={actionId}
             onNavigate={navigate}
-            onReserve={handleReserve}
           />
         ) : null}
 
@@ -509,7 +461,7 @@ function App() {
           <ArticlePage slug={segments[1]} onNavigate={navigate} />
         ) : null}
 
-        {pathname === '/recommendations-demo' ? (
+        {pathname === '/assistant' ? (
           <RecommendationsDemoPage
             loading={loading}
             prompt={publicRecommendationPrompt}
@@ -517,6 +469,8 @@ function App() {
             onPromptChange={setPublicRecommendationPrompt}
             onSubmit={handlePublicRecommendationSubmit}
             onNavigate={navigate}
+            isMember={isMember}
+            onSavePlan={handleSavePlan}
           />
         ) : null}
 
@@ -538,23 +492,13 @@ function App() {
           />
         ) : null}
 
-        {pathname === '/reservations' ? (
-          <ReservationsPage
-            reservations={myReservations}
+        {pathname === '/plans' ? (
+          <PlansPage
+            plans={myPlans}
             isLoggedIn={isLoggedIn}
-            activeReservationId={actionId}
-            onReturn={handleReturnReservation}
-          />
-        ) : null}
-
-        {pathname === '/recommendations' ? (
-          <RecommendationsPage
-            isMember={isMember}
-            loading={loading}
-            prompt={recommendationPrompt}
-            result={recommendationResult}
-            onPromptChange={setRecommendationPrompt}
-            onSubmit={handleRecommendationSubmit}
+            activePlanId={actionId}
+            onDelete={handleDeletePlan}
+            onNavigate={navigate}
           />
         ) : null}
 
@@ -562,7 +506,7 @@ function App() {
           <AdminPage
             isAdmin={isAdmin}
             users={users}
-            reservations={allReservations}
+            plans={allPlans}
             onLogout={handleLogout}
           />
         ) : null}
@@ -590,13 +534,14 @@ function App() {
         <div className="footer-brand">
           <strong>SportLink</strong>
           <p>
-            Catalogue, réservation et guides pratiques pour mieux préparer les activités sportives.
+            Lieux, matériel, guides et assistant pour mieux préparer les activités sportives.
           </p>
         </div>
         <div className="footer-links" aria-label="Liens du site">
           <a href="/equipment" onClick={(event) => { event.preventDefault(); navigate('/equipment'); }}>Catalogue</a>
           <a href="/places" onClick={(event) => { event.preventDefault(); navigate('/places'); }}>Où pratiquer</a>
           <a href="/blog" onClick={(event) => { event.preventDefault(); navigate('/blog'); }}>Guides</a>
+          <a href="/assistant" onClick={(event) => { event.preventDefault(); navigate('/assistant'); }}>Assistant</a>
           <a href="/about" onClick={(event) => { event.preventDefault(); navigate('/about'); }}>À propos</a>
           <a href="/contact" onClick={(event) => { event.preventDefault(); navigate('/contact'); }}>Contact</a>
           <a href="/privacy" onClick={(event) => { event.preventDefault(); navigate('/privacy'); }}>Confidentialité</a>
