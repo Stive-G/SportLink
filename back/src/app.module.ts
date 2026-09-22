@@ -3,7 +3,6 @@ import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AuthModule } from './auth/auth.module';
 import { AiModule } from './ai/ai.module';
-import { EquipmentModule } from './equipment/equipment.module';
 import { PlacesModule } from './places/places.module';
 import { PlansModule } from './plans/plans.module';
 import { UsersModule } from './users/users.module';
@@ -22,7 +21,6 @@ import { UsersModule } from './users/users.module';
     AuthModule,
     AiModule,
     UsersModule,
-    EquipmentModule,    
     PlacesModule,
     PlansModule,
     
