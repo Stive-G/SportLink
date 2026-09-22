@@ -5,7 +5,6 @@ API NestJS de SportLink. Le produit aide à trouver des lieux de pratique, consu
 ## Fonctionnalités
 
 - Authentification JWT avec rôles `ADMIN` et `MEMBER`.
-- Bibliothèque de matériel sportif via `/equipment`.
 - Recherche de lieux via `/places`, proxy en lecture seule vers Data ES ; aucun résultat de recherche n'est persisté.
 - Assistant de préparation via `/recommendations/demo` et `/recommendations`.
 - Plans personnels via `/plans` et `/plans/me`.
@@ -41,9 +40,6 @@ PORT=3000
 ```text
 POST   /auth/register
 POST   /auth/login
-
-GET    /equipment
-GET    /equipment/:id
 
 GET    /places?location=Melun&sport=football
 
