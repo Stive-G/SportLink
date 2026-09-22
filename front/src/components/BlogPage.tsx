@@ -17,9 +17,9 @@ export function BlogPage({ onNavigate }: BlogPageProps) {
         <p className="section-kicker">Bibliothèque SportLink</p>
         <h1>Guides pour préparer une activité sportive</h1>
         <p>
-          Des repères concrets sur le choix du matériel, les quantités, l’organisation d’une
-          séance et le suivi des réservations. Le but est simple : arriver sur le terrain avec ce
-          qu’il faut, pas avec tout le stock.
+          Des repères concrets sur le choix du matériel, l’organisation d’une séance et
+          l’utilisation de l’assistant SportLink. Le but est simple : arriver sur le terrain avec
+          un plan clair et adapté au contexte.
         </p>
       </header>
 
@@ -52,10 +52,10 @@ export function BlogPage({ onNavigate }: BlogPageProps) {
       <aside className="catalogue-callout">
         <div>
           <span className="section-kicker">Après la lecture</span>
-          <h2>Vérifier ce qui est vraiment disponible</h2>
+          <h2>Passer du guide à un plan concret</h2>
           <p>
-            Les guides expliquent quoi prévoir. Le catalogue indique ensuite le stock réel avant
-            la connexion et la réservation.
+            Les guides expliquent quoi prévoir. La bibliothèque matériel et l’assistant permettent
+            ensuite de transformer ces repères en plan de séance.
           </p>
         </div>
         <a
@@ -63,7 +63,7 @@ export function BlogPage({ onNavigate }: BlogPageProps) {
           href="/equipment"
           onClick={(event) => handleNavigation(event, '/equipment')}
         >
-          Ouvrir le catalogue
+          Voir le matériel
         </a>
       </aside>
     </section>
