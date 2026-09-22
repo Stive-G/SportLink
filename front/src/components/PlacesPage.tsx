@@ -43,6 +43,33 @@ function normalizeWebsiteUrl(value: string | null) {
   }
 }
 
+function buildGoogleMapsUrl(place: SportsPlacesResponse['results'][number]) {
+  const fullAddress = [place.address, place.postalCode, place.city]
+    .filter(Boolean)
+    .join(', ');
+
+  const names = [place.facilityName, place.name]
+    .filter((value): value is string => Boolean(value?.trim()))
+    .filter((value, index, values) => values.indexOf(value) === index);
+
+  const textualQuery = [...names, fullAddress]
+    .filter(Boolean)
+    .join(', ');
+
+  if (textualQuery) {
+    return 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(textualQuery);
+  }
+
+  if (place.latitude !== null && place.longitude !== null) {
+    return (
+      'https://www.google.com/maps/search/?api=1&query=' +
+      encodeURIComponent(place.latitude + ',' + place.longitude)
+    );
+  }
+
+  return null;
+}
+
 export function PlacesPage({ onNavigate }: PlacesPageProps) {
   const initial = useMemo(readQuery, []);
   const [location, setLocation] = useState(initial.location);
@@ -176,12 +203,7 @@ export function PlacesPage({ onNavigate }: PlacesPageProps) {
           ) : (
             <div className="places-list">
               {data.results.map((place) => {
-                const fullAddress = [place.address, place.postalCode, place.city]
-                  .filter(Boolean)
-                  .join(', ');
-                const mapUrl = place.address && fullAddress
-                  ? 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(fullAddress)
-                  : null;
+                const mapUrl = buildGoogleMapsUrl(place);
                 const websiteUrl = normalizeWebsiteUrl(place.website);
 
                 return (
@@ -226,7 +248,7 @@ export function PlacesPage({ onNavigate }: PlacesPageProps) {
                       <div className="place-links">
                         {mapUrl ? (
                           <a href={mapUrl} target="_blank" rel="noreferrer">
-                            Ouvrir l’adresse dans Google Maps
+                            Ouvrir ce lieu dans Google Maps
                           </a>
                         ) : null}
                         {websiteUrl ? (
