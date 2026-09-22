@@ -1,125 +1,17 @@
-import { BlogArticle, Equipment, RecommendationResult, SportGuide } from '../types';
-
-export const fallbackEquipment: Equipment[] = [
-  {
-    id: 'demo-futsal-ball',
-    name: 'Ballon de futsal',
-    sport: 'football',
-    category: 'ballon',
-    description:
-      'Ballon adapté au jeu en salle, avec un rebond plus contrôlé pour les matchs rapides sur terrain réduit.',
-    usageAdvice:
-      'Utile pour un match de foot en salle, un tournoi étudiant ou une séance technique avec peu d’espace.',
-    practicalTips: [
-      'Prévoir au moins deux ballons pour éviter les interruptions.',
-      'Vérifier la pression avant le début de la séance.',
-    ],
-    contexts: ['foot en salle', 'tournoi entre amis', 'entraînement technique'],
-  },
-  {
-    id: 'demo-bibs',
-    name: 'Lot de chasubles',
-    sport: 'multisport',
-    category: 'organisation',
-    description:
-      'Chasubles légères pour distinguer rapidement les équipes pendant un match ou un exercice collectif.',
-    usageAdvice:
-      'Utile dès qu’une activité regroupe plusieurs équipes, surtout quand les joueurs portent des tenues proches.',
-    practicalTips: [
-      'Choisir deux couleurs bien visibles.',
-      'Prévoir quelques chasubles en plus pour les remplaçants.',
-    ],
-    contexts: ['football', 'basket', 'handball', 'tournoi scolaire'],
-  },
-  {
-    id: 'demo-cones',
-    name: 'Cônes de délimitation',
-    sport: 'multisport',
-    category: 'entraînement',
-    description:
-      'Cônes souples pour délimiter un terrain, organiser un atelier ou construire un parcours d’échauffement.',
-    usageAdvice:
-      'Recommandé pour préparer une séance structurée et éviter les zones floues pendant les exercices.',
-    practicalTips: [
-      'Utiliser des couleurs différentes pour séparer les ateliers.',
-      'Prévoir plus de cônes si le terrain est partagé.',
-    ],
-    contexts: ['entraînement', 'échauffement', 'sport collectif'],
-  },
-  {
-    id: 'demo-basket-ball',
-    name: 'Ballon de basket taille 7',
-    sport: 'basket',
-    category: 'ballon',
-    description:
-      'Ballon de basket pour match amateur, entraînement au tir ou ateliers de dribble en gymnase.',
-    usageAdvice:
-      'Adapté à une séance de basket adulte ou un match 5 contre 5 en intérieur.',
-    practicalTips: [
-      'Prévoir un ballon par petit groupe pendant les ateliers.',
-      'Choisir un gymnase avec paniers réglés à la bonne hauteur.',
-    ],
-    contexts: ['basket amateur', 'gymnase', 'entraînement tir'],
-  },
-  {
-    id: 'demo-volleyball-net',
-    name: 'Filet de volley réglable',
-    sport: 'volley',
-    category: 'terrain',
-    description:
-      'Filet réglable pour transformer un espace sportif en terrain de volley ou de badminton loisir.',
-    usageAdvice:
-      'Idéal pour une activité collective en salle ou en extérieur avec un minimum de préparation.',
-    practicalTips: [
-      'Vérifier les points d’accroche avant l’installation.',
-      'Associer le filet avec des lignes ou cônes de délimitation.',
-    ],
-    contexts: ['volley loisir', 'sport collectif', 'événement associatif'],
-  },
-  {
-    id: 'demo-badminton-rackets',
-    name: 'Raquettes de badminton',
-    sport: 'badminton',
-    category: 'raquette',
-    description:
-      'Set de raquettes légères pour organiser des matchs simples, doubles ou ateliers débutants.',
-    usageAdvice:
-      'Recommandé pour une activité accessible à tous, en particulier quand le niveau des participants est varié.',
-    practicalTips: [
-      'Ajouter des volants en quantité suffisante.',
-      'Prévoir un filet ou une ligne centrale claire.',
-    ],
-    contexts: ['badminton débutant', 'sport loisir', 'double mixte'],
-  },
-  {
-    id: 'demo-handball',
-    name: 'Ballon de handball',
-    sport: 'handball',
-    category: 'ballon',
-    description:
-      'Ballon avec bonne prise en main pour les entraînements de passes, tirs et matchs en salle.',
-    usageAdvice:
-      'À utiliser avec des buts ou une zone de tir clairement délimitée.',
-    practicalTips: [
-      'Vérifier que le ballon est adapté au terrain et à l’âge des joueurs.',
-      'Ajouter des chasubles pour distinguer les lignes.',
-    ],
-    contexts: ['handball', 'gymnase', 'entraînement tir'],
-  },
-];
+import { BlogArticle, RecommendationResult, SportGuide } from '../types';
 
 export const sportGuides: SportGuide[] = [
   {
     slug: 'football',
     sport: 'football',
-    title: 'Organiser une séance de football avec le bon matériel',
+    title: 'Organiser une séance de football sans improviser',
     intro:
-      'Pour un match de football fluide, le matériel ne se limite pas au ballon. Il faut aussi penser aux chasubles, aux cônes et à la gestion des équipes.',
-    recommendedCategories: ['ballon', 'organisation', 'entraînement'],
+      'Le format du match, le nombre de joueurs et le terrain changent la préparation. L’objectif est de savoir quoi vérifier avant d’arriver sur place.',
     practicalAdvice: [
-      'Prévoir un ballon de secours si le match dure plus d’une heure.',
-      'Utiliser des chasubles pour éviter les confusions entre équipes.',
-      'Ajouter des cônes pour délimiter les buts, les zones ou les ateliers.',
+      'Prévoir un ballon adapté au terrain et un ballon de secours pour une séance longue.',
+      'Utiliser des chasubles si les équipes ne portent pas déjà des couleurs distinctes.',
+      'Ajouter des plots lorsque le terrain doit être réduit ou partagé en plusieurs ateliers.',
+      'Vérifier les règles du lieu et ce qui est déjà mis à disposition.',
     ],
   },
   {
@@ -127,12 +19,12 @@ export const sportGuides: SportGuide[] = [
     sport: 'basket',
     title: 'Préparer une activité basket en gymnase',
     intro:
-      'Le basket demande peu de matériel, mais la qualité du ballon et l’organisation des ateliers changent beaucoup le confort de jeu.',
-    recommendedCategories: ['ballon', 'entraînement', 'organisation'],
+      'Le basket demande peu d’éléments, mais le nombre de ballons, l’organisation des rotations et les contraintes du gymnase ont un impact direct sur la séance.',
     practicalAdvice: [
-      'Prévoir plusieurs ballons pour travailler le tir et le dribble.',
+      'Prévoir plusieurs ballons pour les ateliers de tir ou de dribble.',
       'Organiser les participants en petits groupes pour limiter l’attente.',
-      'Utiliser des plots pour les parcours de coordination.',
+      'Utiliser des repères simples pour séparer les ateliers.',
+      'Vérifier la hauteur des paniers et les zones de dégagement.',
     ],
   },
   {
@@ -140,12 +32,12 @@ export const sportGuides: SportGuide[] = [
     sport: 'badminton',
     title: 'Démarrer une séance de badminton sans oublier l’essentiel',
     intro:
-      'Le badminton est idéal pour une activité accessible, mais il faut anticiper les raquettes, les volants, le filet et l’espace disponible.',
-    recommendedCategories: ['raquette', 'terrain', 'organisation'],
+      'Raquettes, volants, filet et espace disponible doivent être anticipés avant la séance, surtout lorsque plusieurs niveaux jouent ensemble.',
     practicalAdvice: [
-      'Prévoir plus de volants que de joueurs.',
+      'Prévoir plus de volants que de joueurs pour éviter les interruptions.',
       'Vérifier la hauteur du filet et la zone de jeu.',
-      'Mélanger les niveaux en double pour garder une activité équilibrée.',
+      'Utiliser les doubles pour faire jouer davantage de personnes quand les terrains sont limités.',
+      'Contrôler les zones de circulation autour des terrains.',
     ],
   },
 ];
@@ -155,32 +47,32 @@ export const blogArticles: BlogArticle[] = [
     slug: 'choisir-materiel-sportif',
     title: 'Comment choisir son matériel sportif avant une séance',
     summary:
-      'Une méthode simple pour choisir le bon matériel selon le sport, le nombre de participants, la durée et le lieu.',
+      'Une méthode simple pour choisir ce qui est utile selon le sport, le nombre de participants, la durée et le lieu.',
     category: 'Guide pratique',
     readingTime: '5 min',
     sections: [
       {
         heading: 'Partir de l’activité réelle',
         body:
-          'Le bon choix commence par une question simple : que veut-on organiser exactement ? Un match libre, un entraînement technique ou un tournoi ne demandent pas le même niveau de préparation. SportLink aide à relier le contexte à une bibliothèque de matériel utile.',
+          'Un match libre, un entraînement technique et un petit tournoi ne demandent pas la même préparation. Commence par définir ce que le groupe va réellement faire avant de dresser une liste de matériel.',
       },
       {
         heading: 'Vérifier le nombre de participants',
         body:
-          'Plus le groupe est grand, plus il faut penser au matériel d’organisation : chasubles, cônes, ballons supplémentaires et éléments de délimitation. Cela évite les temps morts et rend l’activité plus facile à encadrer.',
+          'Plus le groupe est grand, plus il faut penser à la circulation, aux rotations et aux repères visuels. Des chasubles, des plots ou plusieurs ballons peuvent devenir utiles alors qu’ils seraient superflus pour un petit groupe.',
       },
       {
         heading: 'Penser au lieu',
         body:
-          'Un gymnase, un terrain extérieur ou une salle réduite changent le choix du matériel. Un ballon de futsal est plus adapté au sol indoor, tandis qu’un ballon classique peut suffire dehors.',
+          'Un gymnase, un terrain extérieur et une salle réduite imposent des contraintes différentes. Vérifie toujours ce qui existe déjà sur place avant de prévoir du matériel supplémentaire.',
       },
     ],
   },
   {
     slug: 'equipement-football-debuter',
-    title: 'Quel équipement pour débuter le football entre amis',
+    title: 'Quel matériel pour débuter le football entre amis',
     summary:
-      'Ballon, chasubles, cônes : les indispensables pour organiser un match simple et clair.',
+      'Ballon, chasubles, cônes et organisation : les éléments utiles pour préparer un match simple.',
     category: 'Football',
     readingTime: '4 min',
     relatedSport: 'football',
@@ -188,17 +80,17 @@ export const blogArticles: BlogArticle[] = [
       {
         heading: 'Le ballon adapté au terrain',
         body:
-          'Pour du foot en salle, un ballon de futsal offre un meilleur contrôle et limite les rebonds trop hauts. Pour une séance extérieure, il faut surtout vérifier l’état du terrain et la pression du ballon.',
+          'Pour du foot en salle, un ballon de futsal offre un rebond plus contrôlé. En extérieur, le type de surface et l’état du terrain comptent davantage. Vérifie aussi la pression avant le début du match.',
       },
       {
         heading: 'Les chasubles pour structurer les équipes',
         body:
-          'Quand les joueurs viennent avec leurs propres tenues, les chasubles deviennent indispensables. Elles rendent le jeu plus lisible et évitent les interruptions pour reconnaître les partenaires.',
+          'Quand les joueurs viennent avec leurs propres tenues, les chasubles rendent le jeu plus lisible et évitent les interruptions pour reconnaître les partenaires.',
       },
       {
         heading: 'Les cônes pour délimiter',
         body:
-          'Les cônes permettent de créer des buts temporaires, une zone d’échauffement ou un atelier de conduite de balle. C’est un petit matériel, mais il rend la séance beaucoup plus claire.',
+          'Quelques cônes suffisent pour créer des buts temporaires, réduire le terrain ou préparer un atelier d’échauffement. Ils sont surtout utiles quand le marquage du lieu ne correspond pas au format choisi.',
       },
     ],
   },
@@ -213,17 +105,17 @@ export const blogArticles: BlogArticle[] = [
       {
         heading: 'Définir le format du match',
         body:
-          'Avant de préparer le matériel, il faut savoir si le match se joue à 5, 7 ou 11, en salle ou dehors, avec un niveau loisir ou plus compétitif. Ces informations orientent le choix du matériel.',
+          'Avant de préparer quoi que ce soit, précise le nombre de joueurs, la durée, le niveau et le type de terrain. Ces informations orientent le format du jeu et la petite checklist à prévoir.',
       },
       {
         heading: 'Vérifier ce qui existe déjà sur place',
         body:
-          'Le lieu peut déjà fournir des buts, paniers, lignes ou filets. Vérifier ce qui existe sur place évite d’emporter du matériel inutile et aide à compléter seulement ce qui manque.',
+          'Le lieu peut déjà fournir des buts, paniers, lignes ou filets. Vérifier ce qui existe évite d’emporter des éléments inutiles et permet de se concentrer sur ce qui manque réellement.',
       },
       {
         heading: 'Prévoir le rangement',
         body:
-          'Une bonne préparation ne s’arrête pas au début de la séance. Prévoir le rangement, le contrôle du petit matériel et quelques minutes de marge évite les oublis.',
+          'Une bonne préparation ne s’arrête pas au coup de sifflet final. Garde quelques minutes pour rassembler les affaires, vérifier le petit matériel et quitter le lieu proprement.',
       },
     ],
   },
@@ -231,24 +123,24 @@ export const blogArticles: BlogArticle[] = [
     slug: 'preparer-seance-sportive',
     title: 'Pourquoi préparer sa séance sportive à l’avance',
     summary:
-      'Un plan simple permet de relier lieu, participants, matériel et déroulé avant d’arriver sur le terrain.',
+      'Un plan simple relie lieu, participants, matériel utile et déroulé avant d’arriver sur le terrain.',
     category: 'Préparation',
     readingTime: '4 min',
     sections: [
       {
         heading: 'Clarifier le contexte',
         body:
-          'Définir le sport, le lieu, le nombre de participants et la durée évite de choisir du matériel au hasard et donne une base claire pour organiser la séance.',
+          'Définir le sport, le lieu, le nombre de participants et la durée permet d’éviter les choix au hasard et donne une base claire pour organiser la séance.',
       },
       {
-        heading: 'Garder les plans utiles',
+        heading: 'Garder les plans qui fonctionnent',
         body:
-          'Un plan sauvegardé permet de retrouver une séance qui a bien fonctionné puis de l’adapter à un autre groupe, un autre lieu ou une autre durée.',
+          'Une séance réussie peut servir de modèle. Sauvegarder les grandes lignes permet ensuite de l’adapter à un autre groupe, un autre lieu ou une autre durée.',
       },
       {
         heading: 'Réduire les oublis',
         body:
-          'Préparer une petite checklist avant de partir réduit les oublis de ballon, chasubles, plots, eau ou accessoires nécessaires au déroulement prévu.',
+          'Une checklist courte avant de partir évite d’oublier ballon, chasubles, eau ou accessoires utiles. Elle doit rester adaptée au contexte plutôt que devenir une liste systématique.',
       },
     ],
   },
@@ -256,24 +148,24 @@ export const blogArticles: BlogArticle[] = [
     slug: 'ia-recommandation-sportive',
     title: 'Comment une IA peut aider à préparer une activité sportive',
     summary:
-      'L’assistant transforme une phrase libre en matériel utile et en conseils de préparation adaptés au contexte.',
+      'L’assistant transforme une description libre en checklist et en conseils de préparation adaptés au contexte.',
     category: 'IA',
     readingTime: '6 min',
     sections: [
       {
         heading: 'Comprendre une demande naturelle',
         body:
-          'Un utilisateur ne pense pas toujours en catégories de matériel. Il dit plutôt : je veux faire du foot en salle avec 8 amis. L’assistant peut convertir cette demande en besoins concrets.',
+          'Un utilisateur peut simplement écrire : « foot en salle, 8 personnes, 1 h 30, débutants ». L’assistant extrait le contexte et le transforme en une préparation plus structurée.',
       },
       {
-        heading: 'S’appuyer sur une bibliothèque réelle',
+        heading: 'Proposer une checklist, pas inventer un stock',
         body:
-          'La recommandation est utile seulement si elle s’appuie sur des références connues. SportLink fournit sa bibliothèque au modèle afin de proposer du matériel cohérent avec les fiches du site.',
+          'SportLink ne possède pas de matériel. L’assistant propose donc ce qui peut être utile, puis l’utilisateur vérifie ce qu’il possède déjà ou ce qui est fourni par le lieu.',
       },
       {
-        heading: 'Donner des conseils actionnables',
+        heading: 'Garder une validation humaine',
         body:
-          'Une bonne réponse ne donne pas seulement des noms. Elle explique pourquoi prévoir un ballon, des chasubles ou des cônes, et ajoute des conseils de préparation.',
+          'Une réponse générée peut être incomplète ou inadaptée. Les règles du lieu, les consignes d’un encadrant et la sécurité du groupe restent toujours prioritaires.',
       },
     ],
   },
@@ -281,7 +173,7 @@ export const blogArticles: BlogArticle[] = [
     slug: 'basket-amateur-materiel',
     title: 'Matériel conseillé pour une séance de basket amateur',
     summary:
-      'Les équipements utiles pour une séance de basket claire, dynamique et accessible.',
+      'Les éléments utiles pour une séance de basket claire, dynamique et accessible.',
     category: 'Basket',
     readingTime: '4 min',
     relatedSport: 'basket',
@@ -289,79 +181,75 @@ export const blogArticles: BlogArticle[] = [
       {
         heading: 'Plusieurs ballons pour limiter l’attente',
         body:
-          'Pendant les ateliers de tir ou de dribble, un seul ballon ralentit vite la séance. Prévoir plusieurs ballons permet à chacun de pratiquer davantage.',
+          'Pendant les ateliers de tir ou de dribble, un seul ballon ralentit vite la séance. Plusieurs ballons permettent de créer de petits groupes et d’augmenter le temps de pratique réel.',
       },
       {
         heading: 'Des groupes bien répartis',
         body:
-          'Avec des chasubles ou des groupes fixes, les rotations sont plus faciles. Cela aide surtout quand le niveau des joueurs est hétérogène.',
+          'Des équipes fixes ou des chasubles simplifient les rotations. C’est particulièrement utile quand le niveau des joueurs est hétérogène.',
       },
       {
-        heading: 'Un espace sécurisé',
+        heading: 'Un espace lisible',
         body:
-          'Les cônes peuvent servir à séparer les zones de tir, de course et d’attente. Cette organisation rend la séance plus fluide et plus sûre.',
+          'Des plots ou repères peuvent séparer les zones de tir, de course et d’attente. Cette organisation rend la séance plus fluide et réduit les croisements inutiles.',
       },
     ],
   },
 ];
 
-export function getEquipmentContent(equipment: Equipment): Equipment {
-  const fallback = fallbackEquipment.find(
-    (item) =>
-      item.name.toLowerCase() === equipment.name.toLowerCase() ||
-      item.category.toLowerCase() === equipment.category.toLowerCase(),
-  );
+export function buildLocalRecommendation(prompt: string): RecommendationResult {
+  const normalized = prompt.toLowerCase();
+  let recommendedItems = [
+    {
+      name: 'Eau et affaires personnelles',
+      reason: 'Prévoir l’hydratation et les effets nécessaires à la durée de la séance.',
+    },
+  ];
 
-  return {
-    ...equipment,
-    usageAdvice:
-      equipment.usageAdvice ||
-      fallback?.usageAdvice ||
-      `Ce matériel est conseillé pour les activités de ${equipment.sport}, surtout lorsque le groupe veut préparer une séance cohérente.`,
-    practicalTips:
-      equipment.practicalTips ||
-      fallback?.practicalTips || [
-        'Vérifier les contraintes et les équipements déjà présents sur le lieu.',
-        'Adapter la quantité au nombre de participants.',
-      ],
-    contexts:
-      equipment.contexts ||
-      fallback?.contexts || [equipment.sport, equipment.category, 'activité sportive'],
-  };
-}
-
-export function buildLocalRecommendation(prompt: string, equipmentList: Equipment[]): RecommendationResult {
-  const words = prompt.toLowerCase().split(/\W+/).filter(Boolean);
-  const source = equipmentList;
-
-  const scored = source
-    .map((item) => {
-      const content = `${item.name} ${item.sport} ${item.category} ${item.description} ${
-        item.contexts?.join(' ') ?? ''
-      }`.toLowerCase();
-      const score = words.reduce((total, word) => total + (content.includes(word) ? 1 : 0), 0);
-      return { item: getEquipmentContent(item), score };
-    })
-    .sort((first, second) => second.score - first.score || first.item.name.localeCompare(second.item.name))
-    .slice(0, 4);
+  if (normalized.includes('foot') || normalized.includes('futsal')) {
+    recommendedItems = [
+      { name: 'Ballon adapté au terrain', reason: 'Indispensable pour le jeu et les exercices.' },
+      { name: 'Chasubles', reason: 'Permettent de distinguer rapidement les équipes.' },
+      { name: 'Plots ou cônes', reason: 'Utiles pour délimiter les zones ou les ateliers.' },
+    ];
+  } else if (normalized.includes('basket')) {
+    recommendedItems = [
+      { name: 'Ballon de basket', reason: 'Prévoir plusieurs ballons si des ateliers sont organisés.' },
+      { name: 'Chasubles', reason: 'Pratiques pour les oppositions et les rotations.' },
+      { name: 'Plots', reason: 'Utiles pour organiser les parcours ou les ateliers.' },
+    ];
+  } else if (normalized.includes('badminton')) {
+    recommendedItems = [
+      { name: 'Raquettes', reason: 'Une raquette par joueur simplifie les rotations.' },
+      { name: 'Volants', reason: 'Prévoir plusieurs volants pour éviter les interruptions.' },
+      { name: 'Filet', reason: 'À vérifier si le lieu n’en possède pas déjà un.' },
+    ];
+  } else if (normalized.includes('tennis')) {
+    recommendedItems = [
+      { name: 'Raquettes', reason: 'Une raquette adaptée par joueur.' },
+      { name: 'Balles', reason: 'Plusieurs balles permettent de garder un rythme fluide.' },
+    ];
+  } else if (normalized.includes('volley')) {
+    recommendedItems = [
+      { name: 'Ballon de volley', reason: 'Choisir un ballon adapté au niveau du groupe.' },
+      { name: 'Filet', reason: 'À vérifier selon ce qui est déjà présent sur le lieu.' },
+    ];
+  } else if (normalized.includes('handball')) {
+    recommendedItems = [
+      { name: 'Ballon de handball', reason: 'Choisir une taille adaptée au public.' },
+      { name: 'Chasubles', reason: 'Utiles pour organiser les équipes.' },
+      { name: 'Plots', reason: 'Pratiques pour les ateliers et les zones de travail.' },
+    ];
+  }
 
   return {
     activity: prompt,
-    recommendedEquipment: scored.map(({ item }) => ({
-      id: item.id,
-      name: item.name,
-      sport: item.sport,
-      category: item.category,
-      reason:
-        item.usageAdvice ||
-        `Cet équipement correspond à une activité ${item.sport} et peut être utile selon le format de séance.`,
-    })),
-    explanation:
-      'Voici une recommandation basée sur la bibliothèque SportLink et sur le contexte décrit.',
+    recommendedItems,
+    explanation: 'Préparation générée localement à partir du sport détecté dans la demande.',
     optionalTips: [
-      'Vérifier les règles et les équipements déjà présents sur le lieu.',
+      'Vérifier ce qui est déjà présent sur le lieu.',
       'Adapter les quantités au nombre de participants.',
-      'Ajouter du matériel d’organisation si plusieurs équipes jouent ensemble.',
+      'Prévoir un échauffement et quelques minutes de rangement en fin de séance.',
     ],
     source: 'fallback',
   };
