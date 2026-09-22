@@ -1,7 +1,6 @@
 import { MouseEvent } from 'react';
 
 type HomePageProps = {
-  equipmentCount: number;
   userRole: string;
   onNavigate: (path: string) => void;
 };
@@ -22,7 +21,7 @@ function HomeLink({ path, className = '', onNavigate, children }: HomeLinkProps)
   return <a className={className} href={path} onClick={handleClick}>{children}</a>;
 }
 
-function EquipmentScene({ equipmentCount }: Pick<HomePageProps, 'equipmentCount'>) {
+function SportScene() {
   return (
     <div className="gear-scene" aria-hidden="true">
       <div className="gear-scene-head">
@@ -48,42 +47,48 @@ function EquipmentScene({ equipmentCount }: Pick<HomePageProps, 'equipmentCount'
       </div>
 
       <div className="booking-slip">
-        <span>BIBLIOTHÈQUE</span>
-        <strong>{equipmentCount}</strong>
-        <small>fiches matériel</small>
+        <span>SPORTLINK</span>
+        <strong>3</strong>
+        <small>lieu · assistant · plans</small>
       </div>
     </div>
   );
 }
 
-export function HomePage({ equipmentCount, userRole, onNavigate }: HomePageProps) {
+export function HomePage({ userRole, onNavigate }: HomePageProps) {
   const accessLabel = userRole === 'Invite' ? 'accès public' : 'plans sauvegardés';
 
   return (
     <section className="home-page">
       <section className="home-hero">
         <div className="home-hero-copy">
-          <p className="section-kicker">Lieu · matériel · séance</p>
+          <p className="section-kicker">Lieu · séance · plan</p>
           <h1>Prépare ton activité avant d’arriver sur le terrain.</h1>
           <p className="lead-copy">
-            SportLink t’aide à trouver où pratiquer, comprendre le matériel utile et construire
-            une séance adaptée au groupe, au lieu et au temps disponible.
+            SportLink t’aide à trouver où pratiquer et à construire une séance adaptée au groupe,
+            au lieu et au temps disponible.
           </p>
 
           <div className="button-row">
-            <HomeLink path="/places" className="primary-button link-button" onNavigate={onNavigate}>Trouver un lieu</HomeLink>
-            <HomeLink path="/assistant" className="secondary-button link-button" onNavigate={onNavigate}>Préparer une séance</HomeLink>
-            <HomeLink path="/equipment" className="text-link" onNavigate={onNavigate}>Voir le matériel</HomeLink>
+            <HomeLink path="/places" className="primary-button link-button" onNavigate={onNavigate}>
+              Trouver un lieu
+            </HomeLink>
+            <HomeLink path="/assistant" className="secondary-button link-button" onNavigate={onNavigate}>
+              Préparer une séance
+            </HomeLink>
+            <HomeLink path="/blog" className="text-link" onNavigate={onNavigate}>
+              Lire les guides
+            </HomeLink>
           </div>
 
           <dl className="hero-strip" aria-label="Aperçu de SportLink">
-            <div><dt>Matériel</dt><dd>{equipmentCount}</dd></div>
             <div><dt>Lieux</dt><dd>Data ES</dd></div>
+            <div><dt>Assistant</dt><dd>IA + fallback</dd></div>
             <div><dt>Compte</dt><dd>{accessLabel}</dd></div>
           </dl>
         </div>
 
-        <EquipmentScene equipmentCount={equipmentCount} />
+        <SportScene />
       </section>
 
       <section className="home-section workflow-section">
@@ -99,14 +104,14 @@ export function HomePage({ equipmentCount, userRole, onNavigate }: HomePageProps
             <p>Recherche une ville, un code postal ou un sport dans les données publiques Data ES.</p>
           </article>
           <article>
-            <span>MATÉRIEL</span>
-            <h3>Comprendre ce qu’il faut</h3>
-            <p>Les fiches expliquent l’usage du matériel et les points à vérifier selon l’activité.</p>
+            <span>ASSISTANT</span>
+            <h3>Structurer la séance</h3>
+            <p>Décris le groupe, la durée et le contexte pour obtenir une checklist et des conseils.</p>
           </article>
           <article>
             <span>PLAN</span>
-            <h3>Préparer et sauvegarder</h3>
-            <p>L’assistant propose un kit et des repères d’organisation. Un compte permet de garder le plan.</p>
+            <h3>Sauvegarder ce qui fonctionne</h3>
+            <p>Un compte permet de conserver les préparations utiles et de les retrouver plus tard.</p>
           </article>
         </div>
       </section>
@@ -130,7 +135,7 @@ export function HomePage({ equipmentCount, userRole, onNavigate }: HomePageProps
         </div>
         <ol className="checklist-grid">
           <li><b>Activité</b><span>Match, entraînement ou loisir ne demandent pas la même organisation.</span></li>
-          <li><b>Participants</b><span>Le nombre de joueurs influence le matériel et les rotations.</span></li>
+          <li><b>Participants</b><span>Le nombre de joueurs influence les rotations et la checklist.</span></li>
           <li><b>Lieu</b><span>Salle, extérieur et accès libre imposent des contraintes différentes.</span></li>
           <li><b>Durée</b><span>Une séance courte ou longue ne se structure pas de la même manière.</span></li>
         </ol>
@@ -153,7 +158,7 @@ export function HomePage({ equipmentCount, userRole, onNavigate }: HomePageProps
         <div>
           <p className="section-kicker">Assistant SportLink</p>
           <h2>Décris la séance. SportLink t’aide à construire le plan.</h2>
-          <p>Le résultat combine la bibliothèque matériel et ton contexte. Les règles du lieu restent toujours prioritaires.</p>
+          <p>Le résultat s’appuie sur ton contexte. Les règles du lieu restent toujours prioritaires.</p>
         </div>
         <HomeLink path="/assistant" className="signal-button" onNavigate={onNavigate}>Essayer l’assistant</HomeLink>
       </aside>

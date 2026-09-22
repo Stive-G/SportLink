@@ -1,12 +1,11 @@
 import axios from 'axios';
 import {
-  Credentials,
-  Equipment,
-  RecommendationResult,
   ActivityPlan,
+  Credentials,
+  RecommendationResult,
+  SportsPlacesResponse,
   User,
   UserRole,
-  SportsPlacesResponse,
 } from './types';
 
 export const API_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:3000';
@@ -30,18 +29,6 @@ type JwtPayload = {
   role: UserRole;
 };
 
-type EquipmentApiItem = {
-  _id: string;
-  name: string;
-  sport: string;
-  category: string;
-  description: string;
-  usageAdvice?: string;
-  practicalTips?: string[];
-  contexts?: string[];
-  imageUrl?: string;
-};
-
 type ActivityPlanApiItem = {
   _id: string;
   title: string;
@@ -50,7 +37,7 @@ type ActivityPlanApiItem = {
   placeName?: string;
   peopleCount?: number;
   durationMinutes?: number;
-  equipment: { name: string; reason?: string }[];
+  materials: { name: string; reason?: string }[];
   tips: string[];
   notes?: string;
   createdAt?: string;
@@ -104,20 +91,6 @@ function createSession(token: string, nameFallback?: string): Session {
   };
 }
 
-function mapEquipment(item: EquipmentApiItem): Equipment {
-  return {
-    id: item._id,
-    name: item.name,
-    sport: item.sport,
-    category: item.category,
-    description: item.description,
-    usageAdvice: item.usageAdvice,
-    practicalTips: item.practicalTips,
-    contexts: item.contexts,
-    imageUrl: item.imageUrl,
-  };
-}
-
 function mapActivityPlan(item: ActivityPlanApiItem): ActivityPlan {
   const user = item.userId && typeof item.userId !== 'string' ? item.userId : undefined;
   return {
@@ -128,7 +101,7 @@ function mapActivityPlan(item: ActivityPlanApiItem): ActivityPlan {
     placeName: item.placeName,
     peopleCount: item.peopleCount,
     durationMinutes: item.durationMinutes,
-    equipment: item.equipment ?? [],
+    materials: item.materials ?? [],
     tips: item.tips ?? [],
     notes: item.notes,
     createdAt: item.createdAt,
@@ -159,19 +132,9 @@ export async function login(payload: Credentials): Promise<Session> {
       email: payload.email,
       password: payload.password,
     });
-
     return createSession(response.data.access_token);
   } catch (error) {
     throw new Error(normalizeError(error, 'Connexion impossible.'));
-  }
-}
-
-export async function getEquipment() {
-  try {
-    const response = await apiClient.get<EquipmentApiItem[]>('/equipment');
-    return response.data.map(mapEquipment);
-  } catch (error) {
-    throw new Error(normalizeError(error, 'Catalogue indisponible.'));
   }
 }
 
@@ -191,7 +154,7 @@ export async function createPlan(token: string, payload: {
   placeName?: string;
   peopleCount?: number;
   durationMinutes?: number;
-  equipment: { name: string; reason?: string }[];
+  materials: { name: string; reason?: string }[];
   tips: string[];
   notes?: string;
 }) {
@@ -227,7 +190,6 @@ export async function getRecommendations(token: string, prompt: string) {
       { prompt },
       authConfig(token),
     );
-
     return response.data;
   } catch (error) {
     throw new Error(normalizeError(error, 'Recommandation indisponible.'));
@@ -240,10 +202,9 @@ export async function getPublicRecommendations(prompt: string) {
       '/recommendations/demo',
       { prompt },
     );
-
     return response.data;
   } catch (error) {
-    throw new Error(normalizeError(error, 'Démo de recommandation indisponible.'));
+    throw new Error(normalizeError(error, 'Assistant indisponible.'));
   }
 }
 

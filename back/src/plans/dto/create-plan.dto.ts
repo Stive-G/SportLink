@@ -9,7 +9,7 @@ import {
 } from 'class-validator';
 import { Type } from 'class-transformer';
 
-class PlanEquipmentDto {
+class PlanMaterialDto {
   @IsString()
   name: string;
 
@@ -49,8 +49,8 @@ export class CreatePlanDto {
 
   @IsArray()
   @ValidateNested({ each: true })
-  @Type(() => PlanEquipmentDto)
-  equipment: PlanEquipmentDto[];
+  @Type(() => PlanMaterialDto)
+  materials: PlanMaterialDto[];
 
   @IsArray()
   @IsString({ each: true })

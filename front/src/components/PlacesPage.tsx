@@ -1,9 +1,8 @@
 import { FormEvent, useEffect, useMemo, useState } from 'react';
 import { getSportsPlaces } from '../api';
-import { Equipment, SportsPlace, SportsPlacesResponse } from '../types';
+import { SportsPlacesResponse } from '../types';
 
 type PlacesPageProps = {
-  equipmentList: Equipment[];
   onNavigate: (path: string) => void;
 };
 
@@ -25,38 +24,12 @@ function readQuery() {
   };
 }
 
-function normalize(value: string) {
-  return value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
-}
-
-function inferSport(place: SportsPlace, selectedSport: string) {
-  if (selectedSport !== 'all') return selectedSport;
-  const text = normalize([place.type, place.family, ...place.activities].filter(Boolean).join(' '));
-  if (text.includes('football') || text.includes('futsal')) return 'football';
-  if (text.includes('basket')) return 'basket';
-  if (text.includes('badminton')) return 'badminton';
-  if (text.includes('handball')) return 'handball';
-  if (text.includes('volley')) return 'volley';
-  if (text.includes('tennis')) return 'tennis';
-  return '';
-}
-
-function suggestedEquipment(place: SportsPlace, sport: string, equipmentList: Equipment[]) {
-  const target = inferSport(place, sport);
-  return equipmentList
-    .filter((item) => {
-      const itemSport = normalize(item.sport);
-      return itemSport === target || itemSport === 'multisport';
-    })
-    .slice(0, 3);
-}
-
 function booleanLabel(value: boolean | null) {
   if (value === null) return 'Non renseigné';
   return value ? 'Oui' : 'Non';
 }
 
-export function PlacesPage({ equipmentList, onNavigate }: PlacesPageProps) {
+export function PlacesPage({ onNavigate }: PlacesPageProps) {
   const initial = useMemo(readQuery, []);
   const [location, setLocation] = useState(initial.location);
   const [sport, setSport] = useState(initial.sport);
@@ -108,9 +81,8 @@ export function PlacesPage({ equipmentList, onNavigate }: PlacesPageProps) {
           <p className="section-kicker">Données publiques · recherche en direct</p>
           <h1>Trouver un lieu où pratiquer</h1>
           <p className="lead-copy">
-            Cherche les équipements sportifs recensés en France, puis rapproche le lieu choisi du
-            matériel conseillé dans la bibliothèque SportLink. Les résultats viennent de Data ES et ne sont pas
-            enregistrés dans la base SportLink.
+            Cherche les équipements sportifs recensés en France avec Data ES. SportLink affiche
+            les informations reçues à la demande sans les importer dans sa base de données.
           </p>
         </div>
         <div className="places-source-stamp">
@@ -153,9 +125,21 @@ export function PlacesPage({ equipmentList, onNavigate }: PlacesPageProps) {
 
       {!data && !loading && !error ? (
         <div className="places-empty-intro">
-          <div><span className="section-index">01</span><h2>Chercher</h2><p>Ville, code postal et sport suffisent pour interroger le recensement national.</p></div>
-          <div><span className="section-index">02</span><h2>Comparer</h2><p>Type, surface, accès libre, accessibilité et activités sont affichés quand ils sont renseignés.</p></div>
-          <div><span className="section-index">03</span><h2>Préparer</h2><p>SportLink rapproche ensuite le lieu des fiches matériel utiles pour préparer la séance.</p></div>
+          <div>
+            <span className="section-index">01</span>
+            <h2>Chercher</h2>
+            <p>Ville, code postal et sport suffisent pour interroger le recensement national.</p>
+          </div>
+          <div>
+            <span className="section-index">02</span>
+            <h2>Comparer</h2>
+            <p>Type, surface, accès libre, accessibilité et activités sont affichés quand ils sont renseignés.</p>
+          </div>
+          <div>
+            <span className="section-index">03</span>
+            <h2>Préparer</h2>
+            <p>Une fois le lieu choisi, ouvre l’Assistant SportLink pour construire ta séance.</p>
+          </div>
         </div>
       ) : null}
 
@@ -172,13 +156,12 @@ export function PlacesPage({ equipmentList, onNavigate }: PlacesPageProps) {
 
           {data.results.length === 0 ? (
             <div className="places-no-results">
-              <h3>Aucun équipement trouvé</h3>
+              <h3>Aucun lieu trouvé</h3>
               <p>Essaie seulement la ville, un code postal ou un autre sport.</p>
             </div>
           ) : (
             <div className="places-list">
               {data.results.map((place) => {
-                const suggestions = suggestedEquipment(place, sport, equipmentList);
                 const mapUrl = place.latitude !== null && place.longitude !== null
                   ? 'https://www.google.com/maps/search/?api=1&query=' + place.latitude + ',' + place.longitude
                   : null;
@@ -191,7 +174,9 @@ export function PlacesPage({ equipmentList, onNavigate }: PlacesPageProps) {
                         <span>{[place.postalCode, place.city].filter(Boolean).join(' ')}</span>
                       </div>
                       <h2>{place.name}</h2>
-                      {place.facilityName && place.facilityName !== place.name ? <p className="place-facility">{place.facilityName}</p> : null}
+                      {place.facilityName && place.facilityName !== place.name ? (
+                        <p className="place-facility">{place.facilityName}</p>
+                      ) : null}
 
                       <dl className="place-specs">
                         <div><dt>Type</dt><dd>{place.type ?? 'Non renseigné'}</dd></div>
@@ -202,26 +187,44 @@ export function PlacesPage({ equipmentList, onNavigate }: PlacesPageProps) {
 
                       {place.activities.length > 0 ? (
                         <div className="place-activities">
-                          {place.activities.slice(0, 5).map((activity) => <span key={activity}>{activity}</span>)}
+                          {place.activities.slice(0, 5).map((activity) => (
+                            <span key={activity}>{activity}</span>
+                          ))}
                         </div>
                       ) : null}
 
-                      <p className="place-address">{[place.address, place.postalCode, place.city].filter(Boolean).join(' · ')}</p>
+                      <p className="place-address">
+                        {[place.address, place.postalCode, place.city].filter(Boolean).join(' · ')}
+                      </p>
+
                       <div className="place-links">
-                        {mapUrl ? <a href={mapUrl} target="_blank" rel="noreferrer">Ouvrir dans Google Maps</a> : null}
-                        {place.website ? <a href={place.website} target="_blank" rel="noreferrer">Site du lieu</a> : null}
+                        {mapUrl ? (
+                          <a href={mapUrl} target="_blank" rel="noreferrer">
+                            Ouvrir dans Google Maps
+                          </a>
+                        ) : null}
+                        {place.website ? (
+                          <a href={place.website} target="_blank" rel="noreferrer">
+                            Site du lieu
+                          </a>
+                        ) : null}
                       </div>
                     </div>
 
-                    <aside className="place-equipment-panel">
-                      <p className="section-kicker">Bibliothèque SportLink</p>
-                      <h3>Matériel conseillé</h3>
-                      {suggestions.length > 0 ? (
-                        <ul>
-                          {suggestions.map((item) => <li key={item.id}><span>{item.name}</span><strong>Voir</strong></li>)}
-                        </ul>
-                      ) : <p className="place-no-gear">Aucune fiche matériel associée à cette activité.</p>}
-                      <button type="button" className="text-button" onClick={() => onNavigate('/equipment')}>Ouvrir le catalogue</button>
+                    <aside className="place-plan-panel">
+                      <p className="section-kicker">Étape suivante</p>
+                      <h3>Préparer une séance ici</h3>
+                      <p>
+                        Indique le sport, le nombre de participants et la durée dans l’assistant
+                        pour obtenir une checklist adaptée.
+                      </p>
+                      <button
+                        type="button"
+                        className="primary-button"
+                        onClick={() => onNavigate('/assistant')}
+                      >
+                        Ouvrir l’assistant
+                      </button>
                     </aside>
                   </article>
                 );
@@ -230,7 +233,10 @@ export function PlacesPage({ equipmentList, onNavigate }: PlacesPageProps) {
           )}
 
           <footer className="places-attribution">
-            <p>Données : <strong>{data.source.publisher}</strong> — {data.source.name}. Résultats reçus en direct et non enregistrés.</p>
+            <p>
+              Données : <strong>{data.source.publisher}</strong> — {data.source.name}. Résultats
+              reçus en direct et non enregistrés.
+            </p>
             <a href={data.source.url} target="_blank" rel="noreferrer">Source officielle</a>
           </footer>
         </>

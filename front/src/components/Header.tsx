@@ -9,7 +9,6 @@ type HeaderProps = {
 
 const publicLinks = [
   { path: '/', label: 'Accueil' },
-  { path: '/equipment', label: 'Matériel' },
   { path: '/places', label: 'Où pratiquer' },
   { path: '/blog', label: 'Guides' },
   { path: '/assistant', label: 'Assistant' },
@@ -34,7 +33,7 @@ export function Header({ pathname, isAdmin, isLoggedIn, onNavigate }: HeaderProp
     <header className="header">
       <a className="brand-link" href="/" onClick={(event) => handleNavigation(event, '/')}>
         <strong>SPORTLINK</strong>
-        <span>matériel sportif</span>
+        <span>préparation sportive</span>
       </a>
 
       <nav className="nav" aria-label="Navigation principale">

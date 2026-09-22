@@ -9,8 +9,8 @@ export function AboutPage({ onNavigate }: StaticPageProps) {
         <p className="eyebrow">À propos</p>
         <h2>SportLink aide à passer de l’idée de sport à une séance réellement préparée</h2>
         <p className="description lead-copy">
-          SportLink rassemble des lieux de pratique issus de données publiques, une bibliothèque de
-          matériel, des guides et un assistant de préparation. Le service ne possède pas de local,
+          SportLink rassemble des lieux de pratique issus de données publiques, des guides et un
+          assistant de préparation. Le service ne possède pas de local,
           ne loue pas de matériel et ne réserve pas de terrain.
         </p>
       </div>
@@ -20,8 +20,8 @@ export function AboutPage({ onNavigate }: StaticPageProps) {
           <p className="card-title">Trouver, comprendre, préparer</p>
           <p className="description small">
             La page « Où pratiquer » interroge Data ES en direct pour trouver des équipements
-            sportifs en France. La bibliothèque matériel explique ensuite les usages, les contextes
-            adaptés et les points à vérifier avant une activité.
+            sportifs en France. Les guides et l’assistant aident ensuite à préparer la séance selon
+            le sport, le groupe, la durée et les contraintes du lieu.
           </p>
         </article>
 
@@ -142,7 +142,7 @@ export function PrivacyPage() {
           configuré par le service afin de produire une recommandation. SportLink demande aux
           utilisateurs de ne pas saisir de données sensibles ou de données personnelles inutiles
           dans ce champ. Si le fournisseur IA est indisponible, une logique locale peut produire une
-          suggestion simplifiée à partir de la bibliothèque SportLink.
+          suggestion simplifiée à partir de règles générales de préparation.
         </p>
       </article>
 
@@ -218,7 +218,7 @@ export function TermsPage() {
       <article className="card editorial-section">
         <h3>1. Contenu public</h3>
         <p className="description">
-          Les lieux, fiches matériel et guides sont proposés pour aider à préparer une activité.
+          Les lieux et guides sont proposés pour aider à préparer une activité.
           Certaines informations de lieux proviennent de sources publiques externes et peuvent
           évoluer indépendamment de SportLink.
         </p>

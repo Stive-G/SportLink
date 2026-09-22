@@ -60,11 +60,11 @@ export function PlansPage({
                 </p>
               ) : null}
 
-              {plan.equipment.length > 0 ? (
+              {plan.materials.length > 0 ? (
                 <div className="plan-kit">
-                  <p className="card-title">Kit conseillé</p>
+                  <p className="card-title">Checklist matériel</p>
                   <ul className="simple-list">
-                    {plan.equipment.map((item) => (
+                    {plan.materials.map((item) => (
                       <li key={item.name}>
                         <strong>{item.name}</strong>
                         {item.reason ? <span> — {item.reason}</span> : null}

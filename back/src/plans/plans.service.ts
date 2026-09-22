@@ -15,7 +15,7 @@ export class PlansService {
     return this.planModel.create({
       ...dto,
       userId,
-      equipment: dto.equipment.slice(0, 12),
+      materials: dto.materials.slice(0, 12),
       tips: dto.tips.slice(0, 12),
     });
   }

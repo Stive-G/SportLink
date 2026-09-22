@@ -60,10 +60,10 @@ export function BlogPage({ onNavigate }: BlogPageProps) {
         </div>
         <a
           className="signal-button"
-          href="/equipment"
-          onClick={(event) => handleNavigation(event, '/equipment')}
+          href="/assistant"
+          onClick={(event) => handleNavigation(event, '/assistant')}
         >
-          Voir le matériel
+          Ouvrir l’assistant
         </a>
       </aside>
     </section>
