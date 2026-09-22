@@ -39,9 +39,7 @@ export class AiService {
   }
 
   async recommend(prompt: string): Promise<RecommendationResult> {
-    const equipment = await this.equipmentService.findAll();
-    const availableEquipment = equipment.filter((item) => item.available && item.quantity > 0);
-    const catalog = availableEquipment.length > 0 ? availableEquipment : equipment;
+    const catalog = await this.equipmentService.findAll();
 
     if (!process.env.LLM_API_KEY && !process.env.LITELLM_API_KEY) {
       return this.buildFallbackRecommendation(prompt, catalog);
@@ -80,20 +78,15 @@ export class AiService {
       name: item.name,
       sport: item.sport,
       category: item.category,
-      quantity: item.quantity,
-      available: item.available,
       description: item.description,
     }));
 
     return `
-Tu es l’assistant IA de SportLink, une application de réservation de matériel sportif.
-Ta mission est de recommander uniquement du matériel présent dans le catalogue fourni.
+Tu es l’assistant SportLink, un assistant de préparation d’activités sportives.\nSportLink ne loue pas de matériel et ne gère pas de stock physique.\nTa mission est d’aider l’utilisateur à préparer une séance réaliste et à choisir le matériel utile parmi la bibliothèque fournie.
 
 Regles:
 - Reponds en francais.
-- Priorise le matériel disponible avec quantity > 0.
-- Ne recommande pas de matériel absent du catalogue.
-- Donne des raisons courtes, utiles et liées à l’activité.
+- Ne recommande pas de matériel absent de la bibliothèque.\n- Ne parle jamais de réservation, de stock, de disponibilité, d’emprunt ou de retour.\n- Adapte les conseils au nombre de participants, au lieu, au niveau et à la durée lorsque ces informations sont données.\n- Donne des raisons courtes, utiles et liées à l’activité.
 - Retourne uniquement un JSON valide, sans markdown.
 
 Format exact attendu:
@@ -120,26 +113,21 @@ ${JSON.stringify(simplifiedCatalog, null, 2)}
     try {
       const jsonMatch = content.match(/\{[\s\S]*\}/);
       const parsed = JSON.parse(jsonMatch ? jsonMatch[0] : content) as RecommendationResult;
-      const availableNames = new Set(
-        catalog
-          .filter((item) => item.available && item.quantity > 0)
-          .map((item) => item.name.toLowerCase()),
-      );
+      const catalogNames = new Set(catalog.map((item) => item.name.toLowerCase()));
 
       return {
         activity: parsed.activity || prompt,
         recommendedEquipment: (parsed.recommendedEquipment || [])
-          .filter((item) => availableNames.size === 0 || availableNames.has(item.name.toLowerCase()))
+          .filter((item) => catalogNames.has(item.name.toLowerCase()))
           .slice(0, 5),
         explanation:
           parsed.explanation ||
-          'Voici le matériel recommandé à partir du catalogue SportLink disponible.',
+          'Voici une préparation de séance construite à partir de la bibliothèque SportLink.',
         optionalTips:
           parsed.optionalTips?.length > 0
             ? parsed.optionalTips
             : [
-                'Vérifier la disponibilité avant la réservation.',
-                'Adapter les quantités au nombre de participants.',
+                'Adapter le matériel au nombre de participants.',\n                'Vérifier les règles et les équipements déjà présents sur le lieu.',
               ],
         source: 'llm',
       };
@@ -175,11 +163,9 @@ ${JSON.stringify(simplifiedCatalog, null, 2)}
       activity: prompt,
       recommendedEquipment,
       explanation:
-        'Recommandation générée à partir du catalogue SportLink, sans appel IA externe disponible.',
+        'Préparation générée à partir de la bibliothèque SportLink, sans appel IA externe disponible.',
       optionalTips: [
-        'Vérifier la disponibilité avant la réservation.',
-        'Prévoir du matériel d’organisation si plusieurs équipes participent.',
-        'Adapter les quantités au nombre de joueurs.',
+        'Adapter le matériel au nombre de participants.',\n        'Prévoir du matériel d’organisation si plusieurs équipes participent.',\n        'Vérifier les règles du lieu avant de commencer.',
       ],
       source: 'fallback',
     };
