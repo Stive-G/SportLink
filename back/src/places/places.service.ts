@@ -64,6 +64,20 @@ function readActivities(value: string[] | string | null | undefined) {
     .filter(Boolean);
 }
 
+function normalizeExternalUrl(value: string | null | undefined) {
+  const clean = value?.trim();
+  if (!clean) return null;
+
+  const candidate = /^https?:\/\//i.test(clean) ? clean : `https://${clean}`;
+
+  try {
+    const url = new URL(candidate);
+    return url.protocol === 'http:' || url.protocol === 'https:' ? url.toString() : null;
+  } catch {
+    return null;
+  }
+}
+
 @Injectable()
 export class PlacesService {
   async search(location: string, sport?: string) {
@@ -148,7 +162,7 @@ export class PlacesService {
           accessible: readBoolean(record.inst_acc_handi_bool),
           latitude,
           longitude,
-          website: record.equip_url || null,
+          website: normalizeExternalUrl(record.equip_url),
           updatedAt: record.equip_maj_date || null,
         };
       });
