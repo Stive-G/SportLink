@@ -1,6 +1,6 @@
 # SportLink — Backend
 
-API NestJS de SportLink. Le produit aide à trouver des lieux de pratique, consulter une bibliothèque de matériel, préparer une séance avec un assistant et sauvegarder des plans personnels.
+API NestJS de SportLink. Le produit aide à trouver des lieux de pratique, préparer une séance avec un assistant et sauvegarder des plans personnels.
 
 ## Fonctionnalités
 
@@ -9,7 +9,7 @@ API NestJS de SportLink. Le produit aide à trouver des lieux de pratique, consu
 - Assistant de préparation via `/recommendations/demo` et `/recommendations`.
 - Plans personnels via `/plans` et `/plans/me`.
 - Administration des utilisateurs et consultation des plans.
-- MongoDB Atlas pour les comptes, la bibliothèque et les plans sauvegardés.
+- MongoDB Atlas pour les comptes et les plans sauvegardés.
 
 SportLink ne gère plus de réservation, de prêt, de retour ni de stock physique.
 
