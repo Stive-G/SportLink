@@ -493,7 +493,10 @@ function App() {
 
       <footer className="footer">
         <div className="footer-brand">
-          <strong>SportLink</strong>
+          <div className="footer-brand-title">
+            <img src="/sportlink-mark.svg" alt="" aria-hidden="true" />
+            <strong>SportLink</strong>
+          </div>
           <p>
             Lieux, guides, assistant et plans pour mieux préparer les activités sportives.
           </p>

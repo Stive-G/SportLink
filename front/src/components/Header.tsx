@@ -32,8 +32,11 @@ export function Header({ pathname, isAdmin, isLoggedIn, onNavigate }: HeaderProp
   return (
     <header className="header">
       <a className="brand-link" href="/" onClick={(event) => handleNavigation(event, '/')}>
-        <strong>SPORTLINK</strong>
-        <span>préparation sportive</span>
+        <img className="brand-mark" src="/sportlink-mark.svg" alt="" aria-hidden="true" />
+        <span className="brand-copy">
+          <strong>SPORTLINK</strong>
+          <span>préparation sportive</span>
+        </span>
       </a>
 
       <nav className="nav" aria-label="Navigation principale">
