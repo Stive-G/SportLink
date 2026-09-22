@@ -208,7 +208,7 @@ export function PlacesPage({ equipmentList, onNavigate }: PlacesPageProps) {
 
                       <p className="place-address">{[place.address, place.postalCode, place.city].filter(Boolean).join(' · ')}</p>
                       <div className="place-links">
-                        {mapUrl ? <a href={mapUrl} target="_blank" rel="noreferrer">Carte</a> : null}
+                        {mapUrl ? <a href={mapUrl} target="_blank" rel="noreferrer">Ouvrir dans Google Maps</a> : null}
                         {place.website ? <a href={place.website} target="_blank" rel="noreferrer">Site du lieu</a> : null}
                       </div>
                     </div>
