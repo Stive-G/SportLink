@@ -1,13 +1,13 @@
-import { Reservation, User } from '../types';
+import { ActivityPlan, User } from '../types';
 
 type AdminPageProps = {
   isAdmin: boolean;
   users: User[];
-  reservations: Reservation[];
+  plans: ActivityPlan[];
   onLogout: () => void;
 };
 
-export function AdminPage({ isAdmin, users, reservations, onLogout }: AdminPageProps) {
+export function AdminPage({ isAdmin, users, plans, onLogout }: AdminPageProps) {
   if (!isAdmin) {
     return (
       <section className="utility-page compact-utility-page">
@@ -20,15 +20,13 @@ export function AdminPage({ isAdmin, users, reservations, onLogout }: AdminPageP
     );
   }
 
-  const activeReservations = reservations.filter((reservation) => reservation.status !== 'RETURNED');
-
   return (
     <section className="utility-page admin-page">
       <header className="utility-head admin-head">
         <div>
-          <p className="section-kicker">Table de gestion</p>
-          <h1>Vue d’ensemble du stock</h1>
-          <p>Utilisateurs, mouvements de matériel et réservations en cours au même endroit.</p>
+          <p className="section-kicker">Administration</p>
+          <h1>Vue d’ensemble SportLink</h1>
+          <p>Comptes membres et plans sauvegardés, sans gestion de stock ni réservation physique.</p>
         </div>
         <button type="button" className="secondary-button" onClick={onLogout}>
           Se déconnecter
@@ -36,33 +34,21 @@ export function AdminPage({ isAdmin, users, reservations, onLogout }: AdminPageP
       </header>
 
       <dl className="admin-stats">
-        <div>
-          <dt>Utilisateurs</dt>
-          <dd>{users.length}</dd>
-        </div>
-        <div>
-          <dt>Réservations</dt>
-          <dd>{reservations.length}</dd>
-        </div>
-        <div>
-          <dt>En circulation</dt>
-          <dd>{activeReservations.length}</dd>
-        </div>
+        <div><dt>Utilisateurs</dt><dd>{users.length}</dd></div>
+        <div><dt>Plans sauvegardés</dt><dd>{plans.length}</dd></div>
+        <div><dt>Sports préparés</dt><dd>{new Set(plans.map((plan) => plan.sport).filter(Boolean)).size}</dd></div>
       </dl>
 
       <div className="admin-columns">
         <section className="admin-ledger">
           <div className="workbench-label">
-            <span>REGISTRE / UTILISATEURS</span>
+            <span>UTILISATEURS</span>
             <strong>{users.length} comptes</strong>
           </div>
           <div className="admin-list">
             {users.map((user) => (
               <article key={user.id}>
-                <div>
-                  <strong>{user.name}</strong>
-                  <span>{user.email}</span>
-                </div>
+                <div><strong>{user.name}</strong><span>{user.email}</span></div>
                 <b>{user.role}</b>
               </article>
             ))}
@@ -71,17 +57,17 @@ export function AdminPage({ isAdmin, users, reservations, onLogout }: AdminPageP
 
         <section className="admin-ledger">
           <div className="workbench-label">
-            <span>REGISTRE / RÉSERVATIONS</span>
-            <strong>{activeReservations.length} actives</strong>
+            <span>PLANS</span>
+            <strong>{plans.length} sauvegardés</strong>
           </div>
           <div className="admin-list">
-            {reservations.map((reservation) => (
-              <article key={reservation.id}>
+            {plans.map((plan) => (
+              <article key={plan.id}>
                 <div>
-                  <strong>{reservation.equipmentName}</strong>
-                  <span>{reservation.userEmail ?? 'Utilisateur inconnu'}</span>
+                  <strong>{plan.title}</strong>
+                  <span>{plan.userEmail ?? plan.activity}</span>
                 </div>
-                <b>{reservation.status}</b>
+                <b>{plan.sport ?? 'SPORT'}</b>
               </article>
             ))}
           </div>
