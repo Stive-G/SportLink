@@ -7,43 +7,30 @@ export function AboutPage({ onNavigate }: StaticPageProps) {
     <section className="content static-page">
       <div className="card hero-card static-hero">
         <p className="eyebrow">À propos</p>
-        <h2>SportLink organise le lien entre une activité sportive et le matériel dont elle a besoin</h2>
+        <h2>SportLink aide à passer de l’idée de sport à une séance réellement préparée</h2>
         <p className="description lead-copy">
-          SportLink est une application de gestion et de réservation de matériel sportif pensée
-          pour les clubs, associations, écoles et groupes qui partagent un stock. Le service
-          rassemble catalogue, disponibilité, réservation et conseils de préparation dans une
-          interface unique.
+          SportLink rassemble des lieux de pratique issus de données publiques, une bibliothèque de
+          matériel, des guides et un assistant de préparation. Le service ne possède pas de local,
+          ne loue pas de matériel et ne réserve pas de terrain.
         </p>
       </div>
 
       <div className="grid two-columns">
         <article className="card prose-card">
-          <p className="card-title">Le problème que SportLink cherche à résoudre</p>
+          <p className="card-title">Trouver, comprendre, préparer</p>
           <p className="description small">
-            Dans un stock collectif, savoir qu’un ballon, un filet ou un lot de chasubles existe
-            ne suffit pas. Il faut aussi connaître sa disponibilité, comprendre dans quel contexte
-            il est utile et éviter que plusieurs personnes comptent sur le même matériel au même
-            moment. SportLink centralise ces informations pour rendre la préparation plus lisible.
-          </p>
-          <p className="description small">
-            L’objectif est simple : permettre à un visiteur de comprendre le matériel avant de
-            créer un compte, puis donner aux membres les outils nécessaires pour réserver et suivre
-            les retours.
+            La page « Où pratiquer » interroge Data ES en direct pour trouver des équipements
+            sportifs en France. La bibliothèque matériel explique ensuite les usages, les contextes
+            adaptés et les points à vérifier avant une activité.
           </p>
         </article>
 
         <article className="card prose-card">
-          <p className="card-title">Une partie éditoriale, pas seulement un outil</p>
+          <p className="card-title">Un compte pour garder ce qui compte</p>
           <p className="description small">
-            Le catalogue est complété par des guides originaux consacrés au choix du matériel,
-            à l’organisation d’une séance et aux usages propres à plusieurs sports. Ces contenus
-            servent à expliquer les décisions à prendre avant une réservation plutôt qu’à afficher
-            uniquement des fiches techniques.
-          </p>
-          <p className="description small">
-            La recommandation IA reste une aide au choix. Les guides, la disponibilité du stock et
-            les contraintes réelles de l’activité gardent la priorité au moment de décider quoi
-            réserver.
+            Le compte membre sert à sauvegarder des plans de séance générés avec l’assistant :
+            contexte, matériel conseillé et repères d’organisation. Les recherches Data ES ne sont
+            pas enregistrées automatiquement.
           </p>
         </article>
       </div>
@@ -51,33 +38,27 @@ export function AboutPage({ onNavigate }: StaticPageProps) {
       <div className="grid feature-grid">
         <article className="card feature-card">
           <span className="feature-number">01</span>
-          <p className="card-title">Visiteurs</p>
-          <p className="description small">
-            Consultation libre du catalogue, des fiches matériel et des guides de préparation.
-          </p>
+          <p className="card-title">Lieux</p>
+          <p className="description small">Recherche publique de lieux de pratique via Data ES.</p>
         </article>
         <article className="card feature-card">
           <span className="feature-number">02</span>
-          <p className="card-title">Membres</p>
-          <p className="description small">
-            Réservation d’un équipement disponible, suivi des emprunts et déclaration des retours.
-          </p>
+          <p className="card-title">Assistant</p>
+          <p className="description small">Préparation d’une séance à partir du contexte saisi.</p>
         </article>
         <article className="card feature-card">
           <span className="feature-number">03</span>
-          <p className="card-title">Administrateurs</p>
-          <p className="description small">
-            Vision centralisée du stock, des utilisateurs et des réservations d’une organisation.
-          </p>
+          <p className="card-title">Plans</p>
+          <p className="description small">Sauvegarde privée des préparations utiles au membre.</p>
         </article>
       </div>
 
       <div className="button-row">
-        <button type="button" className="primary-button" onClick={() => onNavigate('/equipment')}>
-          Explorer le catalogue
+        <button type="button" className="primary-button" onClick={() => onNavigate('/places')}>
+          Trouver un lieu
         </button>
-        <button type="button" className="secondary-button" onClick={() => onNavigate('/blog')}>
-          Lire les guides
+        <button type="button" className="secondary-button" onClick={() => onNavigate('/assistant')}>
+          Ouvrir l’assistant
         </button>
       </div>
     </section>
@@ -91,8 +72,8 @@ export function ContactPage() {
         <p className="eyebrow">Contact</p>
         <h2>Contacter SportLink</h2>
         <p className="description lead-copy">
-          Une question sur le catalogue, une réservation, un retour de matériel ou le fonctionnement
-          du service ? Tu peux contacter SportLink par e-mail.
+          Une question sur un guide, un lieu, un plan sauvegardé, l’assistant ou tes données
+          personnelles ? Tu peux contacter SportLink par e-mail.
         </p>
       </div>
 
@@ -103,18 +84,17 @@ export function ContactPage() {
             contact@sportlink-app.site
           </a>
           <p className="description small">
-            Pour faciliter le traitement, indique l’équipement concerné, la date de réservation et
-            l’adresse e-mail du compte lorsqu’ils sont pertinents pour ta demande.
+            Pour une demande liée à ton compte, indique l’adresse e-mail concernée sans transmettre
+            de mot de passe ni d’information sensible inutile.
           </p>
         </article>
 
         <article className="card prose-card">
-          <p className="card-title">Pour quel type de demande ?</p>
+          <p className="card-title">Demandes possibles</p>
           <ul className="simple-list spacious-list">
-            <li>problème de disponibilité ou de réservation ;</li>
-            <li>question sur un retour de matériel ;</li>
-            <li>signalement d’une information de catalogue incorrecte ;</li>
-            <li>question liée à la confidentialité ou aux données personnelles ;</li>
+            <li>information de lieu ou de matériel incorrecte ;</li>
+            <li>question sur un plan sauvegardé ou l’assistant ;</li>
+            <li>demande relative aux données personnelles ;</li>
             <li>suggestion concernant un guide ou une fonctionnalité.</li>
           </ul>
         </article>
@@ -130,82 +110,91 @@ export function PrivacyPage() {
         <p className="eyebrow">Confidentialité</p>
         <h2>Politique de confidentialité SportLink</h2>
         <p className="description lead-copy">
-          Cette politique présente les principales données traitées par SportLink et la manière
-          dont elles sont utilisées pour fournir le catalogue, les réservations et les fonctions
-          de recommandation.
+          Cette politique décrit les principales données traitées par SportLink pour les comptes,
+          les plans sauvegardés, l’assistant, les données publiques de lieux et la publicité.
         </p>
-        <p className="legal-update">Dernière mise à jour : 10 septembre 2026</p>
+        <p className="legal-update">Dernière mise à jour : 22 septembre 2026</p>
       </div>
 
       <article className="card editorial-section">
         <h3>1. Données de compte</h3>
         <p className="description">
-          Lorsqu’un compte est créé, SportLink utilise les informations nécessaires à
-          l’identification du membre, notamment le nom, l’adresse e-mail et le rôle associé au
-          compte. Ces données servent à protéger les espaces réservés et à rattacher les actions
-          réalisées dans l’application au bon utilisateur.
+          Lorsqu’un compte est créé, SportLink traite le nom, l’adresse e-mail et le rôle associé au
+          compte. Ces informations sont utilisées pour l’authentification, l’accès aux fonctions
+          réservées aux membres et la protection des espaces privés.
         </p>
       </article>
 
       <article className="card editorial-section">
-        <h3>2. Réservations et historique d’utilisation</h3>
+        <h3>2. Plans sauvegardés</h3>
         <p className="description">
-          Une réservation contient les informations utiles au suivi de l’emprunt : matériel,
-          dates, statut et utilisateur concerné. Cet historique permet d’éviter les conflits de
-          disponibilité, de suivre les retours et de conserver une trace cohérente des mouvements
-          du stock.
+          Un membre peut choisir de sauvegarder un plan de séance. Le plan peut contenir un titre,
+          la description de l’activité, le sport, un lieu saisi volontairement, le matériel
+          conseillé, des repères d’organisation et des notes. Aucun lieu Data ES n’est enregistré
+          automatiquement simplement parce qu’il a été consulté.
         </p>
       </article>
 
       <article className="card editorial-section">
-        <h3>3. Demandes de recommandation</h3>
+        <h3>3. Assistant et fournisseur de modèle</h3>
         <p className="description">
-          Lorsqu’un utilisateur saisit une demande dans l’outil de recommandation, le texte peut
-          être traité afin de proposer une sélection de matériel cohérente avec le catalogue.
-          Évite d’inscrire dans ce champ des données personnelles qui ne sont pas nécessaires à la
-          préparation de l’activité sportive.
+          Le texte saisi dans l’Assistant SportLink peut être transmis au fournisseur de modèle
+          configuré par le service afin de produire une recommandation. SportLink demande aux
+          utilisateurs de ne pas saisir de données sensibles ou de données personnelles inutiles
+          dans ce champ. Si le fournisseur IA est indisponible, une logique locale peut produire une
+          suggestion simplifiée à partir de la bibliothèque SportLink.
         </p>
       </article>
 
       <article className="card editorial-section">
-        <h3>4. Publicité, cookies et technologies similaires</h3>
+        <h3>4. Recherche de lieux et Data ES</h3>
         <p className="description">
-          SportLink utilise Google AdSense sur certaines pages éditoriales. Google et ses partenaires
-          peuvent utiliser des cookies, du stockage local ou des identifiants similaires pour mesurer
-          la diffusion des annonces et, lorsque la réglementation et le choix de l’utilisateur le
-          permettent, personnaliser la publicité.
+          Les recherches de lieux sont envoyées à l’API publique Data ES via le serveur SportLink.
+          Les résultats sont affichés à la demande et ne sont pas importés dans la base de données
+          SportLink. Les critères de recherche ne sont pas utilisés pour créer un historique de
+          lieux dans le compte.
+        </p>
+      </article>
+
+      <article className="card editorial-section">
+        <h3>5. Google AdSense, cookies et consentement</h3>
+        <p className="description">
+          SportLink peut afficher des annonces Google AdSense sur certaines pages publiques
+          éditoriales. Google et ses partenaires peuvent utiliser des cookies, du stockage local ou
+          d’autres identifiants pour mesurer la diffusion des annonces et, lorsque le droit
+          applicable et le choix de l’utilisateur le permettent, personnaliser la publicité.
         </p>
         <p className="description">
-          Pour les visiteurs situés dans l’Espace économique européen, au Royaume-Uni ou en Suisse,
-          le consentement publicitaire doit être recueilli au moyen d’une plate-forme de gestion du
-          consentement compatible avec les exigences de Google. Les choix proposés dans cette
-          interface déterminent les traitements publicitaires autorisés.
+          Pour les visiteurs de l’Espace économique européen, du Royaume-Uni et de Suisse, SportLink
+          utilise une plate-forme de gestion du consentement compatible avec les exigences Google
+          lorsque cela est nécessaire. L’utilisateur peut accepter ou refuser les finalités
+          proposées dans cette interface. Les annonces ne sont pas placées dans les pages privées
+          du compte, les formulaires d’authentification ou les écrans purement fonctionnels.
         </p>
         <p className="description small">
           En savoir plus :{' '}
           <a href="https://policies.google.com/technologies/ads" target="_blank" rel="noreferrer">
-            utilisation des données par Google pour la publicité
+            technologies publicitaires de Google
           </a>.
         </p>
       </article>
 
       <article className="card editorial-section">
-        <h3>5. Durée de conservation et sécurité</h3>
+        <h3>6. Conservation et sécurité</h3>
         <p className="description">
-          Les données sont conservées pendant la durée nécessaire au fonctionnement du service,
-          au suivi des réservations et au respect des obligations applicables. Des mesures techniques
-          et organisationnelles sont mises en place pour limiter l’accès non autorisé aux données
-          stockées par l’application.
+          Les données de compte et les plans sont conservés aussi longtemps qu’ils sont nécessaires
+          au fonctionnement du service ou jusqu’à leur suppression lorsque cette possibilité est
+          proposée. Des mesures techniques sont utilisées pour limiter l’accès non autorisé aux
+          données. SportLink ne vend pas les données personnelles des utilisateurs.
         </p>
       </article>
 
       <article className="card editorial-section">
-        <h3>6. Questions et demandes relatives aux données</h3>
+        <h3>7. Questions et droits</h3>
         <p className="description">
-          Pour une question sur cette politique ou une demande concernant tes données, écris à{' '}
-          <a href="mailto:contact@sportlink-app.site">contact@sportlink-app.site</a>. La demande doit
-          contenir suffisamment d’informations pour identifier le compte concerné sans transmettre
-          de mot de passe ou d’information sensible inutile.
+          Pour toute question ou demande concernant tes données, écris à{' '}
+          <a href="mailto:contact@sportlink-app.site">contact@sportlink-app.site</a>. N’envoie jamais
+          ton mot de passe dans un e-mail.
         </p>
       </article>
     </section>
@@ -219,66 +208,53 @@ export function TermsPage() {
         <p className="eyebrow">Conditions</p>
         <h2>Conditions d’utilisation de SportLink</h2>
         <p className="description lead-copy">
-          SportLink facilite la consultation, la réservation et le suivi de matériel sportif.
-          L’utilisation du service implique de respecter le stock partagé, les autres membres et
-          les règles définies par l’organisation qui met le matériel à disposition.
+          SportLink est un outil d’information et de préparation sportive. Il ne constitue ni un
+          service de location, ni une centrale de réservation de terrain, ni un encadrement sportif.
         </p>
-        <p className="legal-update">Dernière mise à jour : 10 septembre 2026</p>
+        <p className="legal-update">Dernière mise à jour : 22 septembre 2026</p>
       </div>
 
       <article className="card editorial-section">
-        <h3>1. Accès au contenu public</h3>
+        <h3>1. Contenu public</h3>
         <p className="description">
-          Le catalogue, les fiches matériel et les guides peuvent être consultés sans compte. Les
-          informations publiées ont pour objectif d’aider à préparer une activité sportive et à
-          comprendre l’usage du matériel présenté.
+          Les lieux, fiches matériel et guides sont proposés pour aider à préparer une activité.
+          Certaines informations de lieux proviennent de sources publiques externes et peuvent
+          évoluer indépendamment de SportLink.
         </p>
       </article>
 
       <article className="card editorial-section">
-        <h3>2. Compte membre et réservation</h3>
+        <h3>2. Comptes et plans</h3>
         <p className="description">
-          Un compte est nécessaire pour réserver. L’utilisateur doit fournir des informations
-          exactes, protéger l’accès à son compte et réserver uniquement du matériel qu’il prévoit
-          réellement d’utiliser. Une réservation peut réduire temporairement la disponibilité pour
-          les autres membres.
+          Un compte permet de sauvegarder des plans personnels. L’utilisateur est responsable de
+          l’exactitude des informations qu’il ajoute à ses plans et de la confidentialité de ses
+          identifiants de connexion.
         </p>
       </article>
 
       <article className="card editorial-section">
-        <h3>3. Utilisation et retour du matériel</h3>
+        <h3>3. Assistant SportLink</h3>
         <p className="description">
-          Le matériel réservé doit être utilisé conformément à sa destination et aux consignes de
-          l’organisation qui le fournit. Le retour doit être signalé dès que l’équipement est rendu
-          afin que le stock puisse être mis à jour et redevenir disponible pour les autres membres.
+          Les recommandations générées sont des aides à la préparation. Elles peuvent être
+          incomplètes ou inadaptées à une situation particulière. Elles ne remplacent pas les
+          règles du lieu, les consignes d’un encadrant ni les vérifications de sécurité.
         </p>
       </article>
 
       <article className="card editorial-section">
-        <h3>4. Recommandations et guides</h3>
+        <h3>4. Services et données externes</h3>
         <p className="description">
-          Les guides et recommandations sont des aides à la préparation. Ils ne remplacent ni les
-          règles d’un club, ni les consignes d’un encadrant, ni les vérifications de sécurité propres
-          au lieu de pratique. L’utilisateur reste responsable d’adapter le matériel au niveau des
-          participants et aux conditions réelles de l’activité.
+          La disponibilité de certaines fonctions dépend de services tiers, notamment Data ES et le
+          fournisseur de modèle utilisé par l’assistant. SportLink ne garantit pas l’absence
+          d’interruption ni l’exactitude permanente des données fournies par ces services.
         </p>
       </article>
 
       <article className="card editorial-section">
-        <h3>5. Disponibilité du service</h3>
+        <h3>5. Contact</h3>
         <p className="description">
-          SportLink cherche à présenter des informations de stock à jour, mais une indisponibilité
-          technique ou une mise à jour tardive peut exceptionnellement créer un écart entre le
-          catalogue affiché et la situation réelle. En cas de doute, l’administrateur de
-          l’organisation reste le point de référence pour confirmer une réservation.
-        </p>
-      </article>
-
-      <article className="card editorial-section">
-        <h3>6. Contact</h3>
-        <p className="description">
-          Pour toute question concernant ces conditions ou le fonctionnement général du service,
-          contacte SportLink à <a href="mailto:contact@sportlink-app.site">contact@sportlink-app.site</a>.
+          Pour toute question concernant ces conditions, contacte SportLink à{' '}
+          <a href="mailto:contact@sportlink-app.site">contact@sportlink-app.site</a>.
         </p>
       </article>
     </section>
