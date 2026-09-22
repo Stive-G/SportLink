@@ -454,3 +454,66 @@
     border-top: 0;
   }
 }
+
+
+.assistant-save-row {
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--line);
+}
+
+.plan-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.plan-card {
+  display: grid;
+  gap: 1rem;
+  padding: 1.2rem 0 1.4rem;
+  border-top: 2px solid var(--ink);
+  border-bottom: 1px solid var(--line);
+}
+
+.plan-card-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 1.25rem;
+  align-items: start;
+}
+
+.plan-card-head h2 {
+  margin-top: 0.25rem;
+  font-size: clamp(1.3rem, 2.5vw, 2rem);
+}
+
+.plan-card-head time {
+  color: var(--muted);
+  font-family: var(--mono-font);
+  font-size: 0.68rem;
+  white-space: nowrap;
+}
+
+.plan-activity,
+.plan-place,
+.plan-card .simple-list {
+  color: #56605a;
+  line-height: 1.65;
+}
+
+.plan-kit {
+  display: grid;
+  gap: 0.6rem;
+  padding-top: 0.8rem;
+  border-top: 1px solid var(--line);
+}
+
+.danger-text-button {
+  width: fit-content;
+  color: var(--danger);
+}
+
+.library-mark strong {
+  font-size: 1.1rem;
+  text-transform: capitalize;
+}
