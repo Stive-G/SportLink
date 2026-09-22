@@ -13,70 +13,33 @@ export class EquipmentService {
   ) {}
 
   create(dto: CreateEquipment) {
-    return this.equipmentModel.create({
-      ...dto,
-      available: dto.available ?? dto.quantity > 0,
-    });
+    return this.equipmentModel.create(dto);
   }
 
-  findAll(filters?: {
-    sport?: string;
-    available?: string;
-    category?: string;
-  }) {
+  findAll(filters?: { sport?: string; category?: string }) {
     const query: FilterQuery<Equipment> = {};
 
-    if (filters?.sport) {
-      query.sport = filters.sport;
-    }
-
-    if (filters?.category) {
-      query.category = filters.category;
-    }
-
-    if (filters?.available !== undefined) {
-      query.available = filters.available === 'true';
-    }
+    if (filters?.sport) query.sport = filters.sport;
+    if (filters?.category) query.category = filters.category;
 
     return this.equipmentModel.find(query);
   }
 
   async findById(id: string) {
     const equipment = await this.equipmentModel.findById(id);
-
-    if (!equipment) {
-      throw new NotFoundException('Equipment not found');
-    }
-
+    if (!equipment) throw new NotFoundException('Equipment not found');
     return equipment;
   }
 
   async update(id: string, dto: UpdateEquipment) {
-    const payload = { ...dto } as UpdateEquipment;
-
-    // Recalcule la disponibilité après modification.
-    if (payload.quantity !== undefined && payload.available === undefined) {
-      payload.available = payload.quantity > 0;
-    }
-
-    const equipment = await this.equipmentModel.findByIdAndUpdate(id, payload, {
-      new: true,
-    });
-
-    if (!equipment) {
-      throw new NotFoundException('Equipment not found');
-    }
-
+    const equipment = await this.equipmentModel.findByIdAndUpdate(id, dto, { new: true });
+    if (!equipment) throw new NotFoundException('Equipment not found');
     return equipment;
   }
 
   async delete(id: string) {
     const equipment = await this.equipmentModel.findByIdAndDelete(id);
-
-    if (!equipment) {
-      throw new NotFoundException('Equipment not found');
-    }
-
+    if (!equipment) throw new NotFoundException('Equipment not found');
     return { message: 'Equipment deleted' };
   }
 }
