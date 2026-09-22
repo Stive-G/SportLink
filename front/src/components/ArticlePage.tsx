@@ -70,7 +70,7 @@ const editorialExtensions: Record<string, ExtraSection[]> = {
       heading: 'Prévoir une petite marge pour les imprévus',
       paragraphs: [
         'Une séance collective comporte souvent quelques imprévus : un ballon qui se dégonfle, un joueur supplémentaire, une zone du terrain qui doit être redélimitée. Une petite marge sur le matériel léger peut donc être utile. L’objectif n’est pas d’emporter tout ce qui existe, mais d’éviter qu’un incident mineur bloque l’activité.',
-        'Pour le matériel rare ou volumineux, la logique inverse s’applique : réserve seulement ce qui est indispensable. Une préparation équilibrée améliore l’expérience du groupe sans ajouter de matériel inutile.',
+        'Pour le matériel rare ou volumineux, la logique inverse s’applique : prévois seulement ce qui est indispensable. Une préparation équilibrée améliore l’expérience du groupe sans ajouter de matériel inutile.',
       ],
     },
     {
@@ -108,7 +108,7 @@ const editorialExtensions: Record<string, ExtraSection[]> = {
     {
       heading: 'Une recommandation utile doit rester ancrée dans des données réelles',
       paragraphs: [
-        'Une IA peut proposer beaucoup d’idées, mais elles ne sont utiles que si elles correspondent au bibliothèque de matériel. Dans SportLink, l’objectif est de rapprocher la demande de l’utilisateur du bibliothèque SportLink. Une suggestion qui recommande un équipement absent de la bibliothèque doit être vérifiée avant d’être retenue.',
+        'Une IA peut proposer beaucoup d’idées, mais elles ne sont utiles que si elles correspondent à la bibliothèque de matériel. Dans SportLink, l’objectif est de rapprocher la demande de l’utilisateur de la bibliothèque SportLink. Une suggestion qui recommande un équipement absent de la bibliothèque doit être vérifiée avant d’être retenue.',
         'Le contexte d’utilisation, le lieu et le nombre de participants restent donc des critères essentiels. L’IA aide à formuler une première sélection, puis l’utilisateur vérifie les fiches et les contraintes du lieu avant de confirmer son choix.',
       ],
     },
@@ -236,8 +236,8 @@ export function ArticlePage({ slug, onNavigate }: ArticlePageProps) {
           <p className="eyebrow">Continuer la préparation</p>
           <h3>Relier les conseils à un plan concret</h3>
           <p className="description small">
-            Consulte le catalogue pour vérifier les quantités et la disponibilité, puis utilise la
-            démo de recommandation si tu veux partir d’une description libre de ton activité.
+            Consulte la bibliothèque matériel puis utilise l’assistant si tu veux transformer une
+            description libre de ton activité en plan de séance.
           </p>
         </div>
         <div className="button-row">
@@ -246,10 +246,10 @@ export function ArticlePage({ slug, onNavigate }: ArticlePageProps) {
           </a>
           <a
             className="secondary-button link-button"
-            href="/recommendations-demo"
-            onClick={(event) => handleNavigation(event, '/recommendations-demo')}
+            href="/assistant"
+            onClick={(event) => handleNavigation(event, '/assistant')}
           >
-            Tester l’IA
+            Ouvrir l’assistant
           </a>
         </div>
       </aside>
