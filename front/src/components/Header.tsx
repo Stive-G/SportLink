@@ -11,7 +11,6 @@ const publicLinks = [
   { path: '/', label: 'Accueil' },
   { path: '/equipment', label: 'Matériel' },
   { path: '/places', label: 'Où pratiquer' },
-  { path: '/places', label: 'Où pratiquer' },
   { path: '/blog', label: 'Guides' },
   { path: '/recommendations-demo', label: 'Aide au choix' },
   { path: '/about', label: 'À propos' },
