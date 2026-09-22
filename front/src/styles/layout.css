@@ -164,6 +164,17 @@
   color: var(--muted);
 }
 
+.footer-brand-title {
+  display: inline-flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.footer-brand-title img {
+  width: 28px;
+  height: 28px;
+}
+
 .footer-brand strong {
   color: var(--ink);
   font-size: 1rem;
