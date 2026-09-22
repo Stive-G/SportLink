@@ -1,6 +1,6 @@
 # SportLink
 
-SportLink aide à préparer une activité sportive : trouver un lieu de pratique, comprendre le matériel utile, obtenir un plan avec l'Assistant SportLink et sauvegarder ses préparations.
+SportLink aide à préparer une activité sportive : trouver un lieu de pratique, obtenir un plan avec l'Assistant SportLink et sauvegarder ses préparations.
 
 Site : https://sportlink-app.site
 
