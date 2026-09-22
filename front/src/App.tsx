@@ -4,7 +4,6 @@ import {
   createPlan,
   deletePlan,
   getAllPlans,
-  getEquipment,
   getMyPlans,
   getPublicRecommendations,
   getUsers,
@@ -16,9 +15,7 @@ import { AdminPage } from './components/AdminPage';
 import { ArticlePage } from './components/ArticlePage';
 import { AuthPage } from './components/AuthPage';
 import { BlogPage } from './components/BlogPage';
-import { CataloguePage } from './components/CataloguePage';
 import { ContactPage, AboutPage, PrivacyPage, TermsPage } from './components/StaticPages';
-import { EquipmentDetailPage } from './components/EquipmentDetailPage';
 import { Header } from './components/Header';
 import { HomePage } from './components/HomePage';
 import { PlacesPage } from './components/PlacesPage';
@@ -28,10 +25,9 @@ import { SportPage } from './components/SportPage';
 import {
   blogArticles,
   buildLocalRecommendation,
-  fallbackEquipment,
   sportGuides,
 } from './data/public-content';
-import { ActivityPlan, Credentials, Equipment, RecommendationResult, User } from './types';
+import { ActivityPlan, Credentials, RecommendationResult, User } from './types';
 
 const initialCredentials: Credentials = {
   name: '',
@@ -44,7 +40,6 @@ const siteUrl = 'https://sportlink-app.site';
 
 const staticPaths = new Set([
   '/',
-  '/equipment',
   '/places',
   '/blog',
   '/guides',
@@ -74,7 +69,7 @@ function isRecognizedPath(pathname: string) {
   const segments = getSegments(pathname);
   return (
     segments.length === 2 &&
-    (segments[0] === 'equipment' || segments[0] === 'sports' || segments[0] === 'blog')
+    (segments[0] === 'sports' || segments[0] === 'blog')
   );
 }
 
@@ -113,7 +108,6 @@ function getPageTitle(pathname: string) {
   }
 
   if (pathname === '/') return 'SportLink - Préparer une activité sportive';
-  if (pathname.startsWith('/equipment')) return 'Catalogue de matériel sportif - SportLink';
   if (pathname === '/places') return 'Trouver un lieu de pratique sportive - SportLink';
   if (pathname === '/blog' || pathname === '/guides') return 'Guides de matériel sportif - SportLink';
   if (pathname === '/assistant') return 'Assistant de préparation sportive - SportLink';
@@ -142,9 +136,6 @@ function getPageDescription(pathname: string) {
 
   if (pathname === '/') {
     return 'SportLink aide à trouver un lieu, choisir le matériel utile et préparer une séance sportive avec des guides et un assistant.';
-  }
-  if (pathname.startsWith('/equipment')) {
-    return 'Consulte la bibliothèque SportLink pour comprendre l’usage du matériel et préparer une séance adaptée.';
   }
   if (pathname === '/places') {
     return 'Recherche en direct des équipements sportifs Data ES par ville, code postal et sport, sans stockage des résultats dans SportLink.';
@@ -190,7 +181,6 @@ function App() {
   const [credentials, setCredentials] = useState<Credentials>(initialCredentials);
   const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useState('');
-  const [equipmentList, setEquipmentList] = useState<Equipment[]>(fallbackEquipment);
   const [myPlans, setMyPlans] = useState<ActivityPlan[]>([]);
   const [allPlans, setAllPlans] = useState<ActivityPlan[]>([]);
   const [users, setUsers] = useState<User[]>([]);
@@ -205,8 +195,6 @@ function App() {
   const [actionId, setActionId] = useState('');
 
   useEffect(() => {
-    void loadEquipmentData();
-
     const saved = window.localStorage.getItem(storageKey);
     if (!saved) {
       return;
@@ -251,15 +239,6 @@ function App() {
     setError('');
     setMessage('');
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
-
-  async function loadEquipmentData() {
-    try {
-      const data = await getEquipment();
-      setEquipmentList(data.length > 0 ? data : fallbackEquipment);
-    } catch {
-      setEquipmentList(fallbackEquipment);
-    }
   }
 
   async function loadProtectedData(currentToken: string, currentUser: User) {
@@ -338,10 +317,8 @@ function App() {
       const response = await getPublicRecommendations(publicRecommendationPrompt);
       setPublicRecommendationResult(response);
     } catch {
-      setPublicRecommendationResult(
-        buildLocalRecommendation(publicRecommendationPrompt, equipmentList),
-      );
-      setMessage('Mode démo local : recommandation générée à partir du catalogue public.');
+      setPublicRecommendationResult(buildLocalRecommendation(publicRecommendationPrompt));
+      setMessage('Mode local : préparation générée sans appel au fournisseur IA.');
     } finally {
       setLoading(false);
     }
@@ -358,12 +335,10 @@ function App() {
     setMessage('');
 
     try {
-      const first = publicRecommendationResult.recommendedEquipment[0];
       await createPlan(token, {
-        title: first?.sport ? 'Séance ' + first.sport : 'Plan SportLink',
+        title: 'Plan SportLink',
         activity: publicRecommendationResult.activity,
-        sport: first?.sport,
-        equipment: publicRecommendationResult.recommendedEquipment.map((item) => ({
+        materials: publicRecommendationResult.recommendedItems.map((item) => ({
           name: item.name,
           reason: item.reason,
         })),
@@ -428,30 +403,17 @@ function App() {
 
         {pathname === '/' ? (
           <HomePage
-            equipmentCount={equipmentList.length}
             userRole={user?.role ?? 'Invite'}
             onNavigate={navigate}
           />
         ) : null}
 
         {pathname === '/places' ? (
-          <PlacesPage equipmentList={equipmentList} onNavigate={navigate} />
-        ) : null}
-
-        {pathname === '/equipment' ? (
-          <CataloguePage equipmentList={equipmentList} onNavigate={navigate} />
-        ) : null}
-
-        {segments[0] === 'equipment' && segments[1] ? (
-          <EquipmentDetailPage
-            equipmentId={segments[1]}
-            equipmentList={equipmentList}
-            onNavigate={navigate}
-          />
+          <PlacesPage onNavigate={navigate} />
         ) : null}
 
         {segments[0] === 'sports' && segments[1] ? (
-          <SportPage sportSlug={segments[1]} equipmentList={equipmentList} onNavigate={navigate} />
+          <SportPage sportSlug={segments[1]} onNavigate={navigate} />
         ) : null}
 
         {pathname === '/blog' || pathname === '/guides' ? <BlogPage onNavigate={navigate} /> : null}
@@ -517,7 +479,7 @@ function App() {
               <h2>Cette page n’existe pas</h2>
               <p className="description">
                 Le lien demandé ne correspond à aucune page publiée sur SportLink. Utilise la
-                navigation principale ou retourne au catalogue pour poursuivre ta visite.
+                navigation principale ou retourne à l’accueil pour poursuivre ta visite.
               </p>
               <button type="button" className="primary-button" onClick={() => navigate('/')}>
                 Retour à l’accueil
@@ -533,11 +495,10 @@ function App() {
         <div className="footer-brand">
           <strong>SportLink</strong>
           <p>
-            Lieux, matériel, guides et assistant pour mieux préparer les activités sportives.
+            Lieux, guides, assistant et plans pour mieux préparer les activités sportives.
           </p>
         </div>
         <div className="footer-links" aria-label="Liens du site">
-          <a href="/equipment" onClick={(event) => { event.preventDefault(); navigate('/equipment'); }}>Catalogue</a>
           <a href="/places" onClick={(event) => { event.preventDefault(); navigate('/places'); }}>Où pratiquer</a>
           <a href="/blog" onClick={(event) => { event.preventDefault(); navigate('/blog'); }}>Guides</a>
           <a href="/assistant" onClick={(event) => { event.preventDefault(); navigate('/assistant'); }}>Assistant</a>
