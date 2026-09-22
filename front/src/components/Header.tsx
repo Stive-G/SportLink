@@ -12,7 +12,7 @@ const publicLinks = [
   { path: '/equipment', label: 'Matériel' },
   { path: '/places', label: 'Où pratiquer' },
   { path: '/blog', label: 'Guides' },
-  { path: '/recommendations-demo', label: 'Aide au choix' },
+  { path: '/assistant', label: 'Assistant' },
   { path: '/about', label: 'À propos' },
 ];
 
@@ -60,18 +60,11 @@ export function Header({ pathname, isAdmin, isLoggedIn, onNavigate }: HeaderProp
         ) : (
           <>
             <a
-              href="/reservations"
-              className={pathname === '/reservations' ? 'nav-link active' : 'nav-link'}
-              onClick={(event) => handleNavigation(event, '/reservations')}
+              href="/plans"
+              className={pathname === '/plans' ? 'nav-link active' : 'nav-link'}
+              onClick={(event) => handleNavigation(event, '/plans')}
             >
-              Réservations
-            </a>
-            <a
-              href="/recommendations"
-              className={pathname === '/recommendations' ? 'nav-link active' : 'nav-link'}
-              onClick={(event) => handleNavigation(event, '/recommendations')}
-            >
-              IA membre
+              Mes plans
             </a>
             {isAdmin ? (
               <a
