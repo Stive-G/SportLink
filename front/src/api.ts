@@ -35,8 +35,6 @@ type EquipmentApiItem = {
   name: string;
   sport: string;
   category: string;
-  quantity: number;
-  available: boolean;
   description: string;
   usageAdvice?: string;
   practicalTips?: string[];
@@ -112,8 +110,6 @@ function mapEquipment(item: EquipmentApiItem): Equipment {
     name: item.name,
     sport: item.sport,
     category: item.category,
-    quantity: item.quantity,
-    available: item.available,
     description: item.description,
     usageAdvice: item.usageAdvice,
     practicalTips: item.practicalTips,
