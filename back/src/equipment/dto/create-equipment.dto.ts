@@ -1,10 +1,4 @@
-import {
-  IsBoolean,
-  IsInt,
-  IsOptional,
-  IsString,
-  Min,
-} from 'class-validator';
+import { IsOptional, IsString } from 'class-validator';
 
 export class CreateEquipment {
   @IsString()
@@ -16,18 +10,10 @@ export class CreateEquipment {
   @IsString()
   category: string;
 
-  @IsInt()
-  @Min(0)
-  quantity: number;
-
   @IsString()
   description: string;
 
   @IsOptional()
   @IsString()
   imageUrl?: string;
-
-  @IsOptional()
-  @IsBoolean()
-  available?: boolean;
 }
