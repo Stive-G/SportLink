@@ -46,7 +46,7 @@ function suggestedEquipment(place: SportsPlace, sport: string, equipmentList: Eq
   return equipmentList
     .filter((item) => {
       const itemSport = normalize(item.sport);
-      return item.available && item.quantity > 0 && (itemSport === target || itemSport === 'multisport');
+      return itemSport === target || itemSport === 'multisport';
     })
     .slice(0, 3);
 }
@@ -155,7 +155,7 @@ export function PlacesPage({ equipmentList, onNavigate }: PlacesPageProps) {
         <div className="places-empty-intro">
           <div><span className="section-index">01</span><h2>Chercher</h2><p>Ville, code postal et sport suffisent pour interroger le recensement national.</p></div>
           <div><span className="section-index">02</span><h2>Comparer</h2><p>Type, surface, accès libre, accessibilité et activités sont affichés quand ils sont renseignés.</p></div>
-          <div><span className="section-index">03</span><h2>Préparer</h2><p>SportLink rapproche ensuite le lieu du matériel actuellement disponible dans ton catalogue.</p></div>
+          <div><span className="section-index">03</span><h2>Préparer</h2><p>SportLink rapproche ensuite le lieu des fiches matériel utiles pour préparer la séance.</p></div>
         </div>
       ) : null}
 
@@ -180,7 +180,7 @@ export function PlacesPage({ equipmentList, onNavigate }: PlacesPageProps) {
               {data.results.map((place) => {
                 const suggestions = suggestedEquipment(place, sport, equipmentList);
                 const mapUrl = place.latitude !== null && place.longitude !== null
-                  ? 'https://www.openstreetmap.org/?mlat=' + place.latitude + '&mlon=' + place.longitude + '#map=17/' + place.latitude + '/' + place.longitude
+                  ? 'https://www.google.com/maps/search/?api=1&query=' + place.latitude + ',' + place.longitude
                   : null;
 
                 return (
@@ -208,19 +208,19 @@ export function PlacesPage({ equipmentList, onNavigate }: PlacesPageProps) {
 
                       <p className="place-address">{[place.address, place.postalCode, place.city].filter(Boolean).join(' · ')}</p>
                       <div className="place-links">
-                        {mapUrl ? <a href={mapUrl} target="_blank" rel="noreferrer">Carte</a> : null}
+                        {mapUrl ? <a href={mapUrl} target="_blank" rel="noreferrer">Ouvrir dans Google Maps</a> : null}
                         {place.website ? <a href={place.website} target="_blank" rel="noreferrer">Site du lieu</a> : null}
                       </div>
                     </div>
 
                     <aside className="place-equipment-panel">
-                      <p className="section-kicker">Stock SportLink</p>
-                      <h3>Matériel utile</h3>
+                      <p className="section-kicker">Bibliothèque SportLink</p>
+                      <h3>Matériel conseillé</h3>
                       {suggestions.length > 0 ? (
                         <ul>
-                          {suggestions.map((item) => <li key={item.id}><span>{item.name}</span><strong>{item.quantity}</strong></li>)}
+                          {suggestions.map((item) => <li key={item.id}><span>{item.name}</span><strong>Voir</strong></li>)}
                         </ul>
-                      ) : <p className="place-no-gear">Aucun matériel associé disponible dans le catalogue.</p>}
+                      ) : <p className="place-no-gear">Aucune fiche matériel associée à cette activité.</p>}
                       <button type="button" className="text-button" onClick={() => onNavigate('/equipment')}>Ouvrir le catalogue</button>
                     </aside>
                   </article>
