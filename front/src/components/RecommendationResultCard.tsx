@@ -8,9 +8,9 @@ export function RecommendationResultCard({ result }: RecommendationResultCardPro
   if (!result) {
     return (
       <article className="card">
-        <p className="card-title">Résultat de la recommandation</p>
+        <p className="card-title">Plan de séance</p>
         <p className="description small">
-          Décris une activité sportive pour voir le matériel conseillé.
+          Décris une activité sportive pour obtenir une checklist et des conseils d’organisation.
         </p>
       </article>
     );
@@ -18,17 +18,13 @@ export function RecommendationResultCard({ result }: RecommendationResultCardPro
 
   return (
     <article className="card">
-      <p className="card-title">Matériel recommandé</p>
+      <p className="card-title">Checklist conseillée</p>
       <p className="description small">{result.explanation}</p>
 
       <div className="stack">
-        {result.recommendedEquipment.map((item) => (
-          <div className="recommendation-item" key={`${item.name}-${item.reason}`}>
+        {result.recommendedItems.map((item) => (
+          <div className="recommendation-item" key={item.name + item.reason}>
             <strong>{item.name}</strong>
-            <span>
-              {item.sport ? `${item.sport} · ` : ''}
-              {item.category ?? 'matériel sportif'}
-            </span>
             <p>{item.reason}</p>
           </div>
         ))}
