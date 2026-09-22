@@ -23,10 +23,9 @@ export class EquipmentController {
   @Get()
   findAll(
     @Query('sport') sport?: string,
-    @Query('available') available?: string,
     @Query('category') category?: string,
   ) {
-    return this.equipmentService.findAll({ sport, available, category });
+    return this.equipmentService.findAll({ sport, category });
   }
 
   @Get(':id')
