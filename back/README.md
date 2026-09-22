@@ -1,78 +1,64 @@
-# Starter Kit — Projet IPSSI MERN & TypeScript
+# SportLink — Backend
 
-## Ce qui est prêt
+API NestJS de SportLink. Le produit aide à trouver des lieux de pratique, consulter une bibliothèque de matériel, préparer une séance avec un assistant et sauvegarder des plans personnels.
 
-- **AuthModule** : register, login, JWT, guards (JwtAuthGuard), rôles (ADMIN/MEMBER)
-- **AiModule** : appel LLM via LiteLLM (proxy) avec le SDK OpenAI
-- **ConfigModule** : lecture automatique du fichier `.env`
-- **MongooseModule** : connexion MongoDB Atlas configurée
-- **ValidationPipe** : validation globale des DTOs activée
-- **CORS** : activé pour le frontend React
-- **SWC** : compilation rapide activée
+## Fonctionnalités
 
-## Démarrage rapide
+- Authentification JWT avec rôles `ADMIN` et `MEMBER`.
+- Bibliothèque de matériel sportif via `/equipment`.
+- Recherche de lieux via `/places`, proxy en lecture seule vers Data ES ; aucun résultat de recherche n'est persisté.
+- Assistant de préparation via `/recommendations/demo` et `/recommendations`.
+- Plans personnels via `/plans` et `/plans/me`.
+- Administration des utilisateurs et consultation des plans.
+- MongoDB Atlas pour les comptes, la bibliothèque et les plans sauvegardés.
+
+SportLink ne gère plus de réservation, de prêt, de retour ni de stock physique.
+
+## Démarrage
 
 ```bash
-# 1. Installer les dépendances
 pnpm install
-
-# 2. Configurer l'environnement
 cp .env.example .env
-# Remplir les valeurs dans .env
-
-# 3. Lancer
 pnpm start:dev
-
-# 4. Tester
-# POST http://localhost:3000/auth/register
-# POST http://localhost:3000/auth/login
 ```
 
-## Ce que VOUS devez créer
+Variables principales :
 
-### SportLink
-- `src/schemas/equipment.schema.ts`
-- `src/schemas/reservation.schema.ts`
-- `src/equipment/` (module, service, controller, DTOs)
-- `src/reservations/` (module, service, controller, DTOs)
-- Adapter `AiService` pour les recommandations de matériel
+```env
+MONGODB_URI=
+JWT_SECRET=
+LLM_API_KEY=
+LLM_BASE_URL=https://api.mistral.ai/v1
+LLM_MODEL=mistral-small-latest
+CORS_ORIGIN=http://localhost:5173
+PORT=3000
+```
 
-### MindVault
-- `src/schemas/note.schema.ts`
-- `src/schemas/collection.schema.ts`
-- `src/schemas/comment.schema.ts`
-- `src/notes/` (module, service, controller, DTOs)
-- `src/collections/` (module, service, controller, DTOs)
-- `src/shared/` (lecture publique + commentaires)
-- Adapter `AiService` pour summarize, suggest-tags, ask
+`DATA_ES_API_KEY` est optionnelle. La recherche Data ES est effectuée à la demande et n'est pas enregistrée par SportLink.
 
-## Commandes utiles
+## Endpoints principaux
+
+```text
+POST   /auth/register
+POST   /auth/login
+
+GET    /equipment
+GET    /equipment/:id
+
+GET    /places?location=Melun&sport=football
+
+POST   /recommendations/demo
+POST   /recommendations
+
+POST   /plans
+GET    /plans/me
+DELETE /plans/:id
+GET    /plans            # ADMIN
+```
+
+## Build
 
 ```bash
-# Générer un module complet avec le CLI NestJS
-nest g resource equipment  # pour SportLink
-nest g resource notes      # pour MindVault
-
-# Lancer en mode debug
-pnpm start:debug
-```
-
-## Structure
-
-```
-src/
-├── main.ts              # Point d'entrée (ValidationPipe + CORS)
-├── app.module.ts        # Module racine (ajoutez vos modules ici)
-├── schemas/
-│   └── user.schema.ts   # Schéma User (prêt)
-├── auth/                # Auth JWT complète (prêt)
-│   ├── auth.module.ts
-│   ├── auth.service.ts
-│   ├── auth.controller.ts
-│   ├── jwt.strategy.ts
-│   ├── jwt-auth.guard.ts
-│   └── dto/
-└── ai/                  # Module IA LiteLLM (prêt)
-    ├── ai.module.ts
-    └── ai.service.ts
+pnpm build
+pnpm start:prod
 ```
