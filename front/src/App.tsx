@@ -300,7 +300,7 @@ function App() {
     setToken(session.access_token);
     setUser(session.user);
     window.localStorage.setItem(storageKey, JSON.stringify(session));
-    navigate(session.user.role === 'ADMIN' ? '/admin' : '/equipment');
+    navigate(session.user.role === 'ADMIN' ? '/admin' : '/plans');
   }
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -429,7 +429,6 @@ function App() {
         {pathname === '/' ? (
           <HomePage
             equipmentCount={equipmentList.length}
-            availableCount={equipmentList.filter((item) => item.available).length}
             userRole={user?.role ?? 'Invite'}
             onNavigate={navigate}
           />
