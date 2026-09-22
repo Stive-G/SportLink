@@ -4,9 +4,9 @@ export type Page =
   | 'accueil'
   | 'auth'
   | 'catalogue'
-  | 'reservations'
+  | 'plans'
   | 'admin'
-  | 'recommandations';
+  | 'assistant';
 
 export type Credentials = {
   name: string;
@@ -28,8 +28,6 @@ export type Equipment = {
   name: string;
   sport: string;
   category: string;
-  quantity: number;
-  available: boolean;
   description: string;
   usageAdvice?: string;
   practicalTips?: string[];
@@ -37,14 +35,19 @@ export type Equipment = {
   imageUrl?: string;
 };
 
-export type Reservation = {
+export type ActivityPlan = {
   id: string;
-  equipmentId: string;
-  equipmentName: string;
+  title: string;
+  activity: string;
+  sport?: string;
+  placeName?: string;
+  peopleCount?: number;
+  durationMinutes?: number;
+  equipment: { name: string; reason?: string }[];
+  tips: string[];
+  notes?: string;
+  createdAt?: string;
   userEmail?: string;
-  startDate: string;
-  endDate: string;
-  status: 'PENDING' | 'ACTIVE' | 'RETURNED';
 };
 
 export type RecommendationEquipment = {

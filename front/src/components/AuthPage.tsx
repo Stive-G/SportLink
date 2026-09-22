@@ -67,10 +67,10 @@ export function AuthPage({
 
         <aside className="desk-note">
           <span>MEMBRE / ACCÈS</span>
-          <strong>Réserver</strong>
-          <strong>Suivre</strong>
-          <strong>Retourner</strong>
-          <p>Le catalogue et les guides restent accessibles sans compte.</p>
+          <strong>Sauvegarder</strong>
+          <strong>Retrouver</strong>
+          <strong>Adapter</strong>
+          <p>Les lieux, le matériel, les guides et l’assistant restent accessibles sans compte. Le compte sert surtout à sauvegarder tes plans.</p>
         </aside>
       </div>
     </section>

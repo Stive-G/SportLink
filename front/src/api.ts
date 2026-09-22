@@ -3,7 +3,7 @@ import {
   Credentials,
   Equipment,
   RecommendationResult,
-  Reservation,
+  ActivityPlan,
   User,
   UserRole,
   SportsPlacesResponse,
@@ -35,8 +35,6 @@ type EquipmentApiItem = {
   name: string;
   sport: string;
   category: string;
-  quantity: number;
-  available: boolean;
   description: string;
   usageAdvice?: string;
   practicalTips?: string[];
@@ -44,23 +42,19 @@ type EquipmentApiItem = {
   imageUrl?: string;
 };
 
-type ReservationApiItem = {
+type ActivityPlanApiItem = {
   _id: string;
-  equipmentId:
-    | string
-    | {
-        _id: string;
-        name: string;
-      };
-  userId?:
-    | string
-    | {
-        _id: string;
-        email: string;
-      };
-  startDate: string;
-  endDate: string;
-  status: 'PENDING' | 'ACTIVE' | 'RETURNED';
+  title: string;
+  activity: string;
+  sport?: string;
+  placeName?: string;
+  peopleCount?: number;
+  durationMinutes?: number;
+  equipment: { name: string; reason?: string }[];
+  tips: string[];
+  notes?: string;
+  createdAt?: string;
+  userId?: string | { _id: string; email: string };
 };
 
 type UserApiItem = {
@@ -116,8 +110,6 @@ function mapEquipment(item: EquipmentApiItem): Equipment {
     name: item.name,
     sport: item.sport,
     category: item.category,
-    quantity: item.quantity,
-    available: item.available,
     description: item.description,
     usageAdvice: item.usageAdvice,
     practicalTips: item.practicalTips,
@@ -126,25 +118,21 @@ function mapEquipment(item: EquipmentApiItem): Equipment {
   };
 }
 
-function mapReservation(item: ReservationApiItem): Reservation {
-  const equipment =
-    typeof item.equipmentId === 'string'
-      ? { _id: item.equipmentId, name: 'Matériel inconnu' }
-      : item.equipmentId;
-
-  const user =
-    item.userId && typeof item.userId !== 'string'
-      ? item.userId
-      : undefined;
-
+function mapActivityPlan(item: ActivityPlanApiItem): ActivityPlan {
+  const user = item.userId && typeof item.userId !== 'string' ? item.userId : undefined;
   return {
     id: item._id,
-    equipmentId: equipment._id,
-    equipmentName: equipment.name,
+    title: item.title,
+    activity: item.activity,
+    sport: item.sport,
+    placeName: item.placeName,
+    peopleCount: item.peopleCount,
+    durationMinutes: item.durationMinutes,
+    equipment: item.equipment ?? [],
+    tips: item.tips ?? [],
+    notes: item.notes,
+    createdAt: item.createdAt,
     userEmail: user?.email,
-    startDate: item.startDate,
-    endDate: item.endDate,
-    status: item.status,
   };
 }
 
@@ -187,47 +175,48 @@ export async function getEquipment() {
   }
 }
 
-export async function getMyReservations(token: string) {
+export async function getMyPlans(token: string) {
   try {
-    const response = await apiClient.get<ReservationApiItem[]>(
-      '/reservations/me',
-      authConfig(token),
-    );
-    return response.data.map(mapReservation);
+    const response = await apiClient.get<ActivityPlanApiItem[]>('/plans/me', authConfig(token));
+    return response.data.map(mapActivityPlan);
   } catch (error) {
-    throw new Error(normalizeError(error, 'Réservations indisponibles.'));
+    throw new Error(normalizeError(error, 'Plans indisponibles.'));
   }
 }
 
-export async function createReservation(token: string, equipmentId: string) {
-  const now = new Date();
-  const tomorrow = new Date(now);
-  tomorrow.setDate(now.getDate() + 1);
-
+export async function createPlan(token: string, payload: {
+  title: string;
+  activity: string;
+  sport?: string;
+  placeName?: string;
+  peopleCount?: number;
+  durationMinutes?: number;
+  equipment: { name: string; reason?: string }[];
+  tips: string[];
+  notes?: string;
+}) {
   try {
-    await apiClient.post(
-      '/reservations',
-      {
-        equipmentId,
-        startDate: now.toISOString().slice(0, 10),
-        endDate: tomorrow.toISOString().slice(0, 10),
-      },
-      authConfig(token),
-    );
+    const response = await apiClient.post<ActivityPlanApiItem>('/plans', payload, authConfig(token));
+    return mapActivityPlan(response.data);
   } catch (error) {
-    throw new Error(normalizeError(error, 'Création de réservation impossible.'));
+    throw new Error(normalizeError(error, 'Enregistrement du plan impossible.'));
   }
 }
 
-export async function returnReservation(token: string, reservationId: string) {
+export async function deletePlan(token: string, planId: string) {
   try {
-    await apiClient.patch(
-      `/reservations/${reservationId}/return`,
-      {},
-      authConfig(token),
-    );
+    await apiClient.delete('/plans/' + planId, authConfig(token));
   } catch (error) {
-    throw new Error(normalizeError(error, 'Retour du matériel impossible.'));
+    throw new Error(normalizeError(error, 'Suppression du plan impossible.'));
+  }
+}
+
+export async function getAllPlans(token: string) {
+  try {
+    const response = await apiClient.get<ActivityPlanApiItem[]>('/plans', authConfig(token));
+    return response.data.map(mapActivityPlan);
+  } catch (error) {
+    throw new Error(normalizeError(error, 'Vue admin des plans indisponible.'));
   }
 }
 
@@ -271,19 +260,6 @@ export async function getUsers(token: string) {
     throw new Error(normalizeError(error, 'Liste des utilisateurs indisponible.'));
   }
 }
-
-export async function getAllReservations(token: string) {
-  try {
-    const response = await apiClient.get<ReservationApiItem[]>(
-      '/reservations',
-      authConfig(token),
-    );
-    return response.data.map(mapReservation);
-  } catch (error) {
-    throw new Error(normalizeError(error, 'Vue admin des réservations indisponible.'));
-  }
-}
-
 
 export async function getSportsPlaces(location: string, sport = 'all') {
   try {

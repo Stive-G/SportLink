@@ -1,24 +1,16 @@
 import { getEquipmentContent } from '../data/public-content';
-import { Equipment, User } from '../types';
+import { Equipment } from '../types';
 
 type EquipmentDetailPageProps = {
   equipmentId: string;
   equipmentList: Equipment[];
-  user: User | null;
-  isMember: boolean;
-  activeReservationId: string;
   onNavigate: (path: string) => void;
-  onReserve: (equipmentId: string) => void;
 };
 
 export function EquipmentDetailPage({
   equipmentId,
   equipmentList,
-  user,
-  isMember,
-  activeReservationId,
   onNavigate,
-  onReserve,
 }: EquipmentDetailPageProps) {
   const equipment = equipmentList.find((item) => item.id === equipmentId);
 
@@ -26,10 +18,10 @@ export function EquipmentDetailPage({
     return (
       <section className="content">
         <div className="card empty-state">
-          <p className="section-kicker">Inventaire</p>
+          <p className="section-kicker">Bibliothèque</p>
           <h2>Matériel introuvable</h2>
           <p className="description small">
-            Cette référence n’est pas disponible dans le catalogue public.
+            Cette référence n’est pas disponible dans la bibliothèque SportLink.
           </p>
           <button type="button" className="primary-button" onClick={() => onNavigate('/equipment')}>
             Retour au matériel
@@ -45,16 +37,14 @@ export function EquipmentDetailPage({
     <article className="content equipment-detail-page">
       <header className="equipment-detail-head">
         <div>
-          <p className="section-kicker">Fiche matériel / {content.sport}</p>
+          <p className="section-kicker">Fiche pratique / {content.sport}</p>
           <h1>{content.name}</h1>
           <p className="lead-copy">{content.description}</p>
         </div>
-        <div className="detail-stock-block">
-          <span className={content.available ? 'status ok' : 'status off'}>
-            {content.available ? 'Disponible' : 'Indisponible'}
-          </span>
-          <strong>{content.quantity}</strong>
-          <small>unité{content.quantity > 1 ? 's' : ''} en stock</small>
+        <div className="detail-stock-block library-mark">
+          <span className="status">Guide</span>
+          <strong>{content.category}</strong>
+          <small>référence SportLink</small>
         </div>
       </header>
 
@@ -72,38 +62,23 @@ export function EquipmentDetailPage({
 
           <h3>Contextes adaptés</h3>
           <ul className="simple-list spacious-list">
-            {content.contexts?.map((context) => (
-              <li key={context}>{context}</li>
-            ))}
+            {content.contexts?.map((context) => <li key={context}>{context}</li>)}
           </ul>
         </section>
 
         <section className="detail-copy-block reserve-block">
           <p className="section-kicker">Préparation</p>
-          <h2>Avant de partir</h2>
+          <h2>À prévoir</h2>
           <ul className="simple-list spacious-list">
-            {content.practicalTips?.map((tip) => (
-              <li key={tip}>{tip}</li>
-            ))}
+            {content.practicalTips?.map((tip) => <li key={tip}>{tip}</li>)}
           </ul>
 
           <div className="reserve-action">
-            {isMember ? (
-              <button
-                type="button"
-                className="primary-button"
-                disabled={!content.available || content.quantity <= 0 || activeReservationId === content.id}
-                onClick={() => onReserve(content.id)}
-              >
-                {activeReservationId === content.id ? 'Réservation...' : 'Réserver ce matériel'}
-              </button>
-            ) : (
-              <button type="button" className="secondary-button" onClick={() => onNavigate('/login')}>
-                {user ? 'Réservation réservée aux membres' : 'Se connecter pour réserver'}
-              </button>
-            )}
+            <button type="button" className="primary-button" onClick={() => onNavigate('/assistant')}>
+              Préparer une séance avec l’assistant
+            </button>
             <button type="button" className="text-button" onClick={() => onNavigate('/equipment')}>
-              Retour au catalogue
+              Retour à la bibliothèque
             </button>
           </div>
         </section>

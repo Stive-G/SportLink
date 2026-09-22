@@ -19,7 +19,7 @@ const sportEditorial: Record<string, SportEditorial> = {
       title: 'Commencer par le format de la séance',
       paragraphs: [
         'Le matériel utile dépend d’abord du format : match libre, entraînement technique, petit tournoi ou futsal. Un match simple demande surtout des ballons fiables et des chasubles, alors qu’une séance composée de plusieurs ateliers nécessite davantage de ballons et de cônes pour faire travailler les joueurs en parallèle.',
-        'Avant de réserver, note le nombre de participants, la durée et le type de terrain. Ces informations suffisent souvent à éviter de prendre trop de matériel ou, au contraire, de découvrir au dernier moment qu’il manque un élément essentiel.',
+        'Avant de préparer la séance, note le nombre de participants, la durée et le type de terrain. Ces informations suffisent souvent à éviter de prendre trop de matériel ou, au contraire, de découvrir au dernier moment qu’il manque un élément essentiel.',
       ],
     },
     {
@@ -42,7 +42,7 @@ const sportEditorial: Record<string, SportEditorial> = {
       title: 'Organiser visuellement le gymnase',
       paragraphs: [
         'Des cônes ou repères simples permettent de séparer les zones de tir, les parcours de dribble et les espaces d’attente. Cette organisation devient particulièrement utile lorsque le niveau des participants est hétérogène ou que plusieurs groupes utilisent le même terrain.',
-        'Avant la séance, vérifie également l’état du sol, les zones de dégagement et la hauteur des paniers. Le matériel réservé doit s’intégrer à un espace adapté au groupe.',
+        'Avant la séance, vérifie également l’état du sol, les zones de dégagement et la hauteur des paniers. Le matériel prévu doit s’intégrer à un espace adapté au groupe.',
       ],
     },
   ],
@@ -55,10 +55,10 @@ const sportEditorial: Record<string, SportEditorial> = {
       ],
     },
     {
-      title: 'Vérifier le filet et l’espace avant de réserver',
+      title: 'Vérifier le filet et l’espace avant de jouer',
       paragraphs: [
         'Un filet réglable n’est utile que si l’espace permet de l’installer correctement. Vérifie les points de fixation, la hauteur et les zones de circulation autour du terrain. Dans une salle partagée, quelques repères au sol peuvent aussi aider à matérialiser les limites.',
-        'Cette vérification préalable réduit le risque de réserver un équipement inutilisable sur place et permet de consacrer la séance au jeu plutôt qu’à résoudre des problèmes d’installation.',
+        'Cette vérification préalable réduit le risque de prévoir un équipement inutilisable sur place et permet de consacrer la séance au jeu plutôt qu’à résoudre des problèmes d’installation.',
       ],
     },
   ],
@@ -83,7 +83,7 @@ export function SportPage({ sportSlug, equipmentList, onNavigate }: SportPagePro
           <p className="eyebrow">Sport introuvable</p>
           <h2>Aucun guide n’est publié pour ce sport</h2>
           <p className="description small">
-            Consulte le catalogue général pour retrouver tous les équipements disponibles et les
+            Consulte la bibliothèque générale pour retrouver toutes les fiches matériel et les
             sports actuellement documentés dans SportLink.
           </p>
           <a className="primary-button link-button" href="/equipment" onClick={(event) => handleNavigation(event, '/equipment')}>
@@ -101,7 +101,7 @@ export function SportPage({ sportSlug, equipmentList, onNavigate }: SportPagePro
         <h2>{guide?.title ?? `Matériel pour ${sportSlug}`}</h2>
         <p className="hero-description">
           {guide?.intro ??
-            `Retrouve les équipements SportLink disponibles pour organiser une activité ${sportSlug}.`}
+            `Retrouve les fiches SportLink utiles pour organiser une activité ${sportSlug}.`}
         </p>
         <div className="article-meta">
           <span>Rédaction SportLink</span>
@@ -149,7 +149,7 @@ export function SportPage({ sportSlug, equipmentList, onNavigate }: SportPagePro
         <div className="section-heading-row">
           <div>
             <p className="eyebrow">Matériel lié à ce sport</p>
-            <h2 id="sport-equipment-list">Consulter les fiches avant de réserver</h2>
+            <h2 id="sport-equipment-list">Consulter les fiches avant de préparer</h2>
           </div>
           <a className="text-link" href="/equipment" onClick={(event) => handleNavigation(event, '/equipment')}>
             Catalogue complet
@@ -161,9 +161,7 @@ export function SportPage({ sportSlug, equipmentList, onNavigate }: SportPagePro
             <article className="card equipment-summary-card" key={equipment.id}>
               <div className="card-row">
                 <p className="card-title">{equipment.name}</p>
-                <span className={equipment.available ? 'status ok' : 'status off'}>
-                  {equipment.available ? 'Disponible' : 'Indisponible'}
-                </span>
+                <span className="status">{equipment.category}</span>
               </div>
               <p className="description small">{equipment.usageAdvice}</p>
               <a
@@ -184,7 +182,7 @@ export function SportPage({ sportSlug, equipmentList, onNavigate }: SportPagePro
           <h3>Besoin d’une méthode plus générale pour choisir ?</h3>
           <p className="description small">
             Le guide de sélection explique comment croiser le sport, le nombre de participants,
-            le lieu et le déroulement de la séance avant de confirmer une réservation.
+            le lieu et le déroulement de la séance avant de finaliser un plan.
           </p>
         </div>
         <a
