@@ -41,12 +41,36 @@ export function AdSlot({ page }: AdSlotProps) {
       return;
     }
 
-    try {
-      window.adsbygoogle = window.adsbygoogle || [];
-      window.adsbygoogle.push({});
-    } catch {
-      // Un bloqueur de publicité ou un environnement local ne doit pas casser l'application.
+    const pushAd = () => {
+      try {
+        window.adsbygoogle = window.adsbygoogle || [];
+        window.adsbygoogle.push({});
+      } catch {
+        // Un bloqueur de publicité ou un environnement local ne doit pas casser l'application.
+      }
+    };
+
+    let script = document.querySelector<HTMLScriptElement>('script[data-sportlink-adsense]');
+    if (script) {
+      if (window.adsbygoogle) {
+        pushAd();
+      } else {
+        script.addEventListener('load', pushAd, { once: true });
+      }
+      return () => script?.removeEventListener('load', pushAd);
     }
+
+    script = document.createElement('script');
+    script.async = true;
+    script.crossOrigin = 'anonymous';
+    script.dataset.sportlinkAdsense = 'true';
+    script.src =
+      'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=' +
+      encodeURIComponent(client);
+    script.addEventListener('load', pushAd, { once: true });
+    document.head.appendChild(script);
+
+    return () => script?.removeEventListener('load', pushAd);
   }, [page, isEligible]);
 
   if (!enabled || !client || !slot || !isEligible) {
