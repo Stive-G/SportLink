@@ -11,7 +11,7 @@ export const fallbackEquipment: Equipment[] = [
     description:
       'Ballon adapté au jeu en salle, avec un rebond plus contrôlé pour les matchs rapides sur terrain réduit.',
     usageAdvice:
-      'À réserver pour un match de foot en salle, un tournoi étudiant ou une séance technique avec peu d’espace.',
+      'Utile pour un match de foot en salle, un tournoi étudiant ou une séance technique avec peu d’espace.',
     practicalTips: [
       'Prévoir au moins deux ballons pour éviter les interruptions.',
       'Vérifier la pression avant le début de la séance.',
@@ -62,7 +62,7 @@ export const fallbackEquipment: Equipment[] = [
     description:
       'Ballon de basket pour match amateur, entraînement au tir ou ateliers de dribble en gymnase.',
     usageAdvice:
-      'À réserver pour une séance de basket adulte ou un match 5 contre 5 en intérieur.',
+      'Adapté à une séance de basket adulte ou un match 5 contre 5 en intérieur.',
     practicalTips: [
       'Prévoir un ballon par petit groupe pendant les ateliers.',
       'Choisir un gymnase avec paniers réglés à la bonne hauteur.',
@@ -81,7 +81,7 @@ export const fallbackEquipment: Equipment[] = [
     usageAdvice:
       'Idéal pour une activité collective en salle ou en extérieur avec un minimum de préparation.',
     practicalTips: [
-      'Vérifier les points d’accroche avant la réservation.',
+      'Vérifier les points d’accroche avant l’installation.',
       'Associer le filet avec des lignes ou cônes de délimitation.',
     ],
     contexts: ['volley loisir', 'sport collectif', 'événement associatif'],
@@ -115,7 +115,7 @@ export const fallbackEquipment: Equipment[] = [
     usageAdvice:
       'À utiliser avec des buts ou une zone de tir clairement délimitée.',
     practicalTips: [
-      'Vérifier la disponibilité avant de planifier le match.',
+      'Vérifier que le ballon est adapté au terrain et à l’âge des joueurs.',
       'Ajouter des chasubles pour distinguer les lignes.',
     ],
     contexts: ['handball', 'gymnase', 'entraînement tir'],
@@ -167,16 +167,16 @@ export const sportGuides: SportGuide[] = [
 export const blogArticles: BlogArticle[] = [
   {
     slug: 'choisir-materiel-sportif',
-    title: 'Comment choisir son matériel sportif avant une réservation',
+    title: 'Comment choisir son matériel sportif avant une séance',
     summary:
-      'Une méthode simple pour choisir le bon matériel selon le sport, le nombre de participants et le lieu.',
+      'Une méthode simple pour choisir le bon matériel selon le sport, le nombre de participants, la durée et le lieu.',
     category: 'Guide pratique',
     readingTime: '5 min',
     sections: [
       {
         heading: 'Partir de l’activité réelle',
         body:
-          'Le bon choix commence par une question simple : que veut-on organiser exactement ? Un match libre, un entraînement technique ou un tournoi ne demandent pas le même niveau de préparation. SportLink aide à relier la demande de l’utilisateur au catalogue disponible.',
+          'Le bon choix commence par une question simple : que veut-on organiser exactement ? Un match libre, un entraînement technique ou un tournoi ne demandent pas le même niveau de préparation. SportLink aide à relier le contexte à une bibliothèque de matériel utile.',
       },
       {
         heading: 'Vérifier le nombre de participants',
@@ -220,49 +220,49 @@ export const blogArticles: BlogArticle[] = [
     slug: 'organiser-match-entre-amis',
     title: 'Organiser un match entre amis facilement avec SportLink',
     summary:
-      'Les étapes simples pour transformer une idée de match en réservation de matériel concrète.',
+      'Les étapes simples pour transformer une idée de match en plan de séance concret.',
     category: 'Organisation',
     readingTime: '5 min',
     sections: [
       {
         heading: 'Définir le format du match',
         body:
-          'Avant de réserver, il faut savoir si le match se joue à 5, 7 ou 11, en salle ou dehors, avec un niveau loisir ou plus compétitif. Ces informations orientent le choix du matériel.',
+          'Avant de préparer le matériel, il faut savoir si le match se joue à 5, 7 ou 11, en salle ou dehors, avec un niveau loisir ou plus compétitif. Ces informations orientent le choix du matériel.',
       },
       {
-        heading: 'Consulter les disponibilités',
+        heading: 'Vérifier ce qui existe déjà sur place',
         body:
-          'Le catalogue SportLink indique les quantités et la disponibilité. Cela permet d’éviter de construire une activité autour d’un équipement qui n’est pas disponible.',
+          'Le lieu peut déjà fournir des buts, paniers, lignes ou filets. Vérifier ce qui existe sur place évite d’emporter du matériel inutile et aide à compléter seulement ce qui manque.',
       },
       {
-        heading: 'Prévoir le retour',
+        heading: 'Prévoir le rangement',
         body:
-          'Une bonne réservation ne s’arrête pas au retrait du matériel. Le retour doit être prévu pour garder le stock à jour et permettre aux autres membres de réserver ensuite.',
+          'Une bonne préparation ne s’arrête pas au début de la séance. Prévoir le rangement, le contrôle du petit matériel et quelques minutes de marge évite les oublis.',
       },
     ],
   },
   {
-    slug: 'reservation-materiel-en-ligne',
-    title: 'Pourquoi réserver du matériel sportif en ligne',
+    slug: 'preparer-seance-sportive',
+    title: 'Pourquoi préparer sa séance sportive à l’avance',
     summary:
-      'La réservation en ligne donne de la visibilité sur le stock et simplifie la gestion pour les membres et les admins.',
-    category: 'Réservation',
+      'Un plan simple permet de relier lieu, participants, matériel et déroulé avant d’arriver sur le terrain.',
+    category: 'Préparation',
     readingTime: '4 min',
     sections: [
       {
-        heading: 'Voir ce qui est disponible',
+        heading: 'Clarifier le contexte',
         body:
-          'Un catalogue en ligne évite les demandes au hasard. Le membre consulte les équipements, filtre par sport et réserve seulement ce qui correspond à son activité.',
+          'Définir le sport, le lieu, le nombre de participants et la durée évite de choisir du matériel au hasard et donne une base claire pour organiser la séance.',
       },
       {
-        heading: 'Suivre son historique',
+        heading: 'Garder les plans utiles',
         body:
-          'L’historique de réservation aide l’utilisateur à retrouver ce qu’il a emprunté, quand le matériel doit être rendu et quel équipement il utilise le plus souvent.',
+          'Un plan sauvegardé permet de retrouver une séance qui a bien fonctionné puis de l’adapter à un autre groupe, un autre lieu ou une autre durée.',
       },
       {
-        heading: 'Aider l’administration',
+        heading: 'Réduire les oublis',
         body:
-          'Côté admin, les réservations centralisées rendent le stock plus fiable. Les retours sont suivis et les équipements indisponibles sont mieux identifiés.',
+          'Préparer une petite checklist avant de partir réduit les oublis de ballon, chasubles, plots, eau ou accessoires nécessaires au déroulement prévu.',
       },
     ],
   },
@@ -277,17 +277,17 @@ export const blogArticles: BlogArticle[] = [
       {
         heading: 'Comprendre une demande naturelle',
         body:
-          'Un utilisateur ne pense pas toujours en catégories de stock. Il dit plutôt : je veux faire du foot en salle avec 8 amis. L’IA peut convertir cette demande en besoins concrets.',
+          'Un utilisateur ne pense pas toujours en catégories de matériel. Il dit plutôt : je veux faire du foot en salle avec 8 amis. L’assistant peut convertir cette demande en besoins concrets.',
       },
       {
-        heading: 'S’appuyer sur le catalogue réel',
+        heading: 'S’appuyer sur une bibliothèque réelle',
         body:
-          'La recommandation est utile seulement si elle tient compte des équipements disponibles. SportLink envoie le catalogue au modèle afin de proposer du matériel pertinent.',
+          'La recommandation est utile seulement si elle s’appuie sur des références connues. SportLink fournit sa bibliothèque au modèle afin de proposer du matériel cohérent avec les fiches du site.',
       },
       {
         heading: 'Donner des conseils actionnables',
         body:
-          'Une bonne réponse ne donne pas seulement des noms. Elle explique pourquoi réserver un ballon, des chasubles ou des cônes, et ajoute des conseils de préparation.',
+          'Une bonne réponse ne donne pas seulement des noms. Elle explique pourquoi prévoir un ballon, des chasubles ou des cônes, et ajoute des conseils de préparation.',
       },
     ],
   },
@@ -331,11 +331,11 @@ export function getEquipmentContent(equipment: Equipment): Equipment {
     usageAdvice:
       equipment.usageAdvice ||
       fallback?.usageAdvice ||
-      `Ce matériel est conseillé pour les activités de ${equipment.sport}, surtout lorsque le groupe veut réserver rapidement un équipement fiable.`,
+      `Ce matériel est conseillé pour les activités de ${equipment.sport}, surtout lorsque le groupe veut préparer une séance cohérente.`,
     practicalTips:
       equipment.practicalTips ||
       fallback?.practicalTips || [
-        'Vérifier la disponibilité avant de planifier la séance.',
+        'Vérifier les contraintes et les équipements déjà présents sur le lieu.',
         'Adapter la quantité au nombre de participants.',
       ],
     contexts:
@@ -346,8 +346,7 @@ export function getEquipmentContent(equipment: Equipment): Equipment {
 
 export function buildLocalRecommendation(prompt: string, equipmentList: Equipment[]): RecommendationResult {
   const words = prompt.toLowerCase().split(/\W+/).filter(Boolean);
-  const availableEquipment = equipmentList.filter((item) => item.available && item.quantity > 0);
-  const source = availableEquipment.length > 0 ? availableEquipment : equipmentList;
+  const source = equipmentList;
 
   const scored = source
     .map((item) => {
@@ -369,12 +368,12 @@ export function buildLocalRecommendation(prompt: string, equipmentList: Equipmen
       category: item.category,
       reason:
         item.usageAdvice ||
-        `Cet équipement correspond à une activité ${item.sport} et peut être réservé selon la disponibilité.`,
+        `Cet équipement correspond à une activité ${item.sport} et peut être utile selon le format de séance.`,
     })),
     explanation:
-      'Voici une recommandation basée sur le catalogue SportLink et sur les équipements actuellement exploitables.',
+      'Voici une recommandation basée sur la bibliothèque SportLink et sur le contexte décrit.',
     optionalTips: [
-      'Vérifier la disponibilité avant de réserver.',
+      'Vérifier les règles et les équipements déjà présents sur le lieu.',
       'Adapter les quantités au nombre de participants.',
       'Ajouter du matériel d’organisation si plusieurs équipes jouent ensemble.',
     ],
