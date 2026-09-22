@@ -35,7 +35,7 @@ export class ActivityPlan {
     ],
     default: [],
   })
-  equipment: { name: string; reason?: string }[];
+  materials: { name: string; reason?: string }[];
 
   @Prop({ type: [String], default: [] })
   tips: string[];
