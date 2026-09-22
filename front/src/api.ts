@@ -261,3 +261,13 @@ export async function getUsers(token: string) {
   }
 }
 
+export async function getSportsPlaces(location: string, sport = 'all') {
+  try {
+    const response = await apiClient.get<SportsPlacesResponse>('/places', {
+      params: { location, sport },
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error(normalizeError(error, 'Recherche de lieux sportifs indisponible.'));
+  }
+}
