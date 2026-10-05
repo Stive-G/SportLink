@@ -43,17 +43,29 @@ export type RecommendationResult = {
   source?: 'llm' | 'fallback';
 };
 
+export type EditorialSource = {
+  label: string;
+  url: string;
+};
+
+export type EditorialSection = {
+  heading: string;
+  paragraphs: string[];
+};
+
 export type BlogArticle = {
   slug: string;
   title: string;
   summary: string;
   category: string;
   readingTime: string;
+  author: string;
+  publishedAt: string;
+  updatedAt: string;
   relatedSport?: string;
-  sections: {
-    heading: string;
-    body: string;
-  }[];
+  keyTakeaways: string[];
+  sections: EditorialSection[];
+  sources?: EditorialSource[];
 };
 
 export type SportGuide = {
@@ -61,7 +73,9 @@ export type SportGuide = {
   sport: string;
   title: string;
   intro: string;
+  updatedAt: string;
   practicalAdvice: string[];
+  sections: EditorialSection[];
 };
 
 export type SportsPlace = {

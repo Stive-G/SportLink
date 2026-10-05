@@ -1,0 +1,201 @@
+.article-summary-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: 1rem;
+}
+
+.article-key-points,
+.article-toc {
+  min-width: 0;
+}
+
+.article-body {
+  display: grid;
+  border-top: 2px solid var(--ink);
+}
+
+.article-editorial-section {
+  display: grid;
+  grid-template-columns: 64px minmax(0, 1fr);
+  gap: 1.5rem;
+  padding: 2rem 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.article-section-number {
+  padding-top: 0.3rem;
+  color: var(--court);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+}
+
+.article-editorial-section h2 {
+  max-width: 820px;
+  margin-bottom: 1rem;
+  font-size: clamp(1.45rem, 3vw, 2.2rem);
+}
+
+.article-editorial-section p {
+  max-width: 820px;
+  color: #4f5953;
+  font-size: 1rem;
+  line-height: 1.78;
+}
+
+.article-editorial-section p + p {
+  margin-top: 1rem;
+}
+
+.article-sources {
+  display: grid;
+  gap: 0.8rem;
+  padding: 1.2rem 0;
+  border-top: 1px solid var(--line-dark);
+  border-bottom: 1px solid var(--line-dark);
+}
+
+.article-sources a {
+  color: var(--court-dark);
+  text-underline-offset: 3px;
+}
+
+.article-method-note,
+.editorial-promise {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 2rem;
+  align-items: start;
+  padding: 1.5rem 0;
+  border-top: 2px solid var(--ink);
+  border-bottom: 1px solid var(--line-dark);
+}
+
+.article-method-note h2,
+.editorial-promise h2 {
+  max-width: 620px;
+  font-size: clamp(1.35rem, 2.8vw, 2.1rem);
+}
+
+.article-method-note > p,
+.editorial-promise > p {
+  color: #56605a;
+  line-height: 1.7;
+}
+
+.related-guides {
+  display: grid;
+  gap: 1rem;
+}
+
+.related-guide-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border-top: 1px solid var(--line-dark);
+  border-bottom: 1px solid var(--line-dark);
+}
+
+.related-guide-card {
+  display: grid;
+  align-content: start;
+  gap: 0.65rem;
+  min-height: 220px;
+  padding: 1.2rem 1.25rem 1.25rem 0;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.related-guide-card + .related-guide-card {
+  padding-left: 1.25rem;
+  border-left: 1px solid var(--line);
+}
+
+.related-guide-card > span,
+.guide-takeaway-preview span {
+  color: var(--muted);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.66rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.related-guide-card strong {
+  font-size: 1.05rem;
+  line-height: 1.35;
+}
+
+.related-guide-card p {
+  color: #59635d;
+  font-size: 0.88rem;
+  line-height: 1.6;
+}
+
+.related-guide-card:hover strong {
+  color: var(--court-dark);
+}
+
+.guide-takeaway-preview {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem 0.8rem;
+  margin-top: 0.8rem;
+}
+
+.guide-takeaway-preview span {
+  text-transform: none;
+}
+
+.sport-checklist {
+  display: grid;
+  gap: 0.75rem;
+  padding: 1.3rem 0;
+  border-top: 2px solid var(--ink);
+  border-bottom: 1px solid var(--line-dark);
+}
+
+.sport-checklist h2 {
+  font-size: clamp(1.35rem, 2.6vw, 2rem);
+}
+
+.article-meta {
+  flex-wrap: wrap;
+}
+
+.article-sport-link {
+  width: fit-content;
+  margin-top: 0.2rem;
+}
+
+@media (max-width: 850px) {
+  .article-summary-grid,
+  .article-method-note,
+  .editorial-promise,
+  .related-guide-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .related-guide-card,
+  .related-guide-card + .related-guide-card {
+    min-height: 0;
+    padding: 1rem 0;
+    border-top: 1px solid var(--line);
+    border-left: 0;
+  }
+
+  .related-guide-card:first-child {
+    border-top: 0;
+  }
+}
+
+@media (max-width: 640px) {
+  .article-editorial-section {
+    grid-template-columns: 1fr;
+    gap: 0.45rem;
+    padding: 1.5rem 0;
+  }
+
+  .article-section-number {
+    padding-top: 0;
+  }
+}
